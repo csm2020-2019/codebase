@@ -10,6 +10,7 @@ import java.sql.*;
 
 public class database_driver {
 	private static database_driver database_driver = null;
+	private Connection databaseConnection = null; 
 	
 	
 	/*
@@ -23,11 +24,12 @@ public class database_driver {
 	
 	private database_driver() {			
 		try {			
-			DriverManager.getConnection(jdbcUrl, databaseUser, databasePass);
+			databaseConnection = DriverManager.getConnection(jdbcUrl, databaseUser, databasePass);
 			System.out.println("Connected to database");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -37,9 +39,23 @@ public class database_driver {
 	public static database_driver getConnection() {
 		if(database_driver == null) {
 			database_driver = new database_driver();
-
 		}
 		return database_driver;
+	}
+	
+	/*
+	 * method to close database connection
+	 */
+	public void closeDbConnection() {
+		if(databaseConnection != null) {
+			try {
+				databaseConnection.close();
+				System.out.println("Database connection closed");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 	
 	/*
