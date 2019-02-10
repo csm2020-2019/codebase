@@ -19,8 +19,8 @@ public class Main_GUI {
 	    private JLabel headerLabel1;
 	    private JLabel headerLabel2;
 	    private JPanel controlPanel;
-	    private JTextField textField1;
-	    private JPasswordField passwordfield1;
+	    private static JTextField usernameTextField;
+	    private static JPasswordField passwordField;
 
 	    public Main_GUI() {
 	        prepareGUI();
@@ -45,16 +45,17 @@ public class Main_GUI {
 	        headerLabel2 = new JLabel();
 	        headerLabel2.setText("Password: ");
 
-	        textField1 = new JTextField("");
-	        textField1.setPreferredSize(new Dimension(100, 25));
-
-	        passwordfield1 = new JPasswordField("");
-	        passwordfield1.setPreferredSize(new Dimension(100, 25));
+	        usernameTextField = new JTextField("");
+	        usernameTextField.setPreferredSize(new Dimension(100, 25));
+	        
+	        
+	        passwordField = new JPasswordField("");
+	        passwordField.setPreferredSize(new Dimension(100, 25));
 
 	        controlPanel.add(headerLabel1);
-	        controlPanel.add(textField1);
+	        controlPanel.add(usernameTextField);
 	        controlPanel.add(headerLabel2);
-	        controlPanel.add(passwordfield1);
+	        controlPanel.add(passwordField);
 	        LoginButton();
 
 	        mainFrame.add(controlPanel);
@@ -64,11 +65,23 @@ public class Main_GUI {
 	    static class ButtonClickListener implements ActionListener {
 	        public void actionPerformed(ActionEvent e) {
 	            String command = e.getActionCommand();
+	            //get the text value from the username and pwd text field 
+	            //converted to string type
+	            String username = usernameTextField.getText().toString();
+	            String userPassword = String.valueOf(passwordField.getPassword());
+	          
 
 	            if (command.equals("Default")) {
 	                //Do Something?
 	            } else if (command.equals("Login")) {
-	                GP_GUI.prepareAddGPGUI();
+	            	
+	        		database_driver db_connect = database_driver.getConnection();
+
+	        		if(db_connect.checkCredentials(username, userPassword)) {
+		                GP_GUI.prepareAddGPGUI();
+	        		}
+	        		else System.out.println("Incorrect password");
+	            	
 	            } else if (command.equals("Back")) {
 	                //System.out.println("Add");
 	                GP_GUI.GoBackToMainGUI();
@@ -77,6 +90,8 @@ public class Main_GUI {
 	            }
 	        }
 	    }
+	    
+	    
 
 	    public void LoginButton() {
 	        JButton AddButton = new JButton("Login");
