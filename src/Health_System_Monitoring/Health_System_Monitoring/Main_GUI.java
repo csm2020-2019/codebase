@@ -1,3 +1,5 @@
+package Health_System_Monitoring.Health_System_Monitoring;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -83,11 +85,5 @@ public class Main_GUI {
 	        AddButton.setActionCommand("Login");
 	        AddButton.addActionListener((ActionListener) new ButtonClickListener());
 	        controlPanel.add(AddButton);
-	    }
-
-	    public static void main(String[] args) throws IOException {
-
-	        Main_GUI GUI = new Main_GUI();
-
 	    }
 }
