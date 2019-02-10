@@ -1,3 +1,5 @@
+package Health_System_Monitoring.Health_System_Monitoring;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -13,7 +15,7 @@ public class GP_GUI {
         Main_GUI.mainFrame.setVisible(false);
 
         mainFrame = new JFrame("GP application");
-        mainFrame.setSize(350, 190);
+        mainFrame.setSize(500, 500);
         mainFrame.setLayout(new GridLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -26,6 +28,8 @@ public class GP_GUI {
 
         headerLabel1 = new JLabel("", JLabel.CENTER);
         headerLabel1.setText("Application stuff");
+
+
 
         controlPanel.add(headerLabel1);
         BackButton();
