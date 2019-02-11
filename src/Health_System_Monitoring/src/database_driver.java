@@ -88,7 +88,7 @@ public class database_driver {
 				sqlStatement.setString(2, userPassword);
 				
 				resultSet = sqlStatement.executeQuery();
-				closeDbConnection();
+//				closeDbConnection();
 				
 				if(resultSet.next()) {
 					userId = resultSet.getInt("userId");
@@ -110,12 +110,11 @@ public class database_driver {
 	
 	/*
 	 * - method to add new patients to database
-	 * -clarify, to add user_id?
+	 * @ patient_dob Date of birth of patient
 	 */
 	public boolean addNewPatientsToDatabase(Date patient_dob, String patient_address, String patient_medical_history,
 			String patient_diagnosis, String patient_prescriptions, int gp_id, int userId) {
 		
-		ResultSet resultSet = null;
 		PreparedStatement sqlStatement = null;
 		
 		//NULL CHECKER FOR THE  METHOD ARGUMENTS
