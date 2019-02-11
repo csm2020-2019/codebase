@@ -22,6 +22,8 @@ public class Main_GUI {
 	    private JPanel controlPanel;
 	    private static JTextField usernameTextField;
 	    private static JPasswordField passwordField;
+	    
+	    private static int userId;
 
 	    public Main_GUI() {
 	        prepareGUI();
@@ -78,8 +80,13 @@ public class Main_GUI {
 	            } else if (command.equals("Login")) {
 
 	        		database_driver db_connect = database_driver.getConnection();
+	        		
+	        		userId = db_connect.checkCredentials(username, userPassword);
 
-	        		if(db_connect.checkCredentials(username, userPassword)) {
+	        		if(userId != -1) {
+	        			//for debug purpose
+	        			System.out.println("User id is: "+ userId);
+	        			
 		                GP_GUI.prepareAddGPGUI();
 	        		}
 	        		else System.out.println("Incorrect password");

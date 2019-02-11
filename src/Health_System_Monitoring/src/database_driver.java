@@ -17,6 +17,12 @@ public class database_driver {
 	private Connection databaseConnection = null; 
 	private PreparedStatement sqlStatement = null;
 	
+	//id of user from database - user table
+	private int userId = 0;
+	
+	//login failed 
+	private int loginFailed = -1;
+	
 	
 	/*
 	 * *********** database connection info **********
@@ -67,25 +73,26 @@ public class database_driver {
 	 * method to check login credentials
 	 * 
 	 */
-	public boolean checkCredentials(String username, String userPassword) {
-		ResultSet result = null;
+	public int checkCredentials(String username, String userPassword) {
+		ResultSet resultSet = null;
 		
 		if(username != null && userPassword != null) {
 			String query = "SELECT * FROM `user` WHERE `username`=? AND `userPassword`=?";
 			
 			try {
-				sqlStatement = databaseConnection.prepareStatement(query);
+				sqlStatement = databaseConnection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				sqlStatement.setString(1, username);
 				sqlStatement.setString(2, userPassword);
 				
-				result = sqlStatement.executeQuery();
+				resultSet = sqlStatement.executeQuery();
 				
-				if(result.next()) {
-					return true;
+				if(resultSet.next()) {
+					userId = resultSet.getInt("userId");
+					return userId;
 				}
 				else {
 					System.out.println("Incorrect username or password | Login failed");
-					return false;
+					return loginFailed;
 				}
 					
 			} catch (SQLException e) {
@@ -94,14 +101,12 @@ public class database_driver {
 			}
 		}
 		
-		return false;
+		return loginFailed;
 	}
 	
 	/*
-	 * 
+	 * - method to add new patients to database
 	 */
-//	public ResultSet query(String query) {
-//		statement 
-//	}
-//	
+	
+
 }
