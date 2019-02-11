@@ -1,11 +1,24 @@
+import java.sql.Date;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		database_driver db_connect = database_driver.getConnection();
-//		db_connect.closeDbConnection();
+		
+		//******--Test---****
+		//add patient record to database
+		//test successful
+		
+		database_driver db_connect = database_driver.getConnection();
+		
+        long millis=System.currentTimeMillis();  
 
-		Main_GUI GUI = new Main_GUI();
+		Date patient_dob = new Date(millis);
+
+		
+		db_connect.addNewPatientsToDatabase(patient_dob, "2 king street", "Diabeties", "for a long time", 
+				"2 liters of water a day", 1, 1);
+
+		
 	}
 }

@@ -113,7 +113,7 @@ public class database_driver {
 	 * -clarify, to add user_id?
 	 */
 	public boolean addNewPatientsToDatabase(Date patient_dob, String patient_address, String patient_medical_history,
-			String patient_diagnosis, String patient_prescriptions, int gp_id) {
+			String patient_diagnosis, String patient_prescriptions, int gp_id, int userId) {
 		
 		ResultSet resultSet = null;
 		PreparedStatement sqlStatement = null;
@@ -128,7 +128,7 @@ public class database_driver {
 			
 			try {
 				String query = "INSERT INTO patient_records (patient_dob, patient_address, patient_medical_history,"
-						+ "patient_diagnosis, patient_prescriptions, gp_id)" + " values (?, ?, ?, ?, ?, ?)";
+						+ "patient_diagnosis, patient_prescriptions, gp_id, userId)" + " values (?, ?, ?, ?, ?, ?, ?)";
 				
 				//create mysql prepared statement
 				sqlStatement = databaseConnection.prepareStatement(query);
@@ -138,6 +138,8 @@ public class database_driver {
 				sqlStatement.setString(4, patient_diagnosis);
 				sqlStatement.setString(5, patient_prescriptions);
 				sqlStatement.setInt(6, gp_id);
+				sqlStatement.setInt(7, userId);
+
 				
 				sqlStatement.executeUpdate();
 				closeDbConnection();
