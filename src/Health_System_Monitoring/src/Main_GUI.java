@@ -96,6 +96,8 @@ public class Main_GUI {
 	            } else if (command.equals("Back")) {
 	                //System.out.println("Add");
 	                GP_GUI.GoBackToMainGUI();
+	            } else if (command.equals("Nice")) {
+	            	NICE_GUI.prepareNiceGUI();
 	            } else {
 	                System.out.println("No Input for button");
 	            }
