@@ -1,4 +1,3 @@
-package Health_System_Monitoring.Health_System_Monitoring;
 
 import javax.swing.*;
 import java.awt.*;

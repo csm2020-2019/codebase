@@ -1,4 +1,3 @@
-package Health_System_Monitoring.Health_System_Monitoring;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -84,6 +83,7 @@ public class Main_GUI {
 		                GP_GUI.prepareAddGPGUI();
 	        		}
 	        		else System.out.println("Incorrect password");
+	        		
 				} else if (command.equals("Bypass")) {
 					GP_GUI.prepareAddGPGUI();
 	            } else if (command.equals("Back")) {
