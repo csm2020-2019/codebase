@@ -1,3 +1,4 @@
+package Health_System_Monitoring;
 //singleton class to get database connection
 
 import java.sql.*;
