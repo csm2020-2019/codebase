@@ -8,8 +8,14 @@ import java.awt.event.WindowEvent;
 
 public class GP_GUI {
     public static JFrame mainFrame;
-    private static JLabel headerLabel1;
+    private static JLabel headerLabel;
+    private static JLabel searchLabel;
+    private static JPanel northPanel;
+    //private static JPanel westPanel;
     private static JPanel controlPanel;
+    private static JPanel southPanel;
+    private static JTextField patientSearchField;
+    private static SpringLayout layout = new SpringLayout();
 
     public static void prepareAddGPGUI() {
 
@@ -17,50 +23,89 @@ public class GP_GUI {
 
         mainFrame = new JFrame("GP application");
         mainFrame.setSize(500, 500);
-        mainFrame.setLayout(new GridLayout());
+        mainFrame.setLayout(new BorderLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
                 System.exit(0);
             }
         });
 
+        northPanel = new JPanel();
+        //westPanel = new JPanel();
         controlPanel = new JPanel();
-        controlPanel.setLayout(new FlowLayout());
+        southPanel = new JPanel();
 
-        headerLabel1 = new JLabel("", JLabel.CENTER);
-        headerLabel1.setText("Application stuff");
+        //westPanel.setLayout(layout);
+        controlPanel.setLayout(layout);
 
-
-
-        controlPanel.add(headerLabel1);
+        HeaderLabel();
+        RegisterPatientButton();
+        SearchLabel();
+        PatientSearchField();
+        PatientSearchButton();
         BackButton();
-        NiceButton();
 
-        mainFrame.add(controlPanel);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.add(northPanel,BorderLayout.NORTH);
+        //mainFrame.add(westPanel,BorderLayout.WEST);
+        mainFrame.add(controlPanel,BorderLayout.CENTER);
+        mainFrame.add(southPanel,BorderLayout.SOUTH);
         mainFrame.setVisible(true);
     }
 
-    public static void BackButton() {
+    private static void BackButton() {
         JButton BackButton = new JButton("Back");
         BackButton.setActionCommand("Back");
         BackButton.addActionListener(new Main_GUI.ButtonClickListener());
-        controlPanel.add(BackButton);
+        southPanel.add(BackButton);
     }
 
     public static void GoBackToMainGUI() {
         mainFrame.setVisible(false);
         Main_GUI.mainFrame.setVisible(true);
     }
-    
-    public static void NiceButton() {
-    	JButton NiceButton = new JButton("Nice Test");
-    	NiceButton.setActionCommand("Nice");
-    	NiceButton.addActionListener(new Main_GUI.ButtonClickListener());
-    	controlPanel.add(NiceButton);
+
+    private static void HeaderLabel() {
+        headerLabel = new JLabel("", JLabel.CENTER);
+        headerLabel.setText("General Practitioner Menu");
+        northPanel.add(headerLabel);
     }
-    
-    public static void GoToNiceGUI() {
-    	mainFrame.setVisible(false);
-    	NICE_GUI.mainFrame.setVisible(true);
+
+    private static void PatientSearchField() {
+        patientSearchField = new JTextField("");
+        patientSearchField.setPreferredSize(new Dimension(100, 25));
+        controlPanel.add(patientSearchField);
+
+        layout.putConstraint(SpringLayout.NORTH, patientSearchField, 50, SpringLayout.NORTH, controlPanel);
+        layout.putConstraint(SpringLayout.WEST, patientSearchField, 100, SpringLayout.WEST, controlPanel);
+    }
+
+    private static void PatientSearchButton() {
+        JButton PatientSearchButton = new JButton("Search");
+        PatientSearchButton.setActionCommand("Patient_Search");
+        PatientSearchButton.addActionListener(new Main_GUI.ButtonClickListener());
+        controlPanel.add(PatientSearchButton);
+
+        layout.putConstraint(SpringLayout.NORTH, PatientSearchButton, 50, SpringLayout.NORTH, controlPanel);
+        layout.putConstraint(SpringLayout.WEST, PatientSearchButton, 205, SpringLayout.WEST, controlPanel);
+    }
+
+    private static void RegisterPatientButton() {
+        JButton RegisterPatientButton = new JButton("Register Patient");
+        RegisterPatientButton.setActionCommand("Register_Patient");
+        RegisterPatientButton.addActionListener(new Main_GUI.ButtonClickListener());
+        controlPanel.add(RegisterPatientButton);
+
+        layout.putConstraint(SpringLayout.NORTH, RegisterPatientButton, 5, SpringLayout.NORTH, controlPanel);
+        layout.putConstraint(SpringLayout.WEST, RegisterPatientButton, 25, SpringLayout.WEST, controlPanel);
+    }
+
+    private static void SearchLabel() {
+        searchLabel = new JLabel("", JLabel.CENTER);
+        searchLabel.setText("Search patients: ");
+        controlPanel.add(searchLabel);
+
+        layout.putConstraint(SpringLayout.NORTH, searchLabel, 55, SpringLayout.NORTH, controlPanel);
+        layout.putConstraint(SpringLayout.WEST, searchLabel, 5, SpringLayout.WEST, controlPanel);
     }
 }
