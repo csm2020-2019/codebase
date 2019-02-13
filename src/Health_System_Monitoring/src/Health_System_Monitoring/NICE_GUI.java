@@ -85,15 +85,23 @@ public class NICE_GUI {
         // Blood Pressure Panel
         bpPanel = new JPanel();
         bpPanel.setLayout(new FlowLayout());
+        bpPanel.setPreferredSize(new Dimension(200, 150));
         TitledBorder bpBorder = new TitledBorder("Blood Pressure");
         setBorderTitle(bpBorder);
         bpPanel.setBorder(bpBorder);
 
+        JCheckBox kidneyDam = new JCheckBox("Kidney Damage");
+        JCheckBox eyeDam = new JCheckBox("Eye Damage");
+        JCheckBox cercDam = new JCheckBox("Cercbrovascluar Damage");
+        
         JTextField systolicTxt = new JTextField(3);
         JLabel slashLbl = new JLabel("/");
         JTextField diastolicLbl = new JTextField(3);
         JLabel mmhgLbl = new JLabel("mmHg");
 
+        bpPanel.add(kidneyDam);
+        bpPanel.add(eyeDam);
+        bpPanel.add(cercDam);
         bpPanel.add(systolicTxt);
         bpPanel.add(slashLbl);
         bpPanel.add(diastolicLbl);
