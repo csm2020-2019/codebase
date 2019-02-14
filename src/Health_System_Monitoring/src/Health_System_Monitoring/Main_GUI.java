@@ -14,21 +14,29 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import javax.validation.constraints.NotNull;
+
 
 public class Main_GUI {
     public static JFrame mainFrame;
     private JLabel headerLabel1;
     private JLabel headerLabel2;
     private JPanel controlPanel;
+    
+    @NotNull(message = "Username cannot be null")
     private static JTextField usernameTextField;
+    
+    @NotNull(message = "Password cannot be null")
     private static JPasswordField passwordField;
 
+    
     private static int userId;
 
     public Main_GUI() {
         prepareGUI();
     }
 
+    
     public void prepareGUI() {
         mainFrame = new JFrame("Login");
         mainFrame.setSize(250, 150);
@@ -111,6 +119,7 @@ public class Main_GUI {
     }
 
 
+    
     public void LoginButton() {
         JButton AddButton = new JButton("Login");
         AddButton.setActionCommand("Login");
@@ -118,7 +127,9 @@ public class Main_GUI {
         controlPanel.add(AddButton);
     }
 
+    
     //Temporary button that will be removed later on in development
+    @NotNull
     private void BypassButton() {
         JButton AddButton = new JButton("Bypass");
         AddButton.setActionCommand("Bypass");
