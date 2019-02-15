@@ -101,7 +101,7 @@ public class Main_GUI {
                 } else System.out.println("Incorrect password");
 
             } else if (command.equals("Bypass")) {
-                GP_GUI.prepareAddGPGUI();
+                SC_GUI.prepareSCGUI();
             } else if (command.equals("Back")) {
                 GP_GUI.GoBackToMainGUI();
             } else if (command.equals("Nice")) {
