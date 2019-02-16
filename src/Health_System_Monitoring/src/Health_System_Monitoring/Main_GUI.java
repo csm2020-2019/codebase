@@ -1,5 +1,7 @@
 package Health_System_Monitoring;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -14,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import javax.validation.constraints.NotNull;
-
 
 public class Main_GUI {
     public static JFrame mainFrame;
@@ -23,10 +23,8 @@ public class Main_GUI {
     private JLabel headerLabel2;
     private JPanel controlPanel;
     
-    @NotNull(message = "Username cannot be null")
     private static JTextField usernameTextField;
     
-    @NotNull(message = "Password cannot be null")
     private static JPasswordField passwordField;
 
     

@@ -2,7 +2,9 @@ package Health_System_Monitoring;
 //singleton class to get database connection
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 /*
@@ -93,10 +95,12 @@ public class database_driver {
 				
 				if(resultSet.next()) {
 					userId = resultSet.getInt("userId");
+					closeDbConnection();
 					return userId;
 				}
 				else {
 					System.out.println("Incorrect username or password | Login failed");
+					closeDbConnection();
 					return loginFailed;
 				}
 					
@@ -105,7 +109,7 @@ public class database_driver {
 				System.out.println(e.getMessage());
 			}
 		}
-		
+		closeDbConnection();
 		return loginFailed;
 	}
 	
@@ -113,14 +117,14 @@ public class database_driver {
 	 * - method to add new patients to database
 	 * @ patient_dob Date of birth of patient
 	 */
-	public boolean addNewPatientsToDatabase(Date patient_dob, String patient_address, String patient_medical_history,
-			String patient_diagnosis, String patient_prescriptions, int gp_id, int userId) {
+	public boolean addNewPatientToDatabase(Date patient_dob, String patient_name, String patient_address, String patient_medical_history,
+			String patient_diagnosis, String patient_prescriptions, int userId) {
 		
 		PreparedStatement sqlStatement = null;
 		
 		//NULL CHECKER FOR THE  METHOD ARGUMENTS
-		if(patient_dob != null && patient_address != null & patient_medical_history != null
-				&& patient_diagnosis != null && patient_prescriptions != null && gp_id > 0) {
+		if(patient_dob != null && patient_name != null && patient_address != null & patient_medical_history != null
+				&& patient_diagnosis != null && patient_prescriptions != null && userId > 0) {
 			
 			//create a date object to be used for the patient dob
 			Calendar calender = Calendar.getInstance();
@@ -128,7 +132,7 @@ public class database_driver {
 			
 			try {
 				String query = "INSERT INTO patient_records (patient_dob, patient_address, patient_medical_history,"
-						+ "patient_diagnosis, patient_prescriptions, gp_id, userId)" + " values (?, ?, ?, ?, ?, ?, ?)";
+						+ "patient_diagnosis, patient_prescriptions, userId, patient_name)" + " values (?, ?, ?, ?, ?, ?, ?)";
 				
 				//create mysql prepared statement
 				sqlStatement = databaseConnection.prepareStatement(query);
@@ -137,10 +141,9 @@ public class database_driver {
 				sqlStatement.setString(3, patient_medical_history);
 				sqlStatement.setString(4, patient_diagnosis);
 				sqlStatement.setString(5, patient_prescriptions);
-				sqlStatement.setInt(6, gp_id);
-				sqlStatement.setInt(7, userId);
+				sqlStatement.setInt(6, userId);
+				sqlStatement.setString(7, patient_name);
 
-				
 				sqlStatement.executeUpdate();
 				closeDbConnection();
 
@@ -158,5 +161,77 @@ public class database_driver {
 		return false;
 	}
 	
+//	/*
+//	 * method to edit patient record
+//	 */
+//	public boolean updatePatientRecord(int patient_id, Date patient_dob, String patient_address, String patient_medical_history,
+//			String patient_diagnosis, String patient_prescriptions, int userId) {
+//		PreparedStatement sqlStatement = null;
+//		
+//		//NULL CHECKER FOR THE  METHOD ARGUMENTS
+//		if(patient_id > 0 && patient_dob != null && patient_address != null & patient_medical_history != null
+//				&& patient_diagnosis != null && patient_prescriptions != null && userId > 0) {
+//			
+//			try {
+//				String query = "UPDATE patient_records SET patient_dob=?, patient_address=?, patient_medical_history=?,"
+//						+ "patient_diagnosis=?, patient_prescriptions=? where patient_id=?";
+//				
+//				sqlStatement = databaseConnection.prepareStatement(query);
+//				sqlStatement.setDate(2, patient_dob);
+//				
+//				
+//			} catch (SQLException e) {
+//				
+//			}
+//		}
+//		
+//		return false;
+//	}
+	
+	/*
+	 * method to fetch all records from database
+	 */
+	public List<Patient> getAllPatientRecords() {
+		PreparedStatement sqlStatement = null;
+		ResultSet resultSet = null;
+		Patient patient = null;
+		List<Patient> patientRecordList = new ArrayList<Patient>();
+			
+		
+		try {
+			String query = "SELECT * FROM patient_records";
+			sqlStatement = databaseConnection.prepareStatement(query);
+			resultSet = sqlStatement.executeQuery();
+			
+			while(resultSet.next()) {
+				int patient_id = resultSet.getInt("patient_id");
+				Date patient_dob =  resultSet.getDate("patient_dob");
+				String patient_name = resultSet.getString("patient_name");
+				String patient_address = resultSet.getString("patient_address");
+				String patient_medical_history = resultSet.getString("patient_medical_history");
+				String patient_diagnosis = resultSet.getString("patient_diagnosis");
+				String patient_prescriptions = resultSet.getString("patient_prescriptions");	
+				
+				patient = new Patient(patient_id, patient_name, patient_dob, patient_address, 
+						patient_medical_history, patient_diagnosis, patient_prescriptions);
+								
+				patientRecordList.add(patient);
+			}
+			
+			
+			
+//			for(Patient patientView : patientRecordList) {
+//				System.out.println(patientView);
+//			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
+		closeDbConnection();
+		return patientRecordList;
+		
+	}
 
 }
