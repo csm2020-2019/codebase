@@ -3,14 +3,16 @@ package Health_System_Monitoring;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
@@ -22,6 +24,7 @@ import javax.swing.border.TitledBorder;
 
 public class NICE_GUI {
     public static JFrame mainFrame;
+    //public static JTextField heightTxt, weightTxt, ;
     private static JPanel welcomePanel, controlPanel, bmiPanel, bpPanel, smokingPanel, hbaPanel, urinaryPanel, serumPanel, cholPanel, eyePanel, footPanel;
     private static JLabel welcomeLbl;
 
@@ -50,7 +53,7 @@ public class NICE_GUI {
         bmiPanel.setLayout(new FlowLayout());
         bmiPanel.setPreferredSize(new Dimension(150, 140));
         TitledBorder bmiBorder = new TitledBorder("BMI");
-        setBorderTitle(bmiBorder);
+        SetBorderTitle(bmiBorder);
         bmiPanel.setBorder(bmiBorder);
 
         JLabel heightLbl = new JLabel("Height: ");
@@ -73,12 +76,14 @@ public class NICE_GUI {
         bmiPanel.add(ageLbl);
         bmiPanel.add(ageTxt);
         bmiPanel.add(yearLbl);
-
-        JLabel genderLbl = new JLabel("Gender: ");
-        String[] gender = {"", "Male", "Female"};
-        JComboBox genderList = new JComboBox(gender);
-        bmiPanel.add(genderLbl);
-        bmiPanel.add(genderList);
+        
+        JRadioButton maleBtn = new JRadioButton("Male");
+        JRadioButton femaleBtn = new JRadioButton("Female");
+        ButtonGroup sexGroup = new ButtonGroup();
+        sexGroup.add(maleBtn);
+        sexGroup.add(femaleBtn);
+        bmiPanel.add(maleBtn);
+        bmiPanel.add(femaleBtn);
 
         controlPanel.add(bmiPanel);
 
@@ -87,24 +92,24 @@ public class NICE_GUI {
         bpPanel.setLayout(new FlowLayout());
         bpPanel.setPreferredSize(new Dimension(200, 150));
         TitledBorder bpBorder = new TitledBorder("Blood Pressure");
-        setBorderTitle(bpBorder);
+        SetBorderTitle(bpBorder);
         bpPanel.setBorder(bpBorder);
 
-        JCheckBox kidneyDam = new JCheckBox("Kidney Damage");
-        JCheckBox eyeDam = new JCheckBox("Eye Damage");
-        JCheckBox cercDam = new JCheckBox("Cercbrovascluar Damage");
+        JCheckBox kidneyDamCheck = new JCheckBox("Kidney Damage");
+        JCheckBox eyeDamCheck = new JCheckBox("Eye Damage");
+        JCheckBox cercDamCheck = new JCheckBox("Cercbrovascluar Damage");
         
         JTextField systolicTxt = new JTextField(3);
         JLabel slashLbl = new JLabel("/");
-        JTextField diastolicLbl = new JTextField(3);
+        JTextField diastolicTxt = new JTextField(3);
         JLabel mmhgLbl = new JLabel("mmHg");
 
-        bpPanel.add(kidneyDam);
-        bpPanel.add(eyeDam);
-        bpPanel.add(cercDam);
+        bpPanel.add(kidneyDamCheck);
+        bpPanel.add(eyeDamCheck);
+        bpPanel.add(cercDamCheck);
         bpPanel.add(systolicTxt);
         bpPanel.add(slashLbl);
-        bpPanel.add(diastolicLbl);
+        bpPanel.add(diastolicTxt);
         bpPanel.add(mmhgLbl);
         controlPanel.add(bpPanel);
 
@@ -112,12 +117,16 @@ public class NICE_GUI {
         smokingPanel = new JPanel();
         smokingPanel.setLayout(new FlowLayout());
         TitledBorder smokingBorder = new TitledBorder("Smoking Status");
-        setBorderTitle(smokingBorder);
+        SetBorderTitle(smokingBorder);
         smokingPanel.setBorder(smokingBorder);
-        String[] smokingStatus = {"", "Smoker", "Non-Smoker"};
-        JComboBox smokingList = new JComboBox(smokingStatus);
-
-        smokingPanel.add(smokingList);
+        
+        JRadioButton smokeBtn = new JRadioButton("Smoker");
+        JRadioButton nonSmokeBtn = new JRadioButton("Non-Smoker");
+        ButtonGroup smokeGroup = new ButtonGroup();
+        smokeGroup.add(smokeBtn);
+        smokeGroup.add(nonSmokeBtn);
+        smokingPanel.add(smokeBtn);
+        smokingPanel.add(nonSmokeBtn);        
         controlPanel.add(smokingPanel);
 
         // HBA Panel
@@ -125,7 +134,7 @@ public class NICE_GUI {
         hbaPanel.setLayout(new FlowLayout());
         hbaPanel.setPreferredSize(new Dimension(200, 50));
         TitledBorder hbaBorder = new TitledBorder("Glycosylated Haemoglobin (HbA)");
-        setBorderTitle(hbaBorder);
+        SetBorderTitle(hbaBorder);
         hbaPanel.setBorder(hbaBorder);
 
         JTextField hbaTxt = new JTextField(3);
@@ -139,7 +148,7 @@ public class NICE_GUI {
         urinaryPanel = new JPanel();
         urinaryPanel.setLayout(new FlowLayout());
         TitledBorder urinaryBorder = new TitledBorder("Urinary Albumin");
-        setBorderTitle(urinaryBorder);
+        SetBorderTitle(urinaryBorder);
         urinaryPanel.setBorder(urinaryBorder);
 
         JTextField acrTxt = new JTextField(3);
@@ -154,7 +163,7 @@ public class NICE_GUI {
         serumPanel.setLayout(new FlowLayout());
         serumPanel.setPreferredSize(new Dimension(125, 75));
         TitledBorder serumBorder = new TitledBorder("Serum Creatine");
-        setBorderTitle(serumBorder);
+        SetBorderTitle(serumBorder);
         serumPanel.setBorder(serumBorder);
 
         JTextField micromolTxt = new JTextField(3);
@@ -173,7 +182,7 @@ public class NICE_GUI {
         cholPanel.setLayout(new FlowLayout());
         cholPanel.setPreferredSize(new Dimension(200, 100));
         TitledBorder cholBorder = new TitledBorder("Cholestrerol");
-        setBorderTitle(cholBorder);
+        SetBorderTitle(cholBorder);
         cholPanel.setBorder(cholBorder);
 
         JLabel tcLbl = new JLabel("Total Cholesterol: ");
@@ -194,7 +203,7 @@ public class NICE_GUI {
         eyePanel.setLayout(new FlowLayout());
         eyePanel.setPreferredSize(new Dimension(250, 125));
         TitledBorder eyeBorder = new TitledBorder("Eye Examination");
-        setBorderTitle(eyeBorder);
+        SetBorderTitle(eyeBorder);
         eyePanel.setBorder(eyeBorder);
 
         JCheckBox visionBox = new JCheckBox("Sudden loss of vision");
@@ -212,7 +221,7 @@ public class NICE_GUI {
         footPanel = new JPanel();
         footPanel.setLayout(new FlowLayout());
         TitledBorder footBorder = new TitledBorder("Foot Examination");
-        setBorderTitle(footBorder);
+        SetBorderTitle(footBorder);
         footPanel.setBorder(footBorder);
 
         JCheckBox senseBox = new JCheckBox("Lack of sensation");
@@ -227,10 +236,11 @@ public class NICE_GUI {
         controlPanel.add(footPanel);
 
         // Submit button
-        JButton submitBtn = new JButton("Submit");
-        controlPanel.add(submitBtn);
+//        JButton submitBtn = new JButton("Submit");
+//        controlPanel.add(submitBtn);
 
         NiceBackButton();
+        SubmitButton();
 
         mainFrame.add(welcomePanel, BorderLayout.NORTH);
         mainFrame.add(controlPanel, BorderLayout.CENTER);
@@ -244,7 +254,7 @@ public class NICE_GUI {
         controlPanel.add(niceBackBtn);
     }
 
-    public static void setBorderTitle(TitledBorder border) {
+    public static void SetBorderTitle(TitledBorder border) {
         border.setTitleJustification(TitledBorder.LEFT);
         border.setTitlePosition(TitledBorder.TOP);
     }
@@ -252,5 +262,19 @@ public class NICE_GUI {
     public static void GoToPatientGUI() {
         mainFrame.setVisible(false);
         Patient_GUI.mainFrame.setVisible(true);
+    }
+    
+    public static void SubmitButton() {
+    	JButton submitBtn = new JButton("Submit");
+    	
+    	try {
+        	//int i = Integer.parseInt(heightTxt.getText());
+        } catch(NumberFormatException e) {
+        	JOptionPane.showMessageDialog(mainFrame, "information", "informaiton", JOptionPane.ERROR_MESSAGE);
+        }
+    	
+    	submitBtn.setActionCommand("Nice_Submit");
+    	submitBtn.addActionListener(new Main_GUI.ButtonClickListener());
+    	controlPanel.add(submitBtn);
     }
 }

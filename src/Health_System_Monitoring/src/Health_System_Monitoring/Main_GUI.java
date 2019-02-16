@@ -39,7 +39,7 @@ public class Main_GUI {
     
     public void prepareGUI() {
         mainFrame = new JFrame("Login");
-        mainFrame.setSize(250, 150);
+        mainFrame.setSize(250, 175);
         //mainFrame.setLayout(new GridBagLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -69,7 +69,8 @@ public class Main_GUI {
         controlPanel.add(passwordField);
 
         LoginButton();
-        BypassButton();
+        BypassSCButton();
+        BypassGPButton();
 
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(controlPanel);
@@ -97,11 +98,13 @@ public class Main_GUI {
                     //for debug purpose
                     System.out.println("User id is: " + userId);
 
-                    GP_GUI.prepareAddGPGUI();
+                    GP_GUI.prepareGPGUI();
                 } else System.out.println("Incorrect password");
 
-            } else if (command.equals("Bypass")) {
+            } else if (command.equals("SCBypass")) {
                 SC_GUI.prepareSCGUI();
+            } else if (command.equals("GPBypass")) {
+            	GP_GUI.prepareGPGUI();
             } else if (command.equals("Back")) {
                 GP_GUI.GoBackToMainGUI();
             } else if (command.equals("Nice")) {
@@ -130,10 +133,17 @@ public class Main_GUI {
     
     //Temporary button that will be removed later on in development
     @NotNull
-    private void BypassButton() {
-        JButton AddButton = new JButton("Bypass");
-        AddButton.setActionCommand("Bypass");
-        AddButton.addActionListener((ActionListener) new ButtonClickListener());
-        controlPanel.add(AddButton);
+    private void BypassSCButton() {
+        JButton SCButton = new JButton("Bypass");
+        SCButton.setActionCommand("SCBypass");
+        SCButton.addActionListener((ActionListener) new ButtonClickListener());
+        controlPanel.add(SCButton);
+    }
+    
+    private void BypassGPButton() {
+    	JButton GPButton = new JButton("Bypass GP");
+    	GPButton.setActionCommand("GPBypass");
+    	GPButton.addActionListener((ActionListener) new ButtonClickListener());
+    	controlPanel.add(GPButton);
     }
 }

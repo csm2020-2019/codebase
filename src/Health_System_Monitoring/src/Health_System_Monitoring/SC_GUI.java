@@ -98,10 +98,7 @@ public class SC_GUI {
 	    	public void actionPerformed(ActionEvent e){  
 	    		mainFrame.setVisible(false);
 	        	//do a scheduling thing
-	    	        }  
+	    	        }
 	    	    });
 	}
-	
-	
-
 }

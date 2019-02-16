@@ -17,7 +17,7 @@ public class GP_GUI {
     private static JTextField patientSearchField;
     private static SpringLayout layout = new SpringLayout();
 
-    public static void prepareAddGPGUI() {
+    public static void prepareGPGUI() {
 
         Main_GUI.mainFrame.setVisible(false);
 
