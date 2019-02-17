@@ -119,9 +119,7 @@ public class database_driver {
 	 */
 	public boolean addNewPatientToDatabase(Date patient_dob, String patient_first_name, String patient_last_name, String patient_address, String patient_medical_history,
 			String patient_diagnosis, String patient_prescriptions, int userId) {
-		
-		PreparedStatement sqlStatement = null;
-		
+
 		//NULL CHECKER FOR THE  METHOD ARGUMENTS
 		if(patient_dob != null && patient_first_name != null && patient_last_name != null && patient_address != null & patient_medical_history != null
 				&& patient_diagnosis != null && patient_prescriptions != null && userId > 0) {
@@ -135,7 +133,7 @@ public class database_driver {
 						+ "patient_diagnosis, patient_prescriptions, userId, patient_first_name, patient_last_name)" + " values (?, ?, ?, ?, ?, ?, ?, ?)";
 				
 				//create mysql prepared statement
-				sqlStatement = databaseConnection.prepareStatement(query);
+				PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
 				sqlStatement.setDate(1, patient_dob);
 				sqlStatement.setString(2, patient_address);
 				sqlStatement.setString(3, patient_medical_history);
@@ -193,17 +191,15 @@ public class database_driver {
 	 * method to fetch all records from database
 	 */
 	public List<Patient> getAllPatientRecords() {
-		PreparedStatement sqlStatement = null;
-		ResultSet resultSet = null;
-		Patient patient = null;
-		List<Patient> patientRecordList = new ArrayList<Patient>();
+		List<Patient> patientRecordList = new ArrayList<>();
 			
 		
 		try {
 			String query = "SELECT * FROM patient_records";
-			sqlStatement = databaseConnection.prepareStatement(query);
-			resultSet = sqlStatement.executeQuery();
-			
+			PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
+			ResultSet resultSet = sqlStatement.executeQuery();
+
+			Patient patient = null;
 			while(resultSet.next()) {
 				int patient_id = resultSet.getInt("patient_id");
 				Date patient_dob =  resultSet.getDate("patient_dob");
@@ -235,5 +231,32 @@ public class database_driver {
 		return patientRecordList;
 		
 	}
+
+	/*
+	method to delete a patient record from database
+	 */
+	public boolean deletePatientRecord(int patient_id){
+		PreparedStatement sqlStatement = null;
+
+		try{
+			String query = "DELETE FROM patient_records WHERE patient_id=?";
+
+			sqlStatement = databaseConnection.prepareStatement(query);
+
+			sqlStatement.setInt(1, patient_id);
+
+			sqlStatement.executeUpdate();
+
+			closeDbConnection();
+			System.out.println("Patient record deleted!");
+			return true;
+
+		} catch (SQLException e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
+
 
 }
