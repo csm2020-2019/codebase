@@ -1,6 +1,5 @@
 package Health_System_Monitoring;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -130,7 +129,6 @@ public class Main_GUI {
 
     
     //Temporary button that will be removed later on in development
-    @NotNull
     private void BypassSCButton() {
         JButton SCButton = new JButton("Bypass");
         SCButton.setActionCommand("SCBypass");

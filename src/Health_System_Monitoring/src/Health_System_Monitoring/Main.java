@@ -6,15 +6,17 @@ import java.util.List;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// debugging the GUI.
+//		Main_GUI main = new Main_GUI();
+
 		List<Patient> patientList = null;
 
 		database_driver db = database_driver.getConnection();
 		patientList = db.getAllPatientRecords();
 
-		for(Patient patient : patientList){
+		for (Patient patient : patientList) {
 			System.out.println(patientList);
 		}
-		
+
 	}
 }
