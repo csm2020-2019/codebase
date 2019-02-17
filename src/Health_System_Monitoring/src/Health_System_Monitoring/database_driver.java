@@ -117,13 +117,13 @@ public class database_driver {
 	 * - method to add new patients to database
 	 * @ patient_dob Date of birth of patient
 	 */
-	public boolean addNewPatientToDatabase(Date patient_dob, String patient_name, String patient_address, String patient_medical_history,
+	public boolean addNewPatientToDatabase(Date patient_dob, String patient_first_name, String patient_last_name, String patient_address, String patient_medical_history,
 			String patient_diagnosis, String patient_prescriptions, int userId) {
 		
 		PreparedStatement sqlStatement = null;
 		
 		//NULL CHECKER FOR THE  METHOD ARGUMENTS
-		if(patient_dob != null && patient_name != null && patient_address != null & patient_medical_history != null
+		if(patient_dob != null && patient_first_name != null && patient_last_name != null && patient_address != null & patient_medical_history != null
 				&& patient_diagnosis != null && patient_prescriptions != null && userId > 0) {
 			
 			//create a date object to be used for the patient dob
@@ -132,7 +132,7 @@ public class database_driver {
 			
 			try {
 				String query = "INSERT INTO patient_records (patient_dob, patient_address, patient_medical_history,"
-						+ "patient_diagnosis, patient_prescriptions, userId, patient_name)" + " values (?, ?, ?, ?, ?, ?, ?)";
+						+ "patient_diagnosis, patient_prescriptions, userId, patient_first_name, patient_last_name)" + " values (?, ?, ?, ?, ?, ?, ?, ?)";
 				
 				//create mysql prepared statement
 				sqlStatement = databaseConnection.prepareStatement(query);
@@ -142,7 +142,8 @@ public class database_driver {
 				sqlStatement.setString(4, patient_diagnosis);
 				sqlStatement.setString(5, patient_prescriptions);
 				sqlStatement.setInt(6, userId);
-				sqlStatement.setString(7, patient_name);
+				sqlStatement.setString(7, patient_first_name);
+				sqlStatement.setString(8, patient_last_name);
 
 				sqlStatement.executeUpdate();
 				closeDbConnection();
@@ -206,13 +207,14 @@ public class database_driver {
 			while(resultSet.next()) {
 				int patient_id = resultSet.getInt("patient_id");
 				Date patient_dob =  resultSet.getDate("patient_dob");
-				String patient_name = resultSet.getString("patient_name");
+				String patient_first_name = resultSet.getString("patient_first_name");
+				String patient_last_name = resultSet.getString("patient_last_name");
 				String patient_address = resultSet.getString("patient_address");
 				String patient_medical_history = resultSet.getString("patient_medical_history");
 				String patient_diagnosis = resultSet.getString("patient_diagnosis");
 				String patient_prescriptions = resultSet.getString("patient_prescriptions");	
 				
-				patient = new Patient(patient_id, patient_name, patient_dob, patient_address, 
+				patient = new Patient(patient_id, patient_first_name, patient_last_name, patient_dob, patient_address,
 						patient_medical_history, patient_diagnosis, patient_prescriptions);
 								
 				patientRecordList.add(patient);
