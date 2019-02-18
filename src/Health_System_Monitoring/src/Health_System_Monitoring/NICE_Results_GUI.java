@@ -45,7 +45,7 @@ public class NICE_Results_GUI {
 		weightResult = new JLabel("Weight: " + weight + "kg");
 		ageResult = new JLabel("Age: " + age + " years");
 		sexResult = new JLabel("Sex: " + sex);
-		bpResult = new JLabel("Blood Pressure: " + systolic + "/" + diastolic);
+		bpResult = new JLabel("Blood Pressure: " + systolic + "/" + diastolic + "mmHg");
 		smokeResult = new JLabel("Smoking Status: " + smoke);
 		hbaResult = new JLabel("Glycosylated Haemoglobin (HbA): " + hba + "% HbA1c");
 		acrResult = new JLabel("Urinary Albumin: " + acr + "mg/mmol");
