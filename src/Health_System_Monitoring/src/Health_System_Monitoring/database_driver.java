@@ -27,18 +27,21 @@ public class database_driver {
 	//login failed 
 	private int loginFailed = -1;
 	
-	
-	/*
-	 * *********** database connection info **********
-	 */
-	
-	private String jdbcUrl = "jdbc:mysql://db.dcs.aber.ac.uk:3306/csm2020_18_19";
-	private String databaseUser = "csm2020_admin";
-	private String databasePass = "wybRJB7Q";
+
+
 	
 	
 	private database_driver() {			
-		try {			
+		try {
+
+			/*
+			 * *********** database connection info **********
+			 */
+
+			String jdbcUrl = "jdbc:mysql://db.dcs.aber.ac.uk:3306/csm2020_18_19";
+			String databaseUser = "csm2020_admin";
+			String databasePass = "wybRJB7Q";
+
 			databaseConnection = DriverManager.getConnection(jdbcUrl, databaseUser, databasePass);
 			System.out.println("Connected to database");
 
@@ -78,19 +81,16 @@ public class database_driver {
 	 * 
 	 */
 	public int checkCredentials(String username, String userPassword) {
-		ResultSet resultSet = null;
-		PreparedStatement sqlStatement = null;
 
-		
 		if(username != null && userPassword != null) {
 			try {
 				String query = "SELECT * FROM `user` WHERE `username`=? AND `userPassword`=?";
-				
-				sqlStatement = databaseConnection.prepareStatement(query);
+
+				PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
 				sqlStatement.setString(1, username);
 				sqlStatement.setString(2, userPassword);
-				
-				resultSet = sqlStatement.executeQuery();
+
+				ResultSet resultSet = sqlStatement.executeQuery();
 //				closeDbConnection();
 				
 				if(resultSet.next()) {
@@ -160,39 +160,52 @@ public class database_driver {
 		return false;
 	}
 	
-//	/*
-//	 * method to edit patient record
-//	 */
-//	public boolean updatePatientRecord(int patient_id, Date patient_dob, String patient_address, String patient_medical_history,
-//			String patient_diagnosis, String patient_prescriptions, int userId) {
-//		PreparedStatement sqlStatement = null;
-//		
-//		//NULL CHECKER FOR THE  METHOD ARGUMENTS
-//		if(patient_id > 0 && patient_dob != null && patient_address != null & patient_medical_history != null
-//				&& patient_diagnosis != null && patient_prescriptions != null && userId > 0) {
-//			
-//			try {
-//				String query = "UPDATE patient_records SET patient_dob=?, patient_address=?, patient_medical_history=?,"
-//						+ "patient_diagnosis=?, patient_prescriptions=? where patient_id=?";
-//				
-//				sqlStatement = databaseConnection.prepareStatement(query);
-//				sqlStatement.setDate(2, patient_dob);
-//				
-//				
-//			} catch (SQLException e) {
-//				
-//			}
-//		}
-//		
-//		return false;
-//	}
+	/*
+	 * method to edit patient record
+	 */
+	public boolean updatePatientRecord(int patient_id, Date patient_dob, String patient_address, String patient_medical_history,
+			String patient_diagnosis, String patient_prescriptions, int userId, String patient_first_name, String patient_last_name) {
+
+		//NULL CHECKER FOR THE  METHOD ARGUMENTS
+		if(patient_id > 0 && patient_dob != null && patient_address != null & patient_medical_history != null
+				&& patient_diagnosis != null && patient_prescriptions != null && userId > 0 && patient_first_name != null
+				&& patient_last_name != null) {
+
+			try {
+				String query = "UPDATE patient_records SET patient_dob=?, patient_address=?, patient_medical_history=?,"
+						+ "patient_diagnosis=?, patient_prescriptions=?, patient_first_name=?," +
+						"patient_last_name=? where patient_id=?";
+
+				PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
+				sqlStatement.setDate(1, patient_dob);
+				sqlStatement.setString(2, patient_address);
+				sqlStatement.setString(3, patient_medical_history);
+				sqlStatement.setString(4, patient_diagnosis);
+				sqlStatement.setString(5, patient_prescriptions);
+				sqlStatement.setString(6, patient_first_name);
+				sqlStatement.setString(7, patient_last_name);
+				sqlStatement.setInt(8, patient_id);
+
+				sqlStatement.executeUpdate();
+
+				closeDbConnection();
+				System.out.println("Patient record updated!");
+				return true;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+		}
+
+		return false;
+	}
 	
 	/*
 	 * method to fetch all records from database
 	 */
 	public List<Patient> getAllPatientRecords() {
 		List<Patient> patientRecordList = new ArrayList<>();
-			
 		
 		try {
 			String query = "SELECT * FROM patient_records";
@@ -216,12 +229,6 @@ public class database_driver {
 				patientRecordList.add(patient);
 			}
 			
-			
-			
-//			for(Patient patientView : patientRecordList) {
-//				System.out.println(patientView);
-//			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -234,14 +241,14 @@ public class database_driver {
 
 	/*
 	method to delete a patient record from database
+	@ param patient_id is the id of the row in patient_records table
 	 */
 	public boolean deletePatientRecord(int patient_id){
-		PreparedStatement sqlStatement = null;
 
 		try{
 			String query = "DELETE FROM patient_records WHERE patient_id=?";
 
-			sqlStatement = databaseConnection.prepareStatement(query);
+			PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
 
 			sqlStatement.setInt(1, patient_id);
 

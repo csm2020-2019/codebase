@@ -6,11 +6,13 @@ import java.util.List;
 public class Main {
 
 	public static void main(String[] args) {
+			Date date = new Date(System.currentTimeMillis());
 
 		database_driver db = database_driver.getConnection();
-		db.deletePatientRecord(2);
-//
-//
+		db.updatePatientRecord(1, date, "Comp sci lab", "Typhoid",
+				"patient does not see clearly", "multivitamins", 1, "Jess",
+				"John");
+
 
 	}
 }
