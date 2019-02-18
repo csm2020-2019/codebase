@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -19,25 +21,25 @@ import javax.swing.border.TitledBorder;
 
 /**
  * @author - Nick Maslin
- * @desc - GUI for NICE test
+ * 
+ * GUI for NICE test
+ * 
  */
 
 public class NICE_GUI {
 	public static JFrame mainFrame;
-	// public static JTextField heightTxt, weightTxt, ;
 	private static JPanel welcomePanel, controlPanel, bmiPanel, bpPanel, smokingPanel, hbaPanel, urinaryPanel,
 			serumPanel, cholPanel, eyePanel, footPanel;
 	private static JLabel welcomeLbl;
-
 	private static JTextField heightTxt, weightTxt, ageTxt, systolicTxt, diastolicTxt, hbaTxt, acrTxt, egfrTxt,
 			micromolTxt, tcTxt, lipoTxt;
 	private static ButtonGroup sexGroup, smokeGroup;
-	// private static JCheckBox kidneyDam;
-	// private static JCheckBox eyeDam;
-	// private static JCheckBox cercDam;
+	private static String heightInput, weightInput, ageInput, systolicInput, diastolicInput, hbaInput, acrInput, micromolInput, egfrInput, tcInput, lipoInput, sexInput, smokeInput;
 
+	/**
+	 * Build the GUI for the NICE test
+	 */
 	public static void prepareNiceGUI() {
-		GP_GUI.mainFrame.setVisible(false);
 
 		mainFrame = new JFrame("NICE Test");
 		mainFrame.setSize(600, 550);
@@ -72,6 +74,7 @@ public class NICE_GUI {
 
 		JLabel weightLbl = new JLabel("Weight: ");
 		weightTxt = new JTextField(4);
+		
 		JLabel kgLbl = new JLabel("kg");
 		bmiPanel.add(weightLbl);
 		bmiPanel.add(weightTxt);
@@ -145,7 +148,7 @@ public class NICE_GUI {
 		hbaPanel.setBorder(hbaBorder);
 
 		hbaTxt = new JTextField(3);
-		JLabel hbaLbl = new JLabel("HbA1C");
+		JLabel hbaLbl = new JLabel("% HbA1C");
 
 		hbaPanel.add(hbaTxt);
 		hbaPanel.add(hbaLbl);
@@ -213,15 +216,15 @@ public class NICE_GUI {
 		SetBorderTitle(eyeBorder);
 		eyePanel.setBorder(eyeBorder);
 
-		JCheckBox visionBox = new JCheckBox("Sudden loss of vision");
-		JCheckBox retinaBox = new JCheckBox("Pre-retinal or vitreous haemoerhage");
+		JCheckBox visionCheck = new JCheckBox("Sudden loss of vision");
+		JCheckBox retinaCheck = new JCheckBox("Pre-retinal or vitreous haemoerhage");
 		JCheckBox detatchBox = new JCheckBox("Retinal detatchment");
-		JCheckBox rubeosisBox = new JCheckBox("Rubeosis");
+		JCheckBox rubeosisCheck = new JCheckBox("Rubeosis");
 
-		eyePanel.add(visionBox);
-		eyePanel.add(retinaBox);
+		eyePanel.add(visionCheck);
+		eyePanel.add(retinaCheck);
 		eyePanel.add(detatchBox);
-		eyePanel.add(rubeosisBox);
+		eyePanel.add(rubeosisCheck);
 		controlPanel.add(eyePanel);
 
 		// Foot Examination Panel
@@ -231,15 +234,15 @@ public class NICE_GUI {
 		SetBorderTitle(footBorder);
 		footPanel.setBorder(footBorder);
 
-		JCheckBox senseBox = new JCheckBox("Lack of sensation");
-		JCheckBox deformBox = new JCheckBox("Deformity");
-		JCheckBox pulseBox = new JCheckBox("Palpatation of foot pulse");
-		JCheckBox shoeBox = new JCheckBox("Inappropriate footwear");
+		JCheckBox senseCheck = new JCheckBox("Lack of sensation");
+		JCheckBox defoirmCheck = new JCheckBox("Deformity");
+		JCheckBox pulseCheck = new JCheckBox("Palpatation of foot pulse");
+		JCheckBox shoeCheck = new JCheckBox("Inappropriate footwear");
 
-		footPanel.add(senseBox);
-		footPanel.add(deformBox);
-		footPanel.add(pulseBox);
-		footPanel.add(shoeBox);
+		footPanel.add(senseCheck);
+		footPanel.add(defoirmCheck);
+		footPanel.add(pulseCheck);
+		footPanel.add(shoeCheck);
 		controlPanel.add(footPanel);
 
 		NiceBackButton();
@@ -250,6 +253,9 @@ public class NICE_GUI {
 		mainFrame.setVisible(true);
 	}
 
+	/**
+	 * Return to the GP GUI
+	 */
 	public static void NiceBackButton() {
 		JButton niceBackBtn = new JButton("Back");
 		niceBackBtn.setActionCommand("Nice_Back");
@@ -257,16 +263,51 @@ public class NICE_GUI {
 		controlPanel.add(niceBackBtn);
 	}
 
+	/**
+	 * Set the border title for a panel within the frame
+	 * @param border
+	 */
 	public static void SetBorderTitle(TitledBorder border) {
 		border.setTitleJustification(TitledBorder.LEFT);
 		border.setTitlePosition(TitledBorder.TOP);
 	}
 
+	/**
+	 * 
+	 */
 	public static void GoToPatientGUI() {
 		mainFrame.setVisible(false);
 		Patient_GUI.mainFrame.setVisible(true);
 	}
 
+	public static void GoToNiceResults() {
+
+		mainFrame.setVisible(false);
+		NICE_Results_GUI results = new NICE_Results_GUI();
+		results.SetResults(heightInput, weightInput, ageInput, systolicInput, diastolicInput, hbaInput, acrInput, micromolInput, egfrInput, tcInput, lipoInput, sexInput, smokeInput);
+		NICE_Results_GUI.PrepareNiceResultsGUI();
+	}
+	
+	/**
+	 * Takes the radio button group and returns selected value
+	 * 
+	 * @param buttonGroup
+	 * @return selected button from group
+	 * 
+	 * taken from https://stackoverflow.com/questions/201287/how-do-i-get-which-jradiobutton-is-selected-from-a-buttongroup
+	 */
+	public static String GetButtonGroupSelection(ButtonGroup buttonGroup) {
+		for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+			AbstractButton button = buttons.nextElement();
+			
+			if(button.isSelected()) {
+				return button.getText();
+			}
+		}
+		
+		return null;
+	}
+	
 	public static void SubmitButton() {
 		JButton submitBtn = new JButton("Submit");
 		/*
@@ -277,27 +318,35 @@ public class NICE_GUI {
 		submitBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (heightTxt.getText().isEmpty() || weightTxt.getText().isEmpty() || ageTxt.getText().isEmpty()
-						|| diastolicTxt.getText().isEmpty() || systolicTxt.getText().isEmpty()
-						|| hbaTxt.getText().isEmpty() || acrTxt.getText().isEmpty() || egfrTxt.getText().isEmpty()
-						|| micromolTxt.getText().isEmpty() || tcTxt.getText().isEmpty() || lipoTxt.getText().isEmpty()
+				heightInput = heightTxt.getText();
+				weightInput = weightTxt.getText();
+				ageInput = ageTxt.getText();
+				systolicInput = systolicTxt.getText();
+				diastolicInput = diastolicTxt.getText();
+				hbaInput = hbaTxt.getText();
+				acrInput = acrTxt.getText();
+				micromolInput = micromolTxt.getText();
+				egfrInput = egfrTxt.getText();
+				tcInput = tcTxt.getText();
+				lipoInput = lipoTxt.getText();
+				sexInput = GetButtonGroupSelection(sexGroup);
+				smokeInput = GetButtonGroupSelection(smokeGroup);
+				
+				if (heightInput.isEmpty() || weightInput.isEmpty() || ageInput.isEmpty()
+						|| systolicInput.isEmpty() || diastolicInput.isEmpty()
+						|| hbaInput.isEmpty() || acrInput.isEmpty() || egfrInput.isEmpty()
+						|| micromolInput.isEmpty() || tcInput.isEmpty() || lipoInput.isEmpty()
 						|| sexGroup.isSelected(null) || smokeGroup.isSelected(null)) {
 					JOptionPane.showMessageDialog(null, "Please enter all required fields");
 				} else {
 					JOptionPane.showMessageDialog(null, "SUCCESS! All fields have been saved.");
+					GoToNiceResults();
 				}
 
 			}
 		});
 
-		try {
-			// int i = Integer.parseInt(heightTxt.getText());
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(mainFrame, "information", "informaiton", JOptionPane.ERROR_MESSAGE);
-		}
-
-		submitBtn.setActionCommand("Nice_Submit");
-		submitBtn.addActionListener(new Main_GUI.ButtonClickListener());
 		controlPanel.add(submitBtn);
 	}
+	
 }
