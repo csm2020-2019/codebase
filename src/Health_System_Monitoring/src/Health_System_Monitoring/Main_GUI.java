@@ -106,7 +106,14 @@ public class Main_GUI {
                 GP_GUI.GoBackToMainGUI();
             } else if (command.equals("Nice")) {
                 NICE_GUI.prepareNiceGUI();
-            } else if (command.equals("Patient_Search")) {
+            } else if (command.equals("GP_Register")) {
+                GP_Register_GUI.prepareGPGUI();
+            } else if (command.equals("GP_Register_Back")) {
+                GP_Register_GUI.BackButtonFunction();
+            } else if (command.equals("GP_Register_Submit")) {
+                GP_Register_GUI.SubmitButtonFunction();
+            } else if (command.equals("GP_Patient_Search")) {
+                GP_GUI.PatientSearchButtonFunction();
                 Patient_GUI.preparePatientGUI();
             } else if (command.equals("Patient_Back")) {
                 Patient_GUI.GoToGPGUI();

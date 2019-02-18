@@ -53,6 +53,11 @@ public class GP_GUI {
         mainFrame.setVisible(true);
     }
 
+    public static void PatientSearchButtonFunction() {
+        String searchField = patientSearchField.getText().toString();
+        System.out.println("Print off of search bar input: " + searchField);
+    }
+
     private static void BackButton() {
         JButton BackButton = new JButton("Back");
         BackButton.setActionCommand("Back");
@@ -82,7 +87,7 @@ public class GP_GUI {
 
     private static void PatientSearchButton() {
         JButton PatientSearchButton = new JButton("Search");
-        PatientSearchButton.setActionCommand("Patient_Search");
+        PatientSearchButton.setActionCommand("GP_Patient_Search");
         PatientSearchButton.addActionListener(new Main_GUI.ButtonClickListener());
         controlPanel.add(PatientSearchButton);
 
@@ -92,7 +97,7 @@ public class GP_GUI {
 
     private static void RegisterPatientButton() {
         JButton RegisterPatientButton = new JButton("Register Patient");
-        RegisterPatientButton.setActionCommand("Register_Patient");
+        RegisterPatientButton.setActionCommand("GP_Register");
         RegisterPatientButton.addActionListener(new Main_GUI.ButtonClickListener());
         controlPanel.add(RegisterPatientButton);
 
