@@ -81,36 +81,41 @@ public class database_driver {
 	 * method to check login credentials
 	 * 
 	 */
-	public int checkCredentials(String username, String userPassword) {
+	public int checkCredentials(String username, String userPassword) throws SQLException {
 
 		if(username != null && userPassword != null) {
-			try {
-				String query = "SELECT * FROM `user` WHERE `username`=? AND `userPassword`=?";
+            PreparedStatement sqlStatement = null;
+            try {
+                String query = "SELECT * FROM `user` WHERE `username`=? AND `userPassword`=?";
 
-				PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
-				sqlStatement.setString(1, username);
-				sqlStatement.setString(2, userPassword);
+                sqlStatement = databaseConnection.prepareStatement(query);
+                sqlStatement.setString(1, username);
+                sqlStatement.setString(2, userPassword);
 
-				ResultSet resultSet = sqlStatement.executeQuery();
+                ResultSet resultSet = sqlStatement.executeQuery();
 //				closeDbConnection();
-				
-				if(resultSet.next()) {
-					userId = resultSet.getInt("userId");
-					closeDbConnection();
-					return userId;
-				}
-				else {
-					System.out.println("Incorrect username or password | Login failed");
-					closeDbConnection();
-					return loginFailed;
-				}
-					
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-			}
-		}
-		closeDbConnection();
+
+                if (resultSet.next()) {
+                    userId = resultSet.getInt("userId");
+                    return userId;
+                } else {
+                    System.out.println("Incorrect username or password | Login failed");
+                    return loginFailed;
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+
+            } finally {
+                if (sqlStatement != null) {
+                    sqlStatement.close();
+                }
+                closeDbConnection();
+            }
+
+        }
+
 		return loginFailed;
 	}
 	
@@ -119,43 +124,49 @@ public class database_driver {
 	 * @ patient_dob Date of birth of patient
 	 */
 	public boolean addNewPatientToDatabase(Date patient_dob, String patient_first_name, String patient_last_name, String patient_address, String patient_medical_history,
-			String patient_diagnosis, String patient_prescriptions, int userId) {
+			String patient_diagnosis, String patient_prescriptions, int userId) throws SQLException {
 
 		//NULL CHECKER FOR THE  METHOD ARGUMENTS
 		if(patient_dob != null && patient_first_name != null && patient_last_name != null && patient_address != null & patient_medical_history != null
 				&& patient_diagnosis != null && patient_prescriptions != null && userId > 0) {
-			
-			//create a date object to be used for the patient dob
-			Calendar calender = Calendar.getInstance();
-			patient_dob = new Date(calender.getTime().getTime());
-			
-			try {
-				String query = "INSERT INTO patient_records (patient_dob, patient_address, patient_medical_history,"
-						+ "patient_diagnosis, patient_prescriptions, userId, patient_first_name, patient_last_name)" + " values (?, ?, ?, ?, ?, ?, ?, ?)";
-				
-				//create mysql prepared statement
-				PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
-				sqlStatement.setDate(1, patient_dob);
-				sqlStatement.setString(2, patient_address);
-				sqlStatement.setString(3, patient_medical_history);
-				sqlStatement.setString(4, patient_diagnosis);
-				sqlStatement.setString(5, patient_prescriptions);
-				sqlStatement.setInt(6, userId);
-				sqlStatement.setString(7, patient_first_name);
-				sqlStatement.setString(8, patient_last_name);
 
-				sqlStatement.executeUpdate();
-				closeDbConnection();
+            //create a date object to be used for the patient dob
+            Calendar calender = Calendar.getInstance();
+            patient_dob = new Date(calender.getTime().getTime());
 
-				System.out.println("Patient record added");
-				
-				return true;
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-			}
-		}
+            PreparedStatement sqlStatement = null;
+            try {
+                String query = "INSERT INTO patient_records (patient_dob, patient_address, patient_medical_history,"
+                        + "patient_diagnosis, patient_prescriptions, userId, patient_first_name, patient_last_name)" + " values (?, ?, ?, ?, ?, ?, ?, ?)";
+
+                //create mysql prepared statement
+                sqlStatement = databaseConnection.prepareStatement(query);
+                sqlStatement.setDate(1, patient_dob);
+                sqlStatement.setString(2, patient_address);
+                sqlStatement.setString(3, patient_medical_history);
+                sqlStatement.setString(4, patient_diagnosis);
+                sqlStatement.setString(5, patient_prescriptions);
+                sqlStatement.setInt(6, userId);
+                sqlStatement.setString(7, patient_first_name);
+                sqlStatement.setString(8, patient_last_name);
+
+                sqlStatement.executeUpdate();
+                closeDbConnection();
+
+                System.out.println("Patient record added");
+
+                return true;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            } finally {
+                if (sqlStatement != null) {
+                    sqlStatement.close();
+                }
+                closeDbConnection();
+            }
+        }
 		
 		
 		return false;
@@ -165,39 +176,44 @@ public class database_driver {
 	 * method to edit patient record
 	 */
 	public boolean updatePatientRecord(int patient_id, Date patient_dob, String patient_address, String patient_medical_history,
-			String patient_diagnosis, String patient_prescriptions, int userId, String patient_first_name, String patient_last_name) {
+			String patient_diagnosis, String patient_prescriptions, int userId, String patient_first_name, String patient_last_name) throws SQLException {
 
 		//NULL CHECKER FOR THE  METHOD ARGUMENTS
 		if(patient_id > 0 && patient_dob != null && patient_address != null & patient_medical_history != null
 				&& patient_diagnosis != null && patient_prescriptions != null && userId > 0 && patient_first_name != null
 				&& patient_last_name != null) {
 
-			try {
-				String query = "UPDATE patient_records SET patient_dob=?, patient_address=?, patient_medical_history=?,"
-						+ "patient_diagnosis=?, patient_prescriptions=?, patient_first_name=?," +
-						"patient_last_name=? where patient_id=?";
+            PreparedStatement sqlStatement = null;
+            try {
+                String query = "UPDATE patient_records SET patient_dob=?, patient_address=?, patient_medical_history=?,"
+                        + "patient_diagnosis=?, patient_prescriptions=?, patient_first_name=?," +
+                        "patient_last_name=? where patient_id=?";
 
-				PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
-				sqlStatement.setDate(1, patient_dob);
-				sqlStatement.setString(2, patient_address);
-				sqlStatement.setString(3, patient_medical_history);
-				sqlStatement.setString(4, patient_diagnosis);
-				sqlStatement.setString(5, patient_prescriptions);
-				sqlStatement.setString(6, patient_first_name);
-				sqlStatement.setString(7, patient_last_name);
-				sqlStatement.setInt(8, patient_id);
+                sqlStatement = databaseConnection.prepareStatement(query);
+                sqlStatement.setDate(1, patient_dob);
+                sqlStatement.setString(2, patient_address);
+                sqlStatement.setString(3, patient_medical_history);
+                sqlStatement.setString(4, patient_diagnosis);
+                sqlStatement.setString(5, patient_prescriptions);
+                sqlStatement.setString(6, patient_first_name);
+                sqlStatement.setString(7, patient_last_name);
+                sqlStatement.setInt(8, patient_id);
 
-				sqlStatement.executeUpdate();
+                sqlStatement.executeUpdate();
+                System.out.println("Patient record updated!");
 
-				closeDbConnection();
-				System.out.println("Patient record updated!");
-				return true;
+                return true;
 
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-			}
-		}
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            } finally {
+                if (sqlStatement != null) {
+                    sqlStatement.close();
+                }
+                closeDbConnection();
+            }
+        }
 
 		return false;
 	}
@@ -205,69 +221,82 @@ public class database_driver {
 	/*
 	 * method to fetch all records from database
 	 */
-	public List<Patient> getAllPatientRecords() {
-		List<Patient> patientRecordList = new ArrayList<>();
-		
-		try {
-			String query = "SELECT * FROM patient_records";
-			PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
-			ResultSet resultSet = sqlStatement.executeQuery();
+	public List<Patient> getAllPatientRecords() throws SQLException {
+        List<Patient> patientRecordList = new ArrayList<>();
 
-			Patient patient = null;
-			while(resultSet.next()) {
-				int patient_id = resultSet.getInt("patient_id");
-				Date patient_dob =  resultSet.getDate("patient_dob");
-				String patient_first_name = resultSet.getString("patient_first_name");
-				String patient_last_name = resultSet.getString("patient_last_name");
-				String patient_address = resultSet.getString("patient_address");
-				String patient_medical_history = resultSet.getString("patient_medical_history");
-				String patient_diagnosis = resultSet.getString("patient_diagnosis");
-				String patient_prescriptions = resultSet.getString("patient_prescriptions");	
-				
-				patient = new Patient(patient_id, patient_first_name, patient_last_name, patient_dob, patient_address,
-						patient_medical_history, patient_diagnosis, patient_prescriptions);
-								
-				patientRecordList.add(patient);
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-		
-		closeDbConnection();
-		return patientRecordList;
-		
-	}
+        PreparedStatement sqlStatement = null;
+        try {
+            String query = "SELECT * FROM patient_records";
+            sqlStatement = databaseConnection.prepareStatement(query);
+            ResultSet resultSet = sqlStatement.executeQuery();
+
+            Patient patient = null;
+
+            while (resultSet.next()) {
+                int patient_id = resultSet.getInt("patient_id");
+                Date patient_dob = resultSet.getDate("patient_dob");
+                String patient_first_name = resultSet.getString("patient_first_name");
+                String patient_last_name = resultSet.getString("patient_last_name");
+                String patient_address = resultSet.getString("patient_address");
+                String patient_medical_history = resultSet.getString("patient_medical_history");
+                String patient_diagnosis = resultSet.getString("patient_diagnosis");
+                String patient_prescriptions = resultSet.getString("patient_prescriptions");
+
+                patient = new Patient(patient_id, patient_first_name, patient_last_name, patient_dob, patient_address,
+                        patient_medical_history, patient_diagnosis, patient_prescriptions);
+
+                patientRecordList.add(patient);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        } finally {
+            if (sqlStatement != null) {
+                sqlStatement.close();
+            }
+            closeDbConnection();
+        }
+
+        return patientRecordList;
+
+    }
 
 	/*
 	method to delete a patient record from database
 	@ param patient_id is the id of the row in patient_records table
 	 */
-	public boolean deletePatientRecord(int patient_id){
+	public boolean deletePatientRecord(int patient_id) throws SQLException {
 
-		try{
-			String query = "DELETE FROM patient_records WHERE patient_id=?";
+        PreparedStatement sqlStatement = null;
+        try {
+            String query = "DELETE FROM patient_records WHERE patient_id=?";
 
-			PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
+            sqlStatement = databaseConnection.prepareStatement(query);
 
-			sqlStatement.setInt(1, patient_id);
+            sqlStatement.setInt(1, patient_id);
 
-			sqlStatement.executeUpdate();
+            sqlStatement.executeUpdate();
+            System.out.println("Patient record deleted!");
 
-			closeDbConnection();
-			System.out.println("Patient record deleted!");
-			return true;
+            return true;
 
-		} catch (SQLException e){
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-		return false;
-	}
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        } finally {
+            if (sqlStatement != null) {
+                sqlStatement.close();
+            }
+            closeDbConnection();
+        }
+        return false;
+    }
 
 	/*
-	add nice results to database
+	method to add nice results to database
 	 */
 	public boolean addNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
                                   String height, String weight, int systolic_bp, int diastolic_bp, boolean smoker,
@@ -275,15 +304,18 @@ public class database_driver {
                                   BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
                                   boolean cerebrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
                                   boolean retinal_detachment, boolean rubeosis, boolean lack_senastion, boolean deformity,
-                                  boolean foot_palpitation, boolean inappropriate_behaviour){
+                                  boolean foot_palpitation, boolean inappropriate_behaviour) throws SQLException {
 
 	    if(result_id > 0 && patient_id > 0 && user_id > 0 && sex != null && age > 0 && result_date != null &&
-                height != null && weight != null){
-            //create a date object to be used for the patient dob
+                height != null && weight != null) {
+
+            //create a date object to be used for the result_date
             Calendar calender = Calendar.getInstance();
             result_date = new Date(calender.getTime().getTime());
 
-            try{
+            PreparedStatement sqlStatement = null;
+
+            try {
                 String query = "INSERT INTO nice_results (patient_id, user_id, sex, age, result_date, height, weight, " +
                         "systolic_bp, diastolic_bp, smoker, haemoglobin, urinary_albumin, serum_creatinine, egfr, " +
                         "total_cholesterol, ldl_level, kidney_damage, eye_damage, cerebrovascular_damage, vision_loss, " +
@@ -291,7 +323,7 @@ public class database_driver {
                         "inappropriate_behaviour)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
                         "?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                PreparedStatement sqlStatement = databaseConnection.prepareStatement(query);
+                sqlStatement = databaseConnection.prepareStatement(query);
                 sqlStatement.setInt(1, patient_id);
                 sqlStatement.setInt(2, user_id);
                 sqlStatement.setString(3, sex);
@@ -321,8 +353,6 @@ public class database_driver {
                 sqlStatement.setBoolean(27, inappropriate_behaviour);
 
                 sqlStatement.executeUpdate();
-                closeDbConnection();
-
                 System.out.println("Nice result added to database");
 
                 return true;
@@ -330,11 +360,16 @@ public class database_driver {
             } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
+
+            } finally {
+                if (sqlStatement != null) {
+                    sqlStatement.close();
+                }
+                closeDbConnection();
             }
+
         }
 
 	    return false;
     }
-
-
 }
