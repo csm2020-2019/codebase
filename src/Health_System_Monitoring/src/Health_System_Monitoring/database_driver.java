@@ -299,15 +299,15 @@ public class database_driver {
 	method to add nice results to database
 	 */
 	public boolean addNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
-                                  String height, String weight, int systolic_bp, int diastolic_bp, boolean smoker,
+                                  int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
                                   BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
                                   BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
-                                  boolean cerebrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
+                                  boolean cercbrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
                                   boolean retinal_detachment, boolean rubeosis, boolean lack_senastion, boolean deformity,
                                   boolean foot_palpitation, boolean inappropriate_behaviour) throws SQLException {
 
 	    if(result_id > 0 && patient_id > 0 && user_id > 0 && sex != null && age > 0 && result_date != null &&
-                height != null && weight != null) {
+                height > 0 && weight > 0) {
 
             //create a date object to be used for the result_date
             Calendar calender = Calendar.getInstance();
@@ -329,8 +329,8 @@ public class database_driver {
                 sqlStatement.setString(3, sex);
                 sqlStatement.setInt(4, age);
                 sqlStatement.setDate(5, result_date);
-                sqlStatement.setString(6, height);
-                sqlStatement.setString(7, weight);
+                sqlStatement.setInt(6, height);
+                sqlStatement.setInt(7, weight);
                 sqlStatement.setInt(8, systolic_bp);
                 sqlStatement.setInt(9, diastolic_bp);
                 sqlStatement.setBoolean(10, smoker);
@@ -342,7 +342,7 @@ public class database_driver {
                 sqlStatement.setBigDecimal(16, ldl_level);
                 sqlStatement.setBoolean(17, kidney_damage);
                 sqlStatement.setBoolean(18, eye_damage);
-                sqlStatement.setBoolean(19, cerebrovascular_damage);
+                sqlStatement.setBoolean(19, cercbrovascular_damage);
                 sqlStatement.setBoolean(20, vision_loss);
                 sqlStatement.setBoolean(21, eye_haemorrhage);
                 sqlStatement.setBoolean(22, retinal_detachment);

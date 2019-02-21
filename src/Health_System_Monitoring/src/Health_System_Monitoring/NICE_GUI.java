@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Enumeration;
 
 import javax.swing.AbstractButton;
@@ -34,8 +37,13 @@ public class NICE_GUI {
 	private static JTextField heightTxt, weightTxt, ageTxt, systolicTxt, diastolicTxt, hbaTxt, acrTxt, egfrTxt,
 			micromolTxt, tcTxt, lipoTxt;
 	private static ButtonGroup sexGroup, smokeGroup;
+	private static JCheckBox kidneyDamCheck, eyeDamCheck, cercDamCheck, visionCheck, retinaCheck, detatchCheck, rubeosisCheck, senseCheck, deformCheck, pulseCheck, shoeCheck;
 	private static String heightInput, weightInput, ageInput, systolicInput, diastolicInput, hbaInput, acrInput, micromolInput, egfrInput, tcInput, lipoInput, sexInput, smokeInput;
-
+	private static int resultId, patientId, userId, age, systolic, diastolic, serum, weight, height;
+	private static Date date;
+	private static Boolean smoker, kidneyDamage, eyeDamage, cercbroDamage, visionLoss, eyeHaemorrage, retina, rubeosis, sensation, deformity, palpatation, shoes;
+	private static BigDecimal haemoglobin, urinary, egfr, cholesterol, ldl;
+	
 	/**
 	 * Build the GUI for the NICE test
 	 */
@@ -105,9 +113,9 @@ public class NICE_GUI {
 		SetBorderTitle(bpBorder);
 		bpPanel.setBorder(bpBorder);
 
-		JCheckBox kidneyDamCheck = new JCheckBox("Kidney Damage");
-		JCheckBox eyeDamCheck = new JCheckBox("Eye Damage");
-		JCheckBox cercDamCheck = new JCheckBox("Cercbrovascluar Damage");
+		kidneyDamCheck = new JCheckBox("Kidney Damage", false);
+		eyeDamCheck = new JCheckBox("Eye Damage", false);
+		cercDamCheck = new JCheckBox("Cercbrovascluar Damage", false);
 
 		systolicTxt = new JTextField(3);
 		JLabel slashLbl = new JLabel("/");
@@ -216,14 +224,14 @@ public class NICE_GUI {
 		SetBorderTitle(eyeBorder);
 		eyePanel.setBorder(eyeBorder);
 
-		JCheckBox visionCheck = new JCheckBox("Sudden loss of vision");
-		JCheckBox retinaCheck = new JCheckBox("Pre-retinal or vitreous haemoerhage");
-		JCheckBox detatchBox = new JCheckBox("Retinal detatchment");
-		JCheckBox rubeosisCheck = new JCheckBox("Rubeosis");
+		visionCheck = new JCheckBox("Sudden loss of vision", false);
+		retinaCheck = new JCheckBox("Pre-retinal or vitreous haemoerhage", false);
+		detatchCheck = new JCheckBox("Retinal detatchment", false);
+		rubeosisCheck = new JCheckBox("Rubeosis", false);
 
 		eyePanel.add(visionCheck);
 		eyePanel.add(retinaCheck);
-		eyePanel.add(detatchBox);
+		eyePanel.add(detatchCheck);
 		eyePanel.add(rubeosisCheck);
 		controlPanel.add(eyePanel);
 
@@ -234,13 +242,13 @@ public class NICE_GUI {
 		SetBorderTitle(footBorder);
 		footPanel.setBorder(footBorder);
 
-		JCheckBox senseCheck = new JCheckBox("Lack of sensation");
-		JCheckBox defoirmCheck = new JCheckBox("Deformity");
-		JCheckBox pulseCheck = new JCheckBox("Palpatation of foot pulse");
-		JCheckBox shoeCheck = new JCheckBox("Inappropriate footwear");
+		senseCheck = new JCheckBox("Lack of sensation", false);
+		deformCheck = new JCheckBox("Deformity", false);
+		pulseCheck = new JCheckBox("Palpatation of foot pulse", false);
+		shoeCheck = new JCheckBox("Inappropriate footwear", false);
 
 		footPanel.add(senseCheck);
-		footPanel.add(defoirmCheck);
+		footPanel.add(deformCheck);
 		footPanel.add(pulseCheck);
 		footPanel.add(shoeCheck);
 		controlPanel.add(footPanel);
@@ -263,7 +271,7 @@ public class NICE_GUI {
 		controlPanel.add(niceBackBtn);
 	}
 
-	/**
+	/*
 	 * Set the border title for a panel within the frame
 	 * @param border
 	 */
@@ -272,14 +280,17 @@ public class NICE_GUI {
 		border.setTitlePosition(TitledBorder.TOP);
 	}
 
-	/**
-	 * 
+	/*
+	 * Takes user to Patient GUI
 	 */
 	public static void GoToPatientGUI() {
 		mainFrame.setVisible(false);
 		Patient_GUI.mainFrame.setVisible(true);
 	}
 
+	/*
+	 * Gets results from NICE test and displayed them in NICE_Results_GUI 
+	 */
 	public static void GoToNiceResults() {
 
 		mainFrame.setVisible(false);
@@ -294,7 +305,6 @@ public class NICE_GUI {
 	 * @param buttonGroup
 	 * @return selected button from group
 	 * 
-	 * taken from https://stackoverflow.com/questions/201287/how-do-i-get-which-jradiobutton-is-selected-from-a-buttongroup
 	 */
 	public static String GetButtonGroupSelection(ButtonGroup buttonGroup) {
 		for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
@@ -308,6 +318,17 @@ public class NICE_GUI {
 		return null;
 	}
 	
+	/*
+	 * If the checkbox button has been selected, the corresponding boolean value is set to true
+	 */
+	public static void GetCheckBool(JCheckBox check, Boolean bool) {
+		if(check.isSelected()) {
+			bool = true;
+		} else {
+			bool = false;
+		}
+	}
+	
 	public static void SubmitButton() {
 		JButton submitBtn = new JButton("Submit");
 		/*
@@ -318,19 +339,44 @@ public class NICE_GUI {
 		submitBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				heightInput = heightTxt.getText();
-				weightInput = weightTxt.getText();
-				ageInput = ageTxt.getText();
-				systolicInput = systolicTxt.getText();
-				diastolicInput = diastolicTxt.getText();
-				hbaInput = hbaTxt.getText();
-				acrInput = acrTxt.getText();
-				micromolInput = micromolTxt.getText();
-				egfrInput = egfrTxt.getText();
-				tcInput = tcTxt.getText();
-				lipoInput = lipoTxt.getText();
+				// Covert textfields to either string, int or bigdecimal values
+				height = Integer.parseInt(heightTxt.getText());
+				weight = Integer.parseInt(weightTxt.getText());
+				age = Integer.parseInt(ageTxt.getText());
+				systolic = Integer.parseInt(systolicTxt.getText());
+				diastolic = Integer.parseInt(diastolicTxt.getText());
+				haemoglobin = new BigDecimal(hbaTxt.getText());
+				urinary = new BigDecimal(acrTxt.getText());
+				micromolInput = micromolTxt.getText(); // This has not been included -- might need to discuss with Matthew
+				egfr = new BigDecimal(egfrTxt.getText());
+				cholesterol = new BigDecimal(tcTxt.getText());
+				ldl = new BigDecimal(lipoTxt.getText());
 				sexInput = GetButtonGroupSelection(sexGroup);
 				smokeInput = GetButtonGroupSelection(smokeGroup);
+				
+				// Radio Button boolean
+				if (smokeInput == "Smoker") {
+					smoker = true;
+				} else if (smokeInput == "Non-Smoker") {
+					smoker = false;
+				}
+				
+				// Check box booleans
+				GetCheckBool(kidneyDamCheck, kidneyDamage);
+				GetCheckBool(eyeDamCheck, eyeDamage);
+				GetCheckBool(cercDamCheck, cercbroDamage);
+				GetCheckBool(visionCheck, visionLoss);
+				GetCheckBool(retinaCheck, eyeHaemorrage);
+				GetCheckBool(detatchCheck, retina);
+				GetCheckBool(rubeosisCheck, rubeosis);
+				GetCheckBool(senseCheck, sensation);
+				GetCheckBool(deformCheck, deformity);
+				GetCheckBool(pulseCheck, palpatation);
+				GetCheckBool(shoeCheck, shoes);
+				
+				resultId = 1;
+				patientId = 1;
+				userId = 1;
 				
 				if (heightInput.isEmpty() || weightInput.isEmpty() || ageInput.isEmpty()
 						|| systolicInput.isEmpty() || diastolicInput.isEmpty()
@@ -339,7 +385,22 @@ public class NICE_GUI {
 						|| sexGroup.isSelected(null) || smokeGroup.isSelected(null)) {
 					JOptionPane.showMessageDialog(null, "Please enter all required fields");
 				} else {
-					JOptionPane.showMessageDialog(null, "SUCCESS! All fields have been saved.");
+					database_driver db = database_driver.getConnection();
+					
+					try {
+						if(db.addNiceResults(resultId, patientId, userId, sexInput, age, date, height, weight, systolic, 
+								diastolic, smoker, haemoglobin, urinary, serum, egfr, cholesterol, 
+								ldl, kidneyDamage, eyeDamage, cercbroDamage, visionLoss, eyeHaemorrage,
+								retina, rubeosis, sensation, deformity, palpatation, shoes)) {
+							JOptionPane.showMessageDialog(null, "SUCCESS! All fields have been saved.");
+						} else {
+							JOptionPane.showMessageDialog(null, "Error!");
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 					GoToNiceResults();
 				}
 
