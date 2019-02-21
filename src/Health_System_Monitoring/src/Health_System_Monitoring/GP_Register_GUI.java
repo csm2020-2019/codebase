@@ -28,8 +28,8 @@ public class GP_Register_GUI {
     private static JDatePickerImpl datePicker;
 
     private static String patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions;
-    private static Date patient_dob;
-    private static int userId;
+    private static java.sql.Date patient_dob;
+    private static int userId = 1;
 
 
     public static void prepareGPGUI() {
@@ -102,12 +102,14 @@ public class GP_Register_GUI {
     public static void SubmitButtonFunction() throws SQLException {
         GrabValues();
         System.out.println("Submitting - First name: " + patient_first_name + ", Last name: " +
-                patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob
-                + ", Medical History: " + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions);
+                patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
+                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId);
 
         //WILL UNCOMMENT ONCE ALL VARIABLES ARE READY
-        //database_driver d_driver = new database_driver();
-        //d_driver.addNewPatientToDatabase(patient_dob, patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions, 1);
+        database_driver d_driver = database_driver.getConnection();
+        //d_driver.getConnection();
+        //Check if it connects and push new patient data if connects fine
+        //d_driver.addNewPatientToDatabase(patient_dob, patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions, userId);
     }
 
     private static void FirstNameLabel() {
@@ -230,7 +232,9 @@ public class GP_Register_GUI {
     }
 
     private static void GrabValues() {
-        patient_dob = (Date) datePicker.getModel().getValue();
+        Date temp = (Date) datePicker.getModel().getValue();
+        patient_dob =  new java.sql.Date(temp.getTime());
+
         patient_first_name = firstNameTextField.getText();
         patient_last_name = lastNameTextField.getText();
         patient_address = addressTextArea.getText();
