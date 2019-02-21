@@ -32,7 +32,7 @@ public class database_driver {
 
 	
 	
-	private database_driver() {			
+	protected database_driver() {
 		try {
 
 			/*

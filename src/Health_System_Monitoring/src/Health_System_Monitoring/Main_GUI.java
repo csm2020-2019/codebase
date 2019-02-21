@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -89,7 +90,11 @@ public class Main_GUI {
 
                 database_driver db_connect = database_driver.getConnection();
 
-                userId = db_connect.checkCredentials(username, userPassword);
+                try {
+                    userId = db_connect.checkCredentials(username, userPassword);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
 
                 if (userId != -1) {
                     //for debug purpose
@@ -111,7 +116,11 @@ public class Main_GUI {
             } else if (command.equals("GP_Register_Back")) {
                 GP_Register_GUI.BackButtonFunction();
             } else if (command.equals("GP_Register_Submit")) {
-                GP_Register_GUI.SubmitButtonFunction();
+                try {
+                    GP_Register_GUI.SubmitButtonFunction();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             } else if (command.equals("GP_Patient_Search")) {
                 GP_GUI.PatientSearchButtonFunction();
                 Patient_GUI.preparePatientGUI();

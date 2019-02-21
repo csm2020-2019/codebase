@@ -1,11 +1,12 @@
 package Health_System_Monitoring;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		Date date = new Date(System.currentTimeMillis());
 
 		Main_GUI main = new Main_GUI();
@@ -14,7 +15,6 @@ public class Main {
 		db.updatePatientRecord(1, date, "Comp sci lab", "Typhoid",
 				"patient does not see clearly", "multivitamins", 1, "Jess",
 				"John");
-
 
 	}
 }
