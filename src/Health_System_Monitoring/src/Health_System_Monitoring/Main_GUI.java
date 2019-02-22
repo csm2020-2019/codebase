@@ -110,7 +110,6 @@ public class Main_GUI {
                     System.out.println("Incorrect password");
                 }
 
-
 //                if (userId != -1) {
 //                    //for debug purpose
 //                    System.out.println("User id is: " + userId);
