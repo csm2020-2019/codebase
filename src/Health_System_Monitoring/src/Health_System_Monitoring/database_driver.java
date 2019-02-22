@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -19,73 +20,70 @@ import java.util.List;
  */
 
 public class database_driver {
-	private static database_driver database_driver = null;
-	private Connection databaseConnection = null; 
-	
-	//id of user from database - user table
-	private int userId = 0;
-	
-	//login failed 
-	private int loginFailed = -1;
-	
+    private static database_driver database_driver = null;
+    private Connection databaseConnection = null;
 
 
-	
-	
-	protected database_driver() {
-		try {
+    private database_driver() {
+        try {
 
-			/*
-			 * *********** database connection info **********
-			 */
+            /*
+             * *********** database connection info **********
+             */
 
-			String jdbcUrl = "jdbc:mysql://db.dcs.aber.ac.uk:3306/csm2020_18_19";
-			String databaseUser = "csm2020_admin";
-			String databasePass = "wybRJB7Q";
+            String jdbcUrl = "jdbc:mysql://db.dcs.aber.ac.uk:3306/csm2020_18_19";
+            String databaseUser = "csm2020_admin";
+            String databasePass = "wybRJB7Q";
 
-			databaseConnection = DriverManager.getConnection(jdbcUrl, databaseUser, databasePass);
-			System.out.println("Connected to database");
+            databaseConnection = DriverManager.getConnection(jdbcUrl, databaseUser, databasePass);
+            System.out.println("Connected to database");
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	/*
-	 * @return mysql database connection object
-	 */
-	public static database_driver getConnection() {
-		if(database_driver == null) {
-			database_driver = new database_driver();
-		}
-		return database_driver;
-	}
-	
-	/*
-	 * method to close database connection
-	 */
-	public void closeDbConnection() {
-		if(databaseConnection != null) {
-			try {
-				databaseConnection.close();
-				System.out.println("Database connection closed");
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-			}
-		}
-	}
-	
-	/*
-	 * method to check login credentials
-	 * 
-	 */
-	public int checkCredentials(String username, String userPassword) throws SQLException {
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
 
-		if(username != null && userPassword != null) {
+    /*
+     * @return mysql database connection object
+     */
+    public static database_driver getConnection() {
+        if(database_driver == null) {
+            database_driver = new database_driver();
+        }
+        return database_driver;
+    }
+
+    /*
+     * method to close database connection
+     */
+    public void closeDbConnection() {
+        if(databaseConnection != null) {
+            try {
+                databaseConnection.close();
+                System.out.println("Database connection closed");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    /*
+     * method to check login credentials
+     * It returns the user record if the login is successful
+     * or returns an empty list if login is failed
+     *
+     */
+    public List<User> checkCredentials(String username, String userPassword) throws SQLException {
+
+        List<User> userRecord = new ArrayList<>();
+
+        if(username != null && userPassword != null) {
+
             PreparedStatement sqlStatement = null;
             try {
+                sqlStatement = null;
                 String query = "SELECT * FROM `user` WHERE `username`=? AND `userPassword`=?";
 
                 sqlStatement = databaseConnection.prepareStatement(query);
@@ -93,13 +91,25 @@ public class database_driver {
                 sqlStatement.setString(2, userPassword);
 
                 ResultSet resultSet = sqlStatement.executeQuery();
+//				closeDbConnection();
 
                 if (resultSet.next()) {
-                    userId = resultSet.getInt("userId");
-                    return userId;
+                    int userId = resultSet.getInt("userId");
+                    String userEmail = resultSet.getString("userEmail");
+                    String userFirstName = resultSet.getString("userFirstName");
+                    String userLastName = resultSet.getString("userLastName");
+                    String userType = resultSet.getString("userType");
+
+                    User user = new User(userId, username, null, userFirstName, userLastName,
+                            userEmail, userType, true);
+
+                    userRecord.add(user);
+
+                    return userRecord;
+
                 } else {
                     System.out.println("Incorrect username or password | Login failed");
-                    return loginFailed;
+                    return Collections.emptyList();
                 }
 
             } catch (SQLException e) {
@@ -115,19 +125,19 @@ public class database_driver {
 
         }
 
-		return loginFailed;
-	}
-	
-	/*
-	 * - method to add new patients to database
-	 * @ patient_dob Date of birth of patient
-	 */
-	public boolean addNewPatientToDatabase(Date patient_dob, String patient_first_name, String patient_last_name, String patient_address, String patient_medical_history,
-			String patient_diagnosis, String patient_prescriptions, int userId) throws SQLException {
+        return Collections.emptyList();
+    }
 
-		//NULL CHECKER FOR THE  METHOD ARGUMENTS
-		if(patient_dob != null && patient_first_name != null && patient_last_name != null && patient_address != null & patient_medical_history != null
-				&& patient_diagnosis != null && patient_prescriptions != null && userId > 0) {
+    /*
+     * - method to add new patients to database
+     * @ patient_dob Date of birth of patient
+     */
+    public boolean addNewPatientToDatabase(Date patient_dob, String patient_first_name, String patient_last_name, String patient_address, String patient_medical_history,
+                                           String patient_diagnosis, String patient_prescriptions, int userId) throws SQLException {
+
+        //NULL CHECKER FOR THE  METHOD ARGUMENTS
+        if(patient_dob != null && patient_first_name != null && patient_last_name != null && patient_address != null & patient_medical_history != null
+                && patient_diagnosis != null && patient_prescriptions != null && userId > 0) {
 
             //create a date object to be used for the patient dob
             Calendar calender = Calendar.getInstance();
@@ -166,21 +176,21 @@ public class database_driver {
                 closeDbConnection();
             }
         }
-		
-		
-		return false;
-	}
-	
-	/*
-	 * method to edit patient record
-	 */
-	public boolean updatePatientRecord(int patient_id, Date patient_dob, String patient_address, String patient_medical_history,
-			String patient_diagnosis, String patient_prescriptions, int userId, String patient_first_name, String patient_last_name) throws SQLException {
 
-		//NULL CHECKER FOR THE  METHOD ARGUMENTS
-		if(patient_id > 0 && patient_dob != null && patient_address != null & patient_medical_history != null
-				&& patient_diagnosis != null && patient_prescriptions != null && userId > 0 && patient_first_name != null
-				&& patient_last_name != null) {
+
+        return false;
+    }
+
+    /*
+     * method to edit patient record
+     */
+    public boolean updatePatientRecord(int patient_id, Date patient_dob, String patient_address, String patient_medical_history,
+                                       String patient_diagnosis, String patient_prescriptions, int userId, String patient_first_name, String patient_last_name) throws SQLException {
+
+        //NULL CHECKER FOR THE  METHOD ARGUMENTS
+        if(patient_id > 0 && patient_dob != null && patient_address != null & patient_medical_history != null
+                && patient_diagnosis != null && patient_prescriptions != null && userId > 0 && patient_first_name != null
+                && patient_last_name != null) {
 
             PreparedStatement sqlStatement = null;
             try {
@@ -214,16 +224,17 @@ public class database_driver {
             }
         }
 
-		return false;
-	}
-	
-	/*
-	 * method to fetch all records from database
-	 */
-	public List<Patient> getAllPatientRecords() throws SQLException {
+        return false;
+    }
+
+    /*
+     * method to fetch all records from database
+     */
+    public List<Patient> getAllPatientRecords() throws SQLException {
         List<Patient> patientRecordList = new ArrayList<>();
 
         PreparedStatement sqlStatement = null;
+
         try {
             String query = "SELECT * FROM patient_records";
             sqlStatement = databaseConnection.prepareStatement(query);
@@ -262,11 +273,11 @@ public class database_driver {
 
     }
 
-	/*
-	method to delete a patient record from database
-	@ param patient_id is the id of the row in patient_records table
-	 */
-	public boolean deletePatientRecord(int patient_id) throws SQLException {
+    /*
+    method to delete a patient record from database
+    @ param patient_id is the id of the row in patient_records table
+     */
+    public boolean deletePatientRecord(int patient_id) throws SQLException {
 
         PreparedStatement sqlStatement = null;
         try {
@@ -294,29 +305,19 @@ public class database_driver {
         return false;
     }
 
-	/*
-	method to add nice results to database
-	 */
-<<<<<<< HEAD
-	public boolean addNiceResults(int patient_id, int user_id, String sex, int age, Date result_date,
-                                  String height, String weight, int systolic_bp, int diastolic_bp, boolean smoker,
-=======
-	public boolean addNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
+    /*
+    method to add nice results to database
+     */
+    public boolean addNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
                                   int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
->>>>>>> b5df4ca0994f649c30e35b54309c57e3d1e0f96d
                                   BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
                                   BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
                                   boolean cercbrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
                                   boolean retinal_detachment, boolean rubeosis, boolean lack_senastion, boolean deformity,
                                   boolean foot_palpitation, boolean inappropriate_behaviour) throws SQLException {
 
-<<<<<<< HEAD
-	    if(patient_id > 0 && user_id > 0 && sex != null && age > 0 && result_date != null &&
-                height != null && weight != null) {
-=======
-	    if(result_id > 0 && patient_id > 0 && user_id > 0 && sex != null && age > 0 && result_date != null &&
+        if(result_id > 0 && patient_id > 0 && user_id > 0 && sex != null && age > 0 && result_date != null &&
                 height > 0 && weight > 0) {
->>>>>>> b5df4ca0994f649c30e35b54309c57e3d1e0f96d
 
             //create a date object to be used for the result_date
             Calendar calender = Calendar.getInstance();
@@ -379,6 +380,6 @@ public class database_driver {
 
         }
 
-	    return false;
+        return false;
     }
 }

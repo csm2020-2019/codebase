@@ -86,4 +86,18 @@ public class User {
     public void setUserLoggedIn(boolean userLoggedIn) {
         this.userLoggedIn = userLoggedIn;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                " \nuserId=" + userId +
+                " \nuserName='" + userName + '\'' +
+                " \nuserPass='" + userPass + '\'' +
+                " \nuserFirstName='" + userFirstName + '\'' +
+                " \nuserLastName='" + userLastName + '\'' +
+                " \nuserEmail='" + userEmail + '\'' +
+                " \nuserType='" + userType + '\'' +
+                " \nuserLoggedIn=" + userLoggedIn +
+                '}';
+    }
 }

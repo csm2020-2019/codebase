@@ -62,11 +62,25 @@ public class Patient {
 		return patient_prescriptions;
 	}
 	
+//	public String toString() {
+//		return "Id: " + getPatientId() + " \nFirst name: " + getPatientFirstName() + " \nLast name: " + getPatientLastName() +
+//				" \nDOB: " + getPatientDob() + " \nAddress: " + getPatientAddress() + " \nMed history: " +
+//				getPatientMedicalHistory() +  " \nDiagnosis: " + getPatientDiagnosis() + " \nPrescriptions: " +
+//				getPatientPrescriptions();
+//	}
+
+	@Override
 	public String toString() {
-		return "Id: " + getPatientId() + " \nFirst name: " + getPatientFirstName() + " \nLast name: " + getPatientLastName() +
-				" \nDOB: " + getPatientDob() + " \nAddress: " + getPatientAddress() + " \nMed history: " + 
-				getPatientMedicalHistory() +  " \nDiagnosis: " + getPatientDiagnosis() + " \nPrescriptions: " + 
-				getPatientPrescriptions();
+		return "Patient {" +
+				"\npatient_id=" + patient_id +
+				" \npatient_dob=" + patient_dob +
+				" \npatient_first_name='" + patient_first_name + '\'' +
+				" \npatient_last_name='" + patient_last_name + '\'' +
+				" \npatient_address='" + patient_address + '\'' +
+				" \npatient_medical_history='" + patient_medical_history + '\'' +
+				" \npatient_diagnosis='" + patient_diagnosis + '\'' +
+				" \npatient_prescriptions='" + patient_prescriptions + '\'' +
+				'}';
 	}
 
 	/**

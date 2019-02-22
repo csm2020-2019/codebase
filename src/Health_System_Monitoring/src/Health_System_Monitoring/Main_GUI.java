@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,6 +30,8 @@ public class Main_GUI {
 
     
     private static int userId;
+    private static List<User> userInfo = null;
+
 
     public Main_GUI() {
         prepareGUI();
@@ -91,17 +94,28 @@ public class Main_GUI {
                 database_driver db_connect = database_driver.getConnection();
 
                 try {
-                    userId = db_connect.checkCredentials(username, userPassword);
+                    userInfo = db_connect.checkCredentials(username, userPassword);
+
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
 
-                if (userId != -1) {
-                    //for debug purpose
-                    System.out.println("User id is: " + userId);
-
+                if(!userInfo.isEmpty()){
+                    for(User user : userInfo){
+                        System.out.println(user);
+                    }
                     GP_GUI.prepareGPGUI();
-                } else System.out.println("Incorrect password");
+                }
+                else {
+                    System.out.println("Incorrect password");
+                }
+
+
+//                if (userId != -1) {
+//                    //for debug purpose
+//                    System.out.println("User id is: " + userId);
+//
+//                } else System.out.println("Incorrect password");
 
             } else if (command.equals("SCBypass")) {
                 SC_GUI.prepareSCGUI();
