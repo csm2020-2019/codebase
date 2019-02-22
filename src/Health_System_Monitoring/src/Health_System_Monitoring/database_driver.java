@@ -93,7 +93,6 @@ public class database_driver {
                 sqlStatement.setString(2, userPassword);
 
                 ResultSet resultSet = sqlStatement.executeQuery();
-//				closeDbConnection();
 
                 if (resultSet.next()) {
                     userId = resultSet.getInt("userId");
@@ -298,7 +297,7 @@ public class database_driver {
 	/*
 	method to add nice results to database
 	 */
-	public boolean addNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
+	public boolean addNiceResults(int patient_id, int user_id, String sex, int age, Date result_date,
                                   String height, String weight, int systolic_bp, int diastolic_bp, boolean smoker,
                                   BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
                                   BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
@@ -306,7 +305,7 @@ public class database_driver {
                                   boolean retinal_detachment, boolean rubeosis, boolean lack_senastion, boolean deformity,
                                   boolean foot_palpitation, boolean inappropriate_behaviour) throws SQLException {
 
-	    if(result_id > 0 && patient_id > 0 && user_id > 0 && sex != null && age > 0 && result_date != null &&
+	    if(patient_id > 0 && user_id > 0 && sex != null && age > 0 && result_date != null &&
                 height != null && weight != null) {
 
             //create a date object to be used for the result_date
