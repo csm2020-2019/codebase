@@ -75,9 +75,9 @@ public class database_driver {
      * or returns an empty list if login is failed
      *
      */
-    public List<User> checkCredentials(String username, String userPassword) throws SQLException {
+    public User checkCredentials(String username, String userPassword) throws SQLException {
 
-        List<User> userRecord = new ArrayList<>();
+//        List<User> userRecord = new ArrayList<>();
 
         if(username != null && userPassword != null) {
 
@@ -103,13 +103,13 @@ public class database_driver {
                     User user = new User(userId, username, null, userFirstName, userLastName,
                             userEmail, userType, true);
 
-                    userRecord.add(user);
+//                    userRecord.add(user);
 
-                    return userRecord;
+                    return user;
 
                 } else {
                     System.out.println("Incorrect username or password | Login failed");
-                    return Collections.emptyList();
+                    return null;
                 }
 
             } catch (SQLException e) {
@@ -125,7 +125,7 @@ public class database_driver {
 
         }
 
-        return Collections.emptyList();
+        return null;
     }
 
     /*

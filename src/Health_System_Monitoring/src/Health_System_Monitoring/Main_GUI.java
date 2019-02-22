@@ -29,8 +29,9 @@ public class Main_GUI {
     private static JPasswordField passwordField;
 
     
-    private static int userId;
-    private static List<User> userInfo = null;
+//    private static int userId;
+//    private static List<User> userInfo = null;
+    private static User user;
 
 
     public Main_GUI() {
@@ -94,16 +95,14 @@ public class Main_GUI {
                 database_driver db_connect = database_driver.getConnection();
 
                 try {
-                    userInfo = db_connect.checkCredentials(username, userPassword);
+                    user = db_connect.checkCredentials(username, userPassword);
 
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
 
-                if(!userInfo.isEmpty()){
-                    for(User user : userInfo){
-                        System.out.println(user);
-                    }
+                if(user != null){
+                   System.out.println(user);
                     GP_GUI.prepareGPGUI();
                 }
                 else {
