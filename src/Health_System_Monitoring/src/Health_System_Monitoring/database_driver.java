@@ -1,6 +1,7 @@
 package Health_System_Monitoring;
 //singleton class to get database connection
 
+import javax.xml.transform.Result;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
@@ -71,8 +72,9 @@ public class database_driver {
 
     /*
      * method to check login credentials
-     * It returns the user record if the login is successful
-     * or returns an empty list if login is failed
+     * @params username and password of user
+     * @return User object if successfully authenticated
+     * or null if not
      *
      */
     public User checkCredentials(String username, String userPassword) throws SQLException {
@@ -131,6 +133,8 @@ public class database_driver {
     /*
      * - method to add new patients to database
      * @ patient_dob Date of birth of patient
+     * @return true if patient info is added to database
+     * and false if not
      */
     public boolean addNewPatientToDatabase(Date patient_dob, String patient_first_name, String patient_last_name, String patient_address, String patient_medical_history,
                                            String patient_diagnosis, String patient_prescriptions, int userId) throws SQLException {
@@ -183,6 +187,8 @@ public class database_driver {
 
     /*
      * method to edit patient record
+     * @param patient record parameters
+     * @return true if patient record is updated and false if not
      */
     public boolean updatePatientRecord(int patient_id, Date patient_dob, String patient_address, String patient_medical_history,
                                        String patient_diagnosis, String patient_prescriptions, int userId, String patient_first_name, String patient_last_name) throws SQLException {
@@ -227,8 +233,10 @@ public class database_driver {
         return false;
     }
 
+
     /*
      * method to fetch all records from database
+     * @return a list of all patients from database
      */
     public List<Patient> getAllPatientRecords() throws SQLException {
         List<Patient> patientRecordList = new ArrayList<>();
@@ -276,6 +284,7 @@ public class database_driver {
     /*
     method to delete a patient record from database
     @ param patient_id is the id of the row in patient_records table
+    @return true if deleted and false if not
      */
     public boolean deletePatientRecord(int patient_id) throws SQLException {
 
@@ -304,9 +313,77 @@ public class database_driver {
         }
         return false;
     }
+    /*
+    method to search patient
+    @param patient name
+    @return a list of patients that matches the name
+     */
+    public List<Patient> searchPatient(String patient_last_name) throws SQLException {
+        List<Patient> patientMatchList = new ArrayList<>();
+        PreparedStatement sqlStatement = null;
+        ResultSet resultSet = null;
+
+        try{
+            //make it like sql command by adding the percentage
+            patient_last_name += "%";
+
+            String query = "SELECT * FROM patient_records WHERE patient_last_name like ?";
+
+            sqlStatement = databaseConnection.prepareStatement(query);
+
+            sqlStatement.setString(1, patient_last_name);
+            resultSet = sqlStatement.executeQuery();
+
+            Patient patient = null;
+
+            while (resultSet.next()){
+                //call convertToPatient object method below
+                patient = convertToPatient(resultSet);
+
+                patientMatchList.add(patient);
+            }
+            return patientMatchList;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        } finally {
+            if(sqlStatement != null){
+                sqlStatement.close();
+            }
+            closeDbConnection();
+        }
+        return null;
+    }
+
+
+    /*private method to convert result from database
+    into a patient object
+    @param resultSet is result from database
+    @return patient object
+     */
+    private Patient convertToPatient(ResultSet resultSet) throws SQLException {
+       
+        int patient_id = resultSet.getInt("patient_id");
+        Date patient_dob = resultSet.getDate("patient_dob");
+        String patient_first_name = resultSet.getString("patient_first_name");
+        String patient_address = resultSet.getString("patient_address");
+        String patient_medical_history = resultSet.getString("patient_medical_history");
+        String patient_diagnosis = resultSet.getString("patient_diagnosis");
+        String patient_prescriptions = resultSet.getString("patient_prescriptions");
+
+        Patient patient = new Patient(patient_id, patient_first_name, patient_last_name, patient_dob, patient_address,
+                patient_medical_history, patient_diagnosis, patient_prescriptions);
+
+        return patient;
+    }
 
     /*
     method to add nice results to database
+    @param nice results parameters
+    @return true if successfully added to database
+     and false if not.
      */
     public boolean addNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
                                   int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
