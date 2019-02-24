@@ -8,7 +8,7 @@ public class Main {
 
 	public static void main(String[] args) throws SQLException {
 
-//		Main_GUI main = new Main_GUI();
+		Main_GUI main = new Main_GUI();
 //		List<User> userRecord = null;
 //		User user = null;
 
@@ -23,8 +23,8 @@ public class Main {
 //
 //		}
 
-		database_driver db = database_driver.getConnection();
-		System.out.println(db.searchPatient("John"));
+//		database_driver db = database_driver.getConnection();
+//		System.out.println(db.searchPatient("John"));
 
 
 	}
