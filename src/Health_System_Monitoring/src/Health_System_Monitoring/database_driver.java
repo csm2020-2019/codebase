@@ -368,6 +368,7 @@ public class database_driver {
         int patient_id = resultSet.getInt("patient_id");
         Date patient_dob = resultSet.getDate("patient_dob");
         String patient_first_name = resultSet.getString("patient_first_name");
+        String patient_last_name = resultSet.getString("patient_last_name");
         String patient_address = resultSet.getString("patient_address");
         String patient_medical_history = resultSet.getString("patient_medical_history");
         String patient_diagnosis = resultSet.getString("patient_diagnosis");
