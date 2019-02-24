@@ -31,7 +31,7 @@ public class Patient_GUI {
         southPanel = new JPanel();
 
         HeaderLabel();
-        AddRecordButton();
+        //AddRecordButton();
         ModifyRecordButton();
         DeleteRecordButton();
         PatientBackButton();
@@ -72,7 +72,7 @@ public class Patient_GUI {
     }
 
     private static void NiceButton() {
-        JButton NiceButton = new JButton("Nice Test");
+        JButton NiceButton = new JButton("Add Nice Test");
         NiceButton.setActionCommand("Nice");
         NiceButton.addActionListener(new Main_GUI.ButtonClickListener());
         controlPanel.add(NiceButton);
