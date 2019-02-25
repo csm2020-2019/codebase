@@ -129,6 +129,94 @@ public class database_driver {
 
         return null;
     }
+    
+    public List<User> getUsersByType(String type) {
+    	List<User> userList = new ArrayList<User>();
+    	
+    	PreparedStatement sqlStatement = null;
+
+        try {
+        	String query = "SELECT * FROM user WHERE userType=?";
+        	
+        	sqlStatement = databaseConnection.prepareStatement(query);
+            sqlStatement.setString(1, type);
+            
+            ResultSet resultSet = sqlStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int userId = resultSet.getInt("userId");
+                String userEmail = resultSet.getString("userEmail");
+                String username = resultSet.getString("username");
+                String userFirstName = resultSet.getString("userFirstName");
+                String userLastName = resultSet.getString("userLastName");
+                String userType = resultSet.getString("userType");
+
+                User user = new User(userId, username, null, userFirstName, userLastName,
+                        userEmail, userType, true);
+
+                userList.add(user);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        } finally {
+            if (sqlStatement != null) {
+            try
+            {
+                sqlStatement.close();
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+
+            }
+          }
+            //closeDbConnection();
+        }
+    	
+    	return userList;
+    }
+    
+   public boolean addReferral(int patient_id, int gp_id, int rd_id) {
+	   PreparedStatement sqlStatement = null;
+	   
+	   try {
+	   String query = "INSERT INTO referrals (patient_id, gp_id, rd_id, referral_date)" + " values (?, ?, ?, ?)";
+
+       //create mysql prepared statement
+       sqlStatement = databaseConnection.prepareStatement(query);
+       sqlStatement.setInt(1,patient_id);
+       sqlStatement.setInt(2,gp_id);
+       sqlStatement.setInt(3,rd_id);
+       sqlStatement.setDate(4, new java.sql.Date(System.currentTimeMillis())); // current date
+       
+       sqlStatement.executeUpdate();
+       
+       return true;
+	   }
+	   catch (SQLException e) {
+           e.printStackTrace();
+           System.out.println(e.getMessage());
+
+       } finally {
+           if (sqlStatement != null) {
+        	   try
+        	   {
+        		   sqlStatement.close();
+	           }
+	           catch (SQLException e) {
+	               e.printStackTrace();
+	               System.out.println(e.getMessage());
+	
+	           }
+           }
+       }
+	   
+	   return false;
+   }
+
 
     /*
      * - method to add new patients to database
@@ -252,6 +340,7 @@ public class database_driver {
 
             while (resultSet.next()) {
                 int patient_id = resultSet.getInt("patient_id");
+                int patient_userid = resultSet.getInt("userId");
                 Date patient_dob = resultSet.getDate("patient_dob");
                 String patient_first_name = resultSet.getString("patient_first_name");
                 String patient_last_name = resultSet.getString("patient_last_name");
@@ -260,7 +349,7 @@ public class database_driver {
                 String patient_diagnosis = resultSet.getString("patient_diagnosis");
                 String patient_prescriptions = resultSet.getString("patient_prescriptions");
 
-                patient = new Patient(patient_id, patient_first_name, patient_last_name, patient_dob, patient_address,
+                patient = new Patient(patient_id, patient_userid, patient_first_name, patient_last_name, patient_dob, patient_address,
                         patient_medical_history, patient_diagnosis, patient_prescriptions);
 
                 patientRecordList.add(patient);
@@ -274,13 +363,13 @@ public class database_driver {
             if (sqlStatement != null) {
                 sqlStatement.close();
             }
-            closeDbConnection();
+            //closeDbConnection();
         }
 
         return patientRecordList;
 
     }
-
+    
     /*
     method to delete a patient record from database
     @ param patient_id is the id of the row in patient_records table
@@ -372,9 +461,10 @@ public class database_driver {
         String patient_address = resultSet.getString("patient_address");
         String patient_medical_history = resultSet.getString("patient_medical_history");
         String patient_diagnosis = resultSet.getString("patient_diagnosis");
+        int patient_userid = resultSet.getInt("userId");
         String patient_prescriptions = resultSet.getString("patient_prescriptions");
 
-        Patient patient = new Patient(patient_id, patient_first_name, patient_last_name, patient_dob, patient_address,
+        Patient patient = new Patient(patient_id, patient_userid, patient_first_name, patient_last_name, patient_dob, patient_address,
                 patient_medical_history, patient_diagnosis, patient_prescriptions);
 
         return patient;

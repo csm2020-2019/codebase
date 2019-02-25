@@ -8,6 +8,7 @@ import java.sql.Date;
 
 public class Patient {
 	private int patient_id;
+	private int patient_userid;
 	private Date patient_dob;
 	private String patient_first_name;
 	private String patient_last_name;
@@ -20,9 +21,10 @@ public class Patient {
 		
 	}
 	
-	public Patient(int patient_id, String patient_first_name, String patient_last_name, Date patient_dob, String patient_address,
+	public Patient(int patient_id, int patient_userid, String patient_first_name, String patient_last_name, Date patient_dob, String patient_address,
 			String patient_medical_history, String patient_diagnosis, String patient_prescriptions) {
 		this.patient_id = patient_id;
+		this.patient_userid = patient_userid;
 		this.patient_dob = patient_dob;
 		this.patient_first_name = patient_first_name;
 		this.patient_last_name = patient_last_name;
@@ -34,6 +36,14 @@ public class Patient {
 	
 	public int getPatientId() {
 		return patient_id;
+	}
+	
+	public int getPatientUserId() {
+		return patient_userid;
+	}
+	
+	public void setPatientUserId(int userId) {
+		patient_userid = userId;
 	}
 	
 	public String getPatientFirstName() {
