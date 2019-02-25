@@ -5,6 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 public class GP_GUI {
     public static JFrame mainFrame;
@@ -46,16 +49,31 @@ public class GP_GUI {
         BackButton();
 
         mainFrame.setLocationRelativeTo(null);
-        mainFrame.add(northPanel,BorderLayout.NORTH);
+        mainFrame.add(northPanel, BorderLayout.NORTH);
         //mainFrame.add(westPanel,BorderLayout.WEST);
-        mainFrame.add(controlPanel,BorderLayout.CENTER);
-        mainFrame.add(southPanel,BorderLayout.SOUTH);
+        mainFrame.add(controlPanel, BorderLayout.CENTER);
+        mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
     }
 
-    public static void PatientSearchButtonFunction() {
-        String searchField = patientSearchField.getText().toString();
+    public static void PatientSearchButtonFunction() throws SQLException {
+        String searchField = patientSearchField.getText();
+        //String searchField = "Jones";
         System.out.println("Print off of search bar input: " + searchField);
+
+        List<Patient> pat = Arrays.asList(new Patient[0]);
+        database_driver d_driver = database_driver.getConnection();
+        pat = (List<Patient>) d_driver.searchPatient(searchField);
+        if(!searchField.isEmpty()){
+            if (!pat.isEmpty()) {
+                System.out.println(pat);
+                Patient_GUI.preparePatientGUI(pat.get(0));
+            } else {
+                System.out.println("Patient list is Empty");
+            }
+        } else {
+            System.out.println("Search was Empty");
+        }
     }
 
     private static void BackButton() {

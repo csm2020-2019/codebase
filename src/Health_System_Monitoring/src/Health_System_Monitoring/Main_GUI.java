@@ -124,7 +124,7 @@ public class Main_GUI {
             } else if (command.equals("Nice")) {
                 NICE_GUI.prepareNiceGUI();
             } else if (command.equals("GP_Register")) {
-                GP_Register_GUI.prepareGPGUI();
+                GP_Register_GUI.prepareGPGUI(true);
             } else if (command.equals("GP_Register_Back")) {
                 GP_Register_GUI.BackButtonFunction();
             } else if (command.equals("GP_Register_Submit")) {
@@ -134,12 +134,33 @@ public class Main_GUI {
                     e1.printStackTrace();
                 }
             } else if (command.equals("GP_Patient_Search")) {
-                GP_GUI.PatientSearchButtonFunction();
-                Patient_GUI.preparePatientGUI();
+                try {
+                    GP_GUI.PatientSearchButtonFunction();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } else if (command.equals("GP_Register_Submit_Modify")) {
+                try {
+                    GP_Register_GUI.SubmitModifyButtonFunction();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
             } else if (command.equals("Patient_Back")) {
                 Patient_GUI.GoToGPGUI();
             } else if (command.equals("Nice_Back")) {
                 NICE_GUI.GoToPatientGUI();
+            } else if (command.equals("Modify_Record")) {
+                Patient_GUI.ModifyRecordButtonFunction();
+            } else if (command.equals("Delete_Record")) {
+                Patient_GUI.DeleteConfirmWindow();
+            } else if (command.equals("Delete_Okay")) {
+                try {
+                    Patient_GUI.DeleteOkayButtonFunction();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } else if (command.equals("Delete_Cancel")) {
+                Patient_GUI.DeleteCancelButtonFunction();
             } else {
                 System.out.println("No Input for button");
             }

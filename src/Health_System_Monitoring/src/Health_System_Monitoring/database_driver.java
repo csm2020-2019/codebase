@@ -352,7 +352,7 @@ public class database_driver {
             if(sqlStatement != null){
                 sqlStatement.close();
             }
-            closeDbConnection();
+            //closeDbConnection();
         }
         return null;
     }
