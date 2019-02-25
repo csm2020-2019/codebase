@@ -122,7 +122,7 @@ public class database_driver {
                 if (sqlStatement != null) {
                     sqlStatement.close();
                 }
-                closeDbConnection();
+                //closeDbConnection();
             }
 
         }
@@ -164,7 +164,7 @@ public class database_driver {
                 sqlStatement.setString(8, patient_last_name);
 
                 sqlStatement.executeUpdate();
-                closeDbConnection();
+                //closeDbConnection();
 
                 System.out.println("Patient record added");
 
@@ -177,7 +177,7 @@ public class database_driver {
                 if (sqlStatement != null) {
                     sqlStatement.close();
                 }
-                closeDbConnection();
+                //closeDbConnection();
             }
         }
 
@@ -352,7 +352,7 @@ public class database_driver {
             if(sqlStatement != null){
                 sqlStatement.close();
             }
-            closeDbConnection();
+            //closeDbConnection();
         }
         return null;
     }
@@ -453,7 +453,7 @@ public class database_driver {
                 if (sqlStatement != null) {
                     sqlStatement.close();
                 }
-                closeDbConnection();
+                //closeDbConnection();
             }
 
         }
