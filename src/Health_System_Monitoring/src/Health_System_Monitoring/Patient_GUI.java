@@ -6,12 +6,18 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Vector;
+import java.util.ArrayList;
 
 public class Patient_GUI {
     public static JFrame mainFrame, confirmFrame;
     private static JLabel headerLabel, searchLabel;
-    private static JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel;
+    private static JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel;
     private static Patient patient;
+    private static JComboBox<String> referBox;
+    private static List<User> rd_list;
 
     public static void preparePatientGUI(Patient pat) {
         GP_GUI.mainFrame.setVisible(false);
@@ -40,6 +46,7 @@ public class Patient_GUI {
         PrescribeCheckBox();
         PatientInfoPanel();
         PatientInfoDisplay();
+        PatientReferPanel();
 
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(northPanel, BorderLayout.NORTH);
@@ -56,6 +63,42 @@ public class Patient_GUI {
         TitledBorder patientBorder = new TitledBorder("Patient Details");
         infoPanel.setBorder(patientBorder);
         controlPanel.add(infoPanel);
+    }
+    
+    private static void PatientReferPanel() {
+    	referPanel = new JPanel();
+    	FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
+    	referPanel.setLayout(flowLayout);
+    	
+    	// first up, the combo box containing all RDs
+    	database_driver d_driver = database_driver.getConnection();
+    	if(rd_list == null) {
+    		rd_list = new ArrayList<User>();
+    	}
+    	else
+    	{
+    		rd_list.clear();
+    	}
+    	rd_list = d_driver.getUsersByType("rd");
+    	Vector<String> name_list = new Vector<String>(rd_list.size());
+    	
+    	for(User user : rd_list)
+    	{
+    		name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+    	}
+    	
+    	referBox = new JComboBox<String>(name_list);
+    	
+    	// next up, the button to trigger referral
+    	
+    	JButton TriggerButton = new JButton("Refer");
+    	TriggerButton.setActionCommand("Refer_Patient");
+    	TriggerButton.addActionListener(new Main_GUI.ButtonClickListener());
+    	
+    	referPanel.add(referBox);
+    	referPanel.add(TriggerButton);
+    	
+    	controlPanel.add(referPanel);
     }
 
     private static void PatientInfoDisplay() {
@@ -87,6 +130,21 @@ public class Patient_GUI {
         controlPanel.add(PrescribeCheckBox);
     }
 
+    public static void ReferPatient() {
+    	int selected = referBox.getSelectedIndex();
+    	// text box maps one-to-one with returned RD user list, which is stored in rd_list
+    	
+    	User rd = rd_list.get(selected);
+    	User gp = Main_GUI.getCurrentUser();
+    	
+    	int rd_id = rd.getUserId();
+    	int gp_id = gp.getUserId();
+    	int patient_id = patient.getPatientId();
+    	
+    	database_driver d_driver = database_driver.getConnection();
+    	boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
+    }
+    
     public static void ModifyRecordButtonFunction() {
         GP_Register_GUI bob = new GP_Register_GUI();
         bob.prepareModifyGPGUI(patient);

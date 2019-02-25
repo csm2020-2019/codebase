@@ -17,7 +17,7 @@ public class User {
         this.userName = userName;
         this.userPass = userPass;
         this.userFirstName = userFirstName;
-        this.userFirstName = userLastName;
+        this.userLastName = userLastName;
         this.userEmail = userEmail;
         this.userType = userType;
         this.userLoggedIn = userLoggedIn;

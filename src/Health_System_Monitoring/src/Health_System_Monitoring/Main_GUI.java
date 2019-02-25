@@ -39,6 +39,10 @@ public class Main_GUI {
     }
 
     
+    public static User getCurrentUser() {
+    	return user;
+    }
+    
     public void prepareGUI() {
         mainFrame = new JFrame("Login");
         mainFrame.setSize(250, 175);
@@ -159,6 +163,9 @@ public class Main_GUI {
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
+            } else if (command.equals("Refer_Patient")) {
+                Patient_GUI.ReferPatient();
+
             } else if (command.equals("Delete_Cancel")) {
                 Patient_GUI.DeleteCancelButtonFunction();
             } else {
