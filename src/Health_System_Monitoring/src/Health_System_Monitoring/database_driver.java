@@ -164,7 +164,7 @@ public class database_driver {
                 sqlStatement.setString(8, patient_last_name);
 
                 sqlStatement.executeUpdate();
-                closeDbConnection();
+                //closeDbConnection();
 
                 System.out.println("Patient record added");
 
