@@ -340,6 +340,7 @@ public class database_driver {
 
             while (resultSet.next()) {
                 int patient_id = resultSet.getInt("patient_id");
+                int patient_userid = resultSet.getInt("userId");
                 Date patient_dob = resultSet.getDate("patient_dob");
                 String patient_first_name = resultSet.getString("patient_first_name");
                 String patient_last_name = resultSet.getString("patient_last_name");
@@ -348,7 +349,7 @@ public class database_driver {
                 String patient_diagnosis = resultSet.getString("patient_diagnosis");
                 String patient_prescriptions = resultSet.getString("patient_prescriptions");
 
-                patient = new Patient(patient_id, patient_first_name, patient_last_name, patient_dob, patient_address,
+                patient = new Patient(patient_id, patient_userid, patient_first_name, patient_last_name, patient_dob, patient_address,
                         patient_medical_history, patient_diagnosis, patient_prescriptions);
 
                 patientRecordList.add(patient);
@@ -460,9 +461,10 @@ public class database_driver {
         String patient_address = resultSet.getString("patient_address");
         String patient_medical_history = resultSet.getString("patient_medical_history");
         String patient_diagnosis = resultSet.getString("patient_diagnosis");
+        int patient_userid = resultSet.getInt("userId");
         String patient_prescriptions = resultSet.getString("patient_prescriptions");
 
-        Patient patient = new Patient(patient_id, patient_first_name, patient_last_name, patient_dob, patient_address,
+        Patient patient = new Patient(patient_id, patient_userid, patient_first_name, patient_last_name, patient_dob, patient_address,
                 patient_medical_history, patient_diagnosis, patient_prescriptions);
 
         return patient;
