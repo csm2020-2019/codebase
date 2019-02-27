@@ -4,21 +4,13 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.sql.*;
 
 
 public class patientDao implements patientDaoInterface{
 
-    /*
-    @param patient the Patient object
-    @param user the user logged into the system (maybe GP) adding the patient
-    to database
-    we can access the id of the user by user.getUserId()
-    @return boolean true if patient record successfully added
-    false for not added
-     */
+
     @Override
     public boolean addPatientToDatabase(Patient patient, User user) {
 
@@ -30,7 +22,8 @@ public class patientDao implements patientDaoInterface{
             PreparedStatement sqlStatement = null;
             try {
                 String query = "INSERT INTO patient_records (patient_dob, patient_address, patient_medical_history,"
-                        + "patient_diagnosis, patient_prescriptions, userId, patient_first_name, patient_last_name)" + " values (?, ?, ?, ?, ?, ?, ?, ?)";
+                        + "patient_diagnosis, patient_prescriptions, userId, patient_first_name, patient_last_name)" +
+                        " values (?, ?, ?, ?, ?, ?, ?, ?)";
 
                 //create mysql prepared statement
                 sqlStatement = databaseConnection.prepareStatement(query);
@@ -68,6 +61,7 @@ public class patientDao implements patientDaoInterface{
 
         return false;
     }
+
 
     @Override
     public boolean updatePatientRecord(Patient patient) {
@@ -119,6 +113,8 @@ public class patientDao implements patientDaoInterface{
 
     }
 
+
+
     @Override
     public List<Patient> getAllPatientRecords() {
         Connection databaseConnection = database_driver.getConnection();
@@ -132,22 +128,9 @@ public class patientDao implements patientDaoInterface{
             sqlStatement = databaseConnection.prepareStatement(query);
             ResultSet resultSet = sqlStatement.executeQuery();
 
-            Patient patient = null;
 
             while (resultSet.next()) {
-                int patient_id = resultSet.getInt("patient_id");
-                int patient_userid = resultSet.getInt("userId");
-                Date patient_dob = resultSet.getDate("patient_dob");
-                String patient_first_name = resultSet.getString("patient_first_name");
-                String patient_last_name = resultSet.getString("patient_last_name");
-                String patient_address = resultSet.getString("patient_address");
-                String patient_medical_history = resultSet.getString("patient_medical_history");
-                String patient_diagnosis = resultSet.getString("patient_diagnosis");
-                String patient_prescriptions = resultSet.getString("patient_prescriptions");
-
-                patient = new Patient(patient_id, patient_userid, patient_first_name, patient_last_name, patient_dob, patient_address,
-                        patient_medical_history, patient_diagnosis, patient_prescriptions);
-
+                Patient patient = convertToPatient(resultSet);
                 patientRecordList.add(patient);
             }
 
@@ -169,6 +152,7 @@ public class patientDao implements patientDaoInterface{
         return patientRecordList;
 
     }
+
 
     @Override
     public boolean deletePatientRecord(int patient_id) {
@@ -204,13 +188,14 @@ public class patientDao implements patientDaoInterface{
         return false;
     }
 
+
     @Override
     public List<Patient> searchPatient(String patient_last_name) {
         Connection databaseConnection = database_driver.getConnection();
 
         List<Patient> patientMatchList = new ArrayList<>();
         PreparedStatement sqlStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         try{
             //make it like sql command by adding the percentage
@@ -223,11 +208,9 @@ public class patientDao implements patientDaoInterface{
             sqlStatement.setString(1, patient_last_name);
             resultSet = sqlStatement.executeQuery();
 
-            Patient patient = null;
-
             while (resultSet.next()){
                 //call convertToPatient object method below
-                patient = convertToPatient(resultSet);
+                Patient patient = convertToPatient(resultSet);
 
                 patientMatchList.add(patient);
             }
@@ -251,9 +234,9 @@ public class patientDao implements patientDaoInterface{
     }
 
     /*private method to convert result from database
-   into a patient object
-   @param resultSet is result from database
-   @return patient object
+    into a patient object
+    @param resultSet is result from database
+    @return patient object
     */
     private Patient convertToPatient(ResultSet resultSet) throws SQLException {
 
@@ -267,9 +250,7 @@ public class patientDao implements patientDaoInterface{
         int patient_userid = resultSet.getInt("userId");
         String patient_prescriptions = resultSet.getString("patient_prescriptions");
 
-        Patient patient = new Patient(patient_id, patient_userid, patient_first_name, patient_last_name, patient_dob, patient_address,
+        return new Patient(patient_id, patient_userid, patient_first_name, patient_last_name, patient_dob, patient_address,
                 patient_medical_history, patient_diagnosis, patient_prescriptions);
-
-        return patient;
     }
 }
