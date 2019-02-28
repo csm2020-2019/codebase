@@ -1,12 +1,10 @@
 package Health_System_Monitoring;
 //singleton class to get database connection
 
-import javax.xml.transform.Result;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -22,7 +20,7 @@ import java.util.List;
 
 public class database_driver {
     private static database_driver database_driver = null;
-    private Connection databaseConnection = null;
+    private static Connection databaseConnection = null;
 
 
     private database_driver() {
@@ -48,12 +46,14 @@ public class database_driver {
     /*
      * @return mysql database connection object
      */
-    public static database_driver getConnection() {
+    public static Connection getConnection() {
         if(database_driver == null) {
             database_driver = new database_driver();
         }
-        return database_driver;
+        return databaseConnection;
     }
+
+
 
     /*
      * method to close database connection
@@ -314,7 +314,7 @@ public class database_driver {
                 if (sqlStatement != null) {
                     sqlStatement.close();
                 }
-                closeDbConnection();
+//                closeDbConnection();
             }
         }
 
@@ -398,7 +398,7 @@ public class database_driver {
             if (sqlStatement != null) {
                 sqlStatement.close();
             }
-            closeDbConnection();
+//            closeDbConnection();
         }
         return false;
     }
