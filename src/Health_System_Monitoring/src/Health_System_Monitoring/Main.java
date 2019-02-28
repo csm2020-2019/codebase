@@ -1,5 +1,6 @@
 package Health_System_Monitoring;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
@@ -8,7 +9,25 @@ public class Main {
 
 	public static void main(String[] args) throws SQLException {
 
-		Main_GUI main = new Main_GUI();
+//		Connection db = database_driver.getConnection();
+		List<User> usserRecordList = null;
+
+		userDao userDao = new userDao();
+		usserRecordList = userDao.getAllUsers();
+
+
+//		patientDao patientDao = new patientDao();
+//		patientRecordList = patientDao.getAllPatientgRecords();
+
+		for(User user : usserRecordList){
+			System.out.println(user);
+		}
+
+//		db.close();
+
+
+
+//		Main_GUI main = new Main_GUI();
 //		List<User> userRecord = null;
 //		User user = null;
 
