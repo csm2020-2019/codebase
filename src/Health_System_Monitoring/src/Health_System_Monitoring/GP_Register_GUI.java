@@ -7,6 +7,8 @@ import org.jdatepicker.impl.UtilDateModel;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -18,34 +20,34 @@ import java.util.Properties;
 
 public class GP_Register_GUI {
     public static JFrame mainFrame;
-    private static JPanel northPanel, controlPanel, southPanel, patientPanel, medicationPanel, infoPanel;
+    private JPanel northPanel, controlPanel, southPanel, patientPanel, medicationPanel, infoPanel;
 
-    private static JLabel firstNameLabel, lastNameLabel, addressLabel, dateOfBirthLabel, medicalHistoryLabel, patientDiagnosisLabel, patientPrescriptionsLabel;
-    private static JTextField firstNameTextField, lastNameTextField, patientDiagnosisTextField;
-    private static JTextArea addressTextArea, medicalHistoryTextArea, patientPrescriptionsTextArea;
-    private static UtilDateModel dateOfBirthModel;
-    private static JDatePanelImpl datePanel;
-    private static JDatePickerImpl datePicker;
+    private JLabel firstNameLabel, lastNameLabel, addressLabel, dateOfBirthLabel, medicalHistoryLabel, patientDiagnosisLabel, patientPrescriptionsLabel;
+    private JTextField firstNameTextField, lastNameTextField, patientDiagnosisTextField;
+    private JTextArea addressTextArea, medicalHistoryTextArea, patientPrescriptionsTextArea;
+    private UtilDateModel dateOfBirthModel;
+    private JDatePanelImpl datePanel;
+    private JDatePickerImpl datePicker;
 
-    private static Patient patient;
+    private Patient patient;
 
-    private static String patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions;
-    private static java.sql.Date patient_dob;
-    private static int userId = 1;
-    private static Boolean NewRecord;
+    private String patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions;
+    private java.sql.Date patient_dob;
+    private int userId = 1;
+    private Boolean NewRecord;
 
 
-    public static void prepareGPGUI(boolean isNewRecord) {
+    public void prepareGPGUI(boolean isNewRecord) {
 
         NewRecord = isNewRecord;
 
         if (isNewRecord == true) {
             mainFrame = new JFrame("Register new patient");
             ClearValuesInBoxes();
-        } else if (isNewRecord == false){
+        } else if (isNewRecord == false) {
             mainFrame = new JFrame("Modify current patient");
         }
-        mainFrame.setSize(400, 510);
+        mainFrame.setSize(500, 500);
         mainFrame.setLayout(new BorderLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -53,7 +55,6 @@ public class GP_Register_GUI {
             }
         });
 
-        northPanel = new JPanel();
         controlPanel = new JPanel();
         southPanel = new JPanel();
 
@@ -80,24 +81,23 @@ public class GP_Register_GUI {
 
         if (isNewRecord == true) {
             SubmitButton();
-        } else if (isNewRecord == false){
+        } else if (isNewRecord == false) {
             SubmitModifyButton();
         }
 
         mainFrame.setLocationRelativeTo(null);
-        mainFrame.add(northPanel, BorderLayout.NORTH);
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
     }
 
-    public static void prepareModifyGPGUI(Patient pat) {
+    public void prepareModifyGPGUI(Patient pat) {
         patient = pat;
         PlaceValuesInBoxes();
         prepareGPGUI(false);
     }
 
-    public static void ClearValuesInBoxes() {
+    public void ClearValuesInBoxes() {
         patient_first_name = null;
         patient_last_name = null;
         patient_dob = null;
@@ -107,7 +107,7 @@ public class GP_Register_GUI {
         patient_prescriptions = null;
     }
 
-    public static void PlaceValuesInBoxes() {
+    public void PlaceValuesInBoxes() {
         patient_first_name = patient.getPatientFirstName();
         patient_last_name = patient.getPatientLastName();
         patient_dob = patient.getPatientDob();
@@ -117,7 +117,7 @@ public class GP_Register_GUI {
         patient_prescriptions = patient.getPatientPrescriptions();
     }
 
-    private static void PatientPanel() {
+    private void PatientPanel() {
         patientPanel = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
         patientPanel.setLayout(flowLayout);
@@ -127,7 +127,7 @@ public class GP_Register_GUI {
         controlPanel.add(patientPanel);
     }
 
-    private static void MedicationPanel() {
+    private void MedicationPanel() {
         medicationPanel = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
         medicationPanel.setLayout(flowLayout);
@@ -137,7 +137,7 @@ public class GP_Register_GUI {
         controlPanel.add(medicationPanel);
     }
 
-    private static void InfoPanel() {
+    private void InfoPanel() {
         infoPanel = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER, 10, 4);
         infoPanel.setLayout(flowLayout);
@@ -147,11 +147,11 @@ public class GP_Register_GUI {
         controlPanel.add(infoPanel);
     }
 
-    public static void BackButtonFunction() {
+    public void BackButtonFunction() {
         mainFrame.setVisible(false);
     }
 
-    public static void SubmitButtonFunction() throws SQLException {
+    public void SubmitButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
         GrabValues();
@@ -159,8 +159,8 @@ public class GP_Register_GUI {
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
                 + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId);
 
-        database_driver d_driver = database_driver.getConnection();
-        acceptedCheck = d_driver.addNewPatientToDatabase(patient_dob, patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions, userId);
+        patientDao pDao = (patientDao) new patientDao();
+        acceptedCheck = (boolean) pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
 
         if (acceptedCheck == true) {
             mainFrame.setVisible(false);
@@ -174,7 +174,7 @@ public class GP_Register_GUI {
         }
     }
 
-    public static void SubmitModifyButtonFunction() throws SQLException {
+    public void SubmitModifyButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
         GrabValues();
@@ -182,8 +182,8 @@ public class GP_Register_GUI {
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
                 + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient.getPatientId());
 
-        database_driver d_driver = database_driver.getConnection();
-        acceptedCheck = d_driver.updatePatientRecord(patient.getPatientId() ,patient_dob, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions, userId, patient_first_name, patient_last_name);
+        patientDao pDao = (patientDao) new patientDao();
+        acceptedCheck = (boolean) pDao.updatePatientRecord(patient);
 
         if (acceptedCheck == true) {
             mainFrame.setVisible(false);
@@ -197,37 +197,37 @@ public class GP_Register_GUI {
         }
     }
 
-    private static void FirstNameLabel() {
+    private void FirstNameLabel() {
         firstNameLabel = new JLabel();
         firstNameLabel.setText("First name: ");
         patientPanel.add(firstNameLabel);
     }
 
-    private static void FirstNameTextField() {
+    private void FirstNameTextField() {
         firstNameTextField = new JTextField(patient_first_name);
         firstNameTextField.setPreferredSize(new Dimension(150, 25));
         patientPanel.add(firstNameTextField);
     }
 
-    private static void LastNameLabel() {
+    private void LastNameLabel() {
         lastNameLabel = new JLabel();
         lastNameLabel.setText("Last name: ");
         patientPanel.add(lastNameLabel);
     }
 
-    private static void LastNameTextField() {
+    private void LastNameTextField() {
         lastNameTextField = new JTextField(patient_last_name);
         lastNameTextField.setPreferredSize(new Dimension(150, 25));
         patientPanel.add(lastNameTextField);
     }
 
-    private static void AddressLabel() {
+    private void AddressLabel() {
         addressLabel = new JLabel();
         addressLabel.setText("Address: ");
         patientPanel.add(addressLabel);
     }
 
-    private static void AddressTextArea() {
+    private void AddressTextArea() {
         addressTextArea = new JTextArea(patient_address);
         addressTextArea.setPreferredSize(new Dimension(150, 50));
         JScrollPane scrollPane = new JScrollPane(addressTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -235,13 +235,13 @@ public class GP_Register_GUI {
         patientPanel.add(scrollPane);
     }
 
-    private static void PatientMedicalHistoryLabel() {
+    private void PatientMedicalHistoryLabel() {
         medicalHistoryLabel = new JLabel();
         medicalHistoryLabel.setText("Medical History: ");
         medicationPanel.add(medicalHistoryLabel);
     }
 
-    private static void PatientMedicalHistoryTextArea() {
+    private void PatientMedicalHistoryTextArea() {
         medicalHistoryTextArea = new JTextArea(patient_medical_history);
         medicalHistoryTextArea.setPreferredSize(new Dimension(150, 50));
         JScrollPane scrollPane = new JScrollPane(medicalHistoryTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -249,25 +249,25 @@ public class GP_Register_GUI {
         medicationPanel.add(scrollPane);
     }
 
-    private static void PatientDiagnosisLabel() {
+    private void PatientDiagnosisLabel() {
         patientDiagnosisLabel = new JLabel();
         patientDiagnosisLabel.setText("Diagnosis: ");
         medicationPanel.add(patientDiagnosisLabel);
     }
 
-    private static void PatientDiagnosisTextField() {
+    private void PatientDiagnosisTextField() {
         patientDiagnosisTextField = new JTextField(patient_diagnosis);
         patientDiagnosisTextField.setPreferredSize(new Dimension(150, 25));
         medicationPanel.add(patientDiagnosisTextField);
     }
 
-    private static void PatientPrescriptionsLabel() {
+    private void PatientPrescriptionsLabel() {
         patientPrescriptionsLabel = new JLabel();
         patientPrescriptionsLabel.setText("Prescription: ");
         medicationPanel.add(patientPrescriptionsLabel);
     }
 
-    private static void PatientPrescriptionsTextArea() {
+    private void PatientPrescriptionsTextArea() {
         patientPrescriptionsTextArea = new JTextArea(patient_prescriptions);
         patientPrescriptionsTextArea.setPreferredSize(new Dimension(150, 50));
         JScrollPane scrollPane = new JScrollPane(patientPrescriptionsTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -275,23 +275,23 @@ public class GP_Register_GUI {
         medicationPanel.add(scrollPane);
     }
 
-    private static void DateOfBirthLabel() {
+    private void DateOfBirthLabel() {
         dateOfBirthLabel = new JLabel();
         dateOfBirthLabel.setText("Date of Birth: ");
         patientPanel.add(dateOfBirthLabel);
     }
 
-    private static Calendar getDate() {
+    private Calendar getDate() {
         Date date = patient.getPatientDob();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar;
     }
 
-    private static void DateOfBirthField() {
+    private void DateOfBirthField() {
         dateOfBirthModel = new UtilDateModel();
-        if(NewRecord != true){
-            dateOfBirthModel.setDate(getDate().get(Calendar.YEAR),getDate().get(Calendar.MONTH),getDate().get(Calendar.DAY_OF_MONTH));
+        if (NewRecord != true) {
+            dateOfBirthModel.setDate(getDate().get(Calendar.YEAR), getDate().get(Calendar.MONTH), getDate().get(Calendar.DAY_OF_MONTH));
             dateOfBirthModel.setSelected(true);
         }
 
@@ -305,7 +305,7 @@ public class GP_Register_GUI {
         patientPanel.add(datePicker);
     }
 
-    private static class DateLabelFormatter extends JFormattedTextField.AbstractFormatter {
+    private class DateLabelFormatter extends JFormattedTextField.AbstractFormatter {
 
         private String datePattern = "yyyy-MM-dd";
         private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
@@ -327,7 +327,18 @@ public class GP_Register_GUI {
 
     }
 
-    private static void GrabValues() {
+    private void createPatient() {
+        patient = new Patient();
+        patient.setPatient_first_name(patient_first_name);
+        patient.setPatient_last_name(patient_last_name);
+        patient.setPatient_address(patient_address);
+        patient.setPatient_dob(patient_dob);
+        patient.setPatient_medical_history(patient_medical_history);
+        patient.setPatient_diagnosis(patient_diagnosis);
+        patient.setPatient_prescriptions(patient_prescriptions);
+    }
+
+    private void GrabValues() {
         Date temp = (Date) datePicker.getModel().getValue();
         if (temp != null) {
             patient_dob = new java.sql.Date(temp.getTime());
@@ -338,30 +349,17 @@ public class GP_Register_GUI {
         patient_medical_history = CheckStringEmpty(patient_medical_history, medicalHistoryTextArea.getText());
         patient_diagnosis = CheckStringEmpty(patient_diagnosis, patientDiagnosisTextField.getText());
         patient_prescriptions = CheckStringEmpty(patient_prescriptions, patientPrescriptionsTextArea.getText());
+        createPatient();
     }
 
-    private static String CheckStringEmpty(String x, String y) {
+    private String CheckStringEmpty(String x, String y) {
         if (y.length() > 0) {
             x = y;
         }
         return x;
     }
 
-    private static void BackButton() {
-        JButton BackButton = new JButton("Back");
-        BackButton.setActionCommand("GP_Register_Back");
-        BackButton.addActionListener(new Main_GUI.ButtonClickListener());
-        southPanel.add(BackButton);
-    }
-
-    private static void SubmitButton() {
-        JButton BackButton = new JButton("Submit");
-        BackButton.setActionCommand("GP_Register_Submit");
-        BackButton.addActionListener(new Main_GUI.ButtonClickListener());
-        southPanel.add(BackButton);
-    }
-
-    private static void SubmitConfirmedWindow() {
+    private void SubmitConfirmedWindow() {
         mainFrame = new JFrame("Registration Successful");
         mainFrame.setSize(320, 200);
         mainFrame.setLayout(new BorderLayout());
@@ -384,14 +382,7 @@ public class GP_Register_GUI {
         mainFrame.setVisible(true);
     }
 
-    private static void SubmitModifyButton() {
-        JButton BackButton = new JButton("Modify");
-        BackButton.setActionCommand("GP_Register_Submit_Modify");
-        BackButton.addActionListener(new Main_GUI.ButtonClickListener());
-        southPanel.add(BackButton);
-    }
-
-    private static void SubmitModifyConfirmedWindow() {
+    private void SubmitModifyConfirmedWindow() {
         mainFrame = new JFrame("Modification Successful");
         mainFrame.setSize(320, 200);
         mainFrame.setLayout(new BorderLayout());
@@ -412,5 +403,65 @@ public class GP_Register_GUI {
         mainFrame.add(successPanel, BorderLayout.CENTER);
         mainFrame.add(successSouthPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
+    }
+
+    /**
+     * Create GUI for
+     */
+    private void SubmitModifyButton() {
+        JButton BackButton = new JButton("Modify");
+        BackButton.setActionCommand("GP_Register_Submit_Modify");
+        BackButton.addActionListener(new GP_Register_GUI.ButtonClickListener());
+        southPanel.add(BackButton);
+    }
+
+    /**
+     * Create GUI for back button
+     */
+    private void BackButton() {
+        JButton BackButton = new JButton("Back");
+        BackButton.setActionCommand("GP_Register_Back");
+        BackButton.addActionListener(new GP_Register_GUI.ButtonClickListener());
+        southPanel.add(BackButton);
+    }
+
+    /**
+     * Create GUI for
+     */
+    private void SubmitButton() {
+        JButton BackButton = new JButton("Submit");
+        BackButton.setActionCommand("GP_Register_Submit");
+        BackButton.addActionListener(new GP_Register_GUI.ButtonClickListener());
+        southPanel.add(BackButton);
+    }
+
+    /**
+     * Action Listener that looks out for button presses GP_Register_GUI
+     */
+    class ButtonClickListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+            GP_GUI gp_gui = new GP_GUI();
+            //GP_Register_GUI gp_register_gui = new GP_Register_GUI();
+            Patient_GUI patient_gui = new Patient_GUI();
+
+            if (command.equals("Default")) {
+                //Do nothing
+            } else if (command.equals("GP_Register_Back")) {
+                BackButtonFunction();
+            } else if (command.equals("GP_Register_Submit")) {
+                try {
+                    SubmitButtonFunction();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } else if (command.equals("GP_Register_Submit_Modify")) {
+                try {
+                    SubmitModifyButtonFunction();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
     }
 }
