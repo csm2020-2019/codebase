@@ -362,11 +362,36 @@ public class FormJDBC implements FormDao {
 	
 	public List<FormElement> getFormElements(int formId)
 	{
-		List<FormElement> output = new ArrayList<FormElement>();
+		List<FormElement> outputList = new ArrayList<FormElement>();
 		
+		PreparedStatement sqlStatement = null;
+		 try {
+			 String query = "SELECT * FROM questions WHERE form_id = ?";
+			
+			 sqlStatement = database_connection.prepareStatement(query);
+			 sqlStatement.setInt(1, formId);
+			 
+			 ResultSet resultSet = sqlStatement.executeQuery();
+			
+			 while (resultSet.next()){
+	                FormElement newElement = new FormElement();
+	                
+	                newElement.label = resultSet.getString("label");
+	                newElement.type = FormType.fromString(resultSet.getString("q_type"));
+
+	                outputList.add(newElement);
+	            }
+			 
+			 if (sqlStatement != null) {
+                sqlStatement.close();
+            }
+		 } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        }
 		
-		
-		return output;
+		return outputList;
 	}
 	
 	public int submitFormAnswers(int formId, int submitterId, List<Object> values)
