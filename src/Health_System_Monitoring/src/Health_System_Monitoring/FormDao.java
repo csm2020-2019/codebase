@@ -3,6 +3,9 @@
  */
 package Health_System_Monitoring;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -79,102 +82,28 @@ public interface FormDao {
 	// ----------------------------------------------------------------------
 	
 	/**
-	 * Add a string-value answer
-	 * @param questionId that this is answering
-	 * @param submissionId that this is from
-	 * @param value the answer to the question
-	 * @return id of the created answer
+	 * Add an answer to the answer tables
+	 * @param questionId we're answering
+	 * @param submissionId which number response
+	 * @param value we're adding (type determines destination table)
+	 * @return id of answer in the destination table
 	 */
-	public int addStringAnswer(int questionId, int submissionId, String value);
+	public int addAnswer(int questionId, int submissionId, Object value);
 	/**
-	 * Update a string-value answer
-	 * @param answerStringId to update
-	 * @param submissionId submission that this is from
-	 * @param value to set the answer to
+	 * Update an answer in the answer tables
+	 * @param answerId we're updating
+	 * @param submissionId the answer's from
+	 * @param value we're updating to
 	 * @return success
 	 */
-	public boolean updateStringAnswer(int answerStringId, int submissionId, String value);
+	public boolean updateAnswer(int answerId, int submissionId, Object value);
 	/**
-	 * Removes a string-value answer
-	 * @param answerStringId to remove
+	 * Remove answer from the answer tables
+	 * @param answerId
+	 * @param type
 	 * @return success
 	 */
-	public boolean removeStringAnswer(int answerStringId);
-	
-	// ----------------------------------------------------------------------
-	
-	/**
-	 * Add an int-value answer
-	 * @param questionId that this is answering
-	 * @param submissionId that this is from
-	 * @param value the answer to the question
-	 * @return id of the created answer
-	 */
-	public int addIntAnswer(int questionId, int submissionId, Integer value);
-	/**
-	 * Update an int-value answer
-	 * @param answerIntId to update
-	 * @param submissionId submission that this is from
-	 * @param value to set the answer to
-	 * @return success
-	 */
-	public boolean updateIntnswer(int answerIntId, int submissionId, Integer value);
-	/**
-	 * Removes an int-value answer
-	 * @param answerIntId to remove
-	 * @return success
-	 */
-	public boolean removeIntAnswer(int answerIntId);
-
-	// ----------------------------------------------------------------------
-	
-	/**
-	 * Add a float-value answer
-	 * @param questionId that this is answering
-	 * @param submissionId that this is from
-	 * @param value the answer to the question
-	 * @return id of the created answer
-	 */
-	public int addFloatAnswer(int questionId, int submissionId, Float value);
-	/**
-	 * Update a float-value answer
-	 * @param answerFloatId to update
-	 * @param submissionId submission that this is from
-	 * @param value to set the answer to
-	 * @return success
-	 */
-	public boolean updateFloatAnswer(int answerFloatId, int submissionId, Float value);
-	/**
-	 * Removes a float-value answer
-	 * @param answerFloatId to remove
-	 * @return success
-	 */
-	public boolean removeFloatAnswer(int answerFloatId);
-	
-	// ----------------------------------------------------------------------
-	
-	/**
-	 * Add a boolean-value answer
-	 * @param questionId that this is answering
-	 * @param submissionId that this is from
-	 * @param value the answer to the question
-	 * @return id of the created answer
-	 */
-	public int addBooleanAnswer(int questionId, int submissionId, Boolean value);
-	/**
-	 * Update a boolean-value answer
-	 * @param answerBooleanId to update
-	 * @param submissionId submission that this is from
-	 * @param value to set the answer to
-	 * @return success
-	 */
-	public boolean updateBooleanAnswer(int answerBooleanId, int submissionId, Boolean value);
-	/**
-	 * Removes a boolean-value answer
-	 * @param answerBooleanId to remove
-	 * @return success
-	 */
-	public boolean removeBooleanAnswer(int answerBooleanId);
+	public boolean removeAnswer(int answerId, FormType type);
 	
 	// ----------------------------------------------------------------------
 	

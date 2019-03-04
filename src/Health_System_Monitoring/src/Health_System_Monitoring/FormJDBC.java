@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -190,80 +191,169 @@ public class FormJDBC implements FormDao {
 	
 	public int addSubmission(int formId, int submitterId)
 	{
-		
+		PreparedStatement sqlStatement = null;
+		 try {
+			 String query = "INSERT INTO submissions (form_id,submitter_id) VALUES (?,?)\n" + 
+							"SELECT LAST_INSERT_ID()";
+			
+			 sqlStatement = database_connection.prepareStatement(query);
+			 
+			 sqlStatement.setInt(1, formId);
+			 sqlStatement.setInt(2, submitterId);
+			 
+			 ResultSet resultSet = sqlStatement.executeQuery();
+			
+			 if (resultSet.next()) {
+				 return resultSet.getInt(0);
+			 }
+			 if (sqlStatement != null) {
+               sqlStatement.close();
+           }
+		 } catch (SQLException e) {
+           e.printStackTrace();
+           System.out.println(e.getMessage());
+
+       }
+       
+       return -1;
 	}
 
 	public boolean removeSubmission(int submissionId)
 	{
-		
+		PreparedStatement sqlStatement = null;
+        try {
+            String query = "DELETE FROM submissions WHERE submission_id=?";
+
+            sqlStatement = database_connection.prepareStatement(query);
+
+            sqlStatement.setInt(1, submissionId);
+
+            sqlStatement.executeUpdate();
+            System.out.println("Submission deleted");
+            
+            sqlStatement.close();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        }
+        return false;
 	}
 	
 	// ----------------------------------------------------------------------
 	
-	public int addStringAnswer(int questionId, int submissionId, String value)
+	public int addAnswer(int questionId, int submissionId, Object value)
 	{
+		String valueType = value.getClass().getTypeName();
+		String destination_table = "answer_" + valueType.toLowerCase();
 		
+		PreparedStatement sqlStatement = null;
+		 try {
+			 String query = "INSERT INTO " + destination_table + " (question_id,submission_id,value) VALUES (?,?,?)\n" + 
+							"SELECT LAST_INSERT_ID()";
+			
+			 sqlStatement = database_connection.prepareStatement(query);
+			 
+			 sqlStatement.setInt(1, questionId);
+			 sqlStatement.setInt(2, submissionId);
+			 switch(valueType)
+			 {
+			 case "String":
+				 sqlStatement.setString(3, (String)value);
+			 case "Integer":
+				 sqlStatement.setInt(3, (Integer)value);
+			 case "Float":
+				 sqlStatement.setFloat(3, (Float)value);
+			 case "Boolean":
+				 sqlStatement.setBoolean(3, (Boolean)value);
+			 }
+			 
+			 ResultSet resultSet = sqlStatement.executeQuery();
+			
+			 if (resultSet.next()) {
+				 return resultSet.getInt(0);
+			 }
+			 if (sqlStatement != null) {
+              sqlStatement.close();
+          }
+		 } catch (SQLException e) {
+          e.printStackTrace();
+          System.out.println(e.getMessage());
+
+      }
+      
+      return -1;
 	}
 
-	public boolean updateStringAnswer(int answerStringId, int submissionId, String value)
+	public boolean updateAnswer(int answerId, int submissionId, Object value)
 	{
+		String valueType = value.getClass().getTypeName();
+		String destination_table = "answer_" + valueType.toLowerCase();
 		
+		PreparedStatement sqlStatement = null;
+        try {
+            String query = "UPDATE " + destination_table +" SET (submission_id,value) = (?,?) WHERE " + destination_table + "_id=?";
+
+            sqlStatement = database_connection.prepareStatement(query);
+
+            sqlStatement.setInt(1, submissionId);
+            switch(valueType)
+			 {
+			 case "String":
+				 sqlStatement.setString(2, (String)value);
+			 case "Integer":
+				 sqlStatement.setInt(2, (Integer)value);
+			 case "Float":
+				 sqlStatement.setFloat(2, (Float)value);
+			 case "Boolean":
+				 sqlStatement.setBoolean(2, (Boolean)value);
+			 }
+            sqlStatement.setInt(3, answerId);
+
+            sqlStatement.executeUpdate();
+            System.out.println("Answer updated");
+            
+            sqlStatement.close();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        }
+        return false;
 	}
 
-	public boolean removeStringAnswer(int answerStringId)
+	public boolean removeAnswer(int answerId, FormType type)
 	{
+		String valueType = type.toString();
+		String destination_table = "answer_" + valueType.toLowerCase();
 		
-	}
-	
-	// ----------------------------------------------------------------------
-	
-	public int addIntAnswer(int questionId, int submissionId, Integer value)
-	{
-		
-	}
+		PreparedStatement sqlStatement = null;
+        try {
+            String query = "DELETE FROM " + destination_table + " WHERE " + destination_table + "_id=?";
 
-	public boolean updateIntnswer(int answerIntId, int submissionId, Integer value)
-	{
-		
-	}
+            sqlStatement = database_connection.prepareStatement(query);
 
-	public boolean removeIntAnswer(int answerIntId)
-	{
-		
-	}
+            sqlStatement.setInt(1, answerId);
 
-	// ----------------------------------------------------------------------
-	
-	public int addFloatAnswer(int questionId, int submissionId, Float value)
-	{
-		
-	}
+            sqlStatement.executeUpdate();
+            System.out.println("Submission deleted");
+            
+            sqlStatement.close();
 
-	public boolean updateFloatAnswer(int answerFloatId, int submissionId, Float value)
-	{
-		
-	}
+            return true;
 
-	public boolean removeFloatAnswer(int answerFloatId)
-	{
-		
-	}
-	
-	// ----------------------------------------------------------------------
-	
-	public int addBooleanAnswer(int questionId, int submissionId, Boolean value)
-	{
-		
-	}
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
 
-	public boolean updateBooleanAnswer(int answerBooleanId, int submissionId, Boolean value)
-	{
-		
-	}
-
-	public boolean removeBooleanAnswer(int answerBooleanId)
-	{
-		
+        }
+        return false;
 	}
 	
 	// ----------------------------------------------------------------------
@@ -272,12 +362,16 @@ public class FormJDBC implements FormDao {
 	
 	public List<FormElement> getFormElements(int formId)
 	{
+		List<FormElement> output = new ArrayList<FormElement>();
 		
+		
+		
+		return output;
 	}
 	
 	public int submitFormAnswers(int formId, int submitterId, List<Object> values)
 	{
-		
+		return 0;
 	}
-	
+
 }
