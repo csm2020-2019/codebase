@@ -91,19 +91,20 @@ public interface FormDao {
 	public int addAnswer(int questionId, int submissionId, Object value);
 	/**
 	 * Update an answer in the answer tables
-	 * @param answerId we're updating
+	 * @param questionId question we're updating
 	 * @param submissionId the answer's from
 	 * @param value we're updating to
 	 * @return success
 	 */
-	public boolean updateAnswer(int answerId, int submissionId, Object value);
+	public boolean updateAnswer(int questionId, int submissionId, Object value);
 	/**
 	 * Remove answer from the answer tables
-	 * @param answerId
-	 * @param type
+	 * @param questionId question we're removing an answer to
+	 * @param submissionId submission we're removing the answer to
+	 * @param type of answer we'e removing
 	 * @return success
 	 */
-	public boolean removeAnswer(int answerId, FormType type);
+	public boolean removeAnswer(int questionId, int submissionId, FormType type);
 	
 	// ----------------------------------------------------------------------
 	
@@ -120,7 +121,7 @@ public interface FormDao {
 	 * Submit form answers for specified Form
 	 * @param formId to submit an answer to
 	 * @param submitterId that is submitting the answers
-	 * @param values to fill the form with
+	 * @param values list of values from the screen form, in same order as returned from getFormElements
 	 * @return submission id
 	 */
 	public int submitFormAnswers(int formId, int submitterId, List<Object> values);

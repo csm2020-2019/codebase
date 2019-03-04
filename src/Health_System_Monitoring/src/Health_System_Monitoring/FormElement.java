@@ -1,6 +1,7 @@
 package Health_System_Monitoring;
 
 public class FormElement {
-	public static String label;
-	public static FormType type;
+	public int question_id;
+	public String label;
+	public FormType type;
 }

@@ -288,30 +288,30 @@ public class FormJDBC implements FormDao {
       return -1;
 	}
 
-	public boolean updateAnswer(int answerId, int submissionId, Object value)
+	public boolean updateAnswer(int questionId, int submissionId, Object value)
 	{
 		String valueType = value.getClass().getTypeName();
 		String destination_table = "answer_" + valueType.toLowerCase();
 		
 		PreparedStatement sqlStatement = null;
         try {
-            String query = "UPDATE " + destination_table +" SET (submission_id,value) = (?,?) WHERE " + destination_table + "_id=?";
+            String query = "UPDATE " + destination_table +" SET value = ? WHERE question_id = ? AND submission_id = ?";
 
             sqlStatement = database_connection.prepareStatement(query);
 
-            sqlStatement.setInt(1, submissionId);
             switch(valueType)
 			 {
 			 case "String":
-				 sqlStatement.setString(2, (String)value);
+				 sqlStatement.setString(1, (String)value);
 			 case "Integer":
-				 sqlStatement.setInt(2, (Integer)value);
+				 sqlStatement.setInt(1, (Integer)value);
 			 case "Float":
-				 sqlStatement.setFloat(2, (Float)value);
+				 sqlStatement.setFloat(1, (Float)value);
 			 case "Boolean":
-				 sqlStatement.setBoolean(2, (Boolean)value);
+				 sqlStatement.setBoolean(1, (Boolean)value);
 			 }
-            sqlStatement.setInt(3, answerId);
+            sqlStatement.setInt(2, questionId);
+            sqlStatement.setInt(3, submissionId);
 
             sqlStatement.executeUpdate();
             System.out.println("Answer updated");
@@ -328,18 +328,19 @@ public class FormJDBC implements FormDao {
         return false;
 	}
 
-	public boolean removeAnswer(int answerId, FormType type)
+	public boolean removeAnswer(int questionId, int submissionId, FormType type)
 	{
 		String valueType = type.toString();
 		String destination_table = "answer_" + valueType.toLowerCase();
 		
 		PreparedStatement sqlStatement = null;
         try {
-            String query = "DELETE FROM " + destination_table + " WHERE " + destination_table + "_id=?";
+            String query = "DELETE FROM " + destination_table + " WHERE question_id=? AND submission_id=?";
 
             sqlStatement = database_connection.prepareStatement(query);
 
-            sqlStatement.setInt(1, answerId);
+            sqlStatement.setInt(1, questionId);
+            sqlStatement.setInt(2, submissionId);
 
             sqlStatement.executeUpdate();
             System.out.println("Submission deleted");
@@ -376,6 +377,7 @@ public class FormJDBC implements FormDao {
 			 while (resultSet.next()){
 	                FormElement newElement = new FormElement();
 	                
+	                newElement.question_id = resultSet.getInt("question_id");
 	                newElement.label = resultSet.getString("label");
 	                newElement.type = FormType.fromString(resultSet.getString("q_type"));
 
@@ -396,7 +398,18 @@ public class FormJDBC implements FormDao {
 	
 	public int submitFormAnswers(int formId, int submitterId, List<Object> values)
 	{
-		return 0;
+		int submissionId = addSubmission(formId,submitterId);
+		
+		List<FormElement> elements = getFormElements(formId);
+		
+		for(int i=0;i<elements.size();i++)
+		{
+			Object value = values.get(i);
+			FormElement element = elements.get(i);
+			int answerId = addAnswer(element.question_id, submissionId, value);
+		}
+		
+		return submissionId;
 	}
 
 }
