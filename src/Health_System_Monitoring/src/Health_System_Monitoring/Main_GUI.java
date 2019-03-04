@@ -32,7 +32,7 @@ public class Main_GUI {
 //    private static int userId;
 //    private static List<User> userInfo = null;
     private static User user;
-
+    private static userDao userDao;
 
     public Main_GUI() {
         prepareGUI();
@@ -77,6 +77,8 @@ public class Main_GUI {
         LoginButton();
         BypassSCButton();
         BypassGPButton();
+        
+        userDao = new userDao();
 
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(controlPanel);
@@ -95,16 +97,8 @@ public class Main_GUI {
             if (command.equals("Default")) {
                 //Do Something?
             } else if (command.equals("Login")) {
-
-                database_driver db_connect = database_driver.getConnection();
-
-                try {
-                    user = db_connect.checkCredentials(username, userPassword);
-
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
-
+            	user = userDao.checkCredentials(username, userPassword);
+            	
                 if(user != null){
                    System.out.println(user);
                     GP_GUI.prepareGPGUI();

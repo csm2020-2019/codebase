@@ -19,6 +19,8 @@ public class GP_GUI {
     private static JPanel southPanel;
     private static JTextField patientSearchField;
     private static SpringLayout layout = new SpringLayout();
+    
+    private static patientDao patientDao;
 
     public static void prepareGPGUI() {
 
@@ -47,6 +49,8 @@ public class GP_GUI {
         PatientSearchField();
         PatientSearchButton();
         BackButton();
+        
+        patientDao = new patientDao();
 
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(northPanel, BorderLayout.NORTH);
@@ -62,8 +66,7 @@ public class GP_GUI {
         System.out.println("Print off of search bar input: " + searchField);
 
         List<Patient> pat = Arrays.asList(new Patient[0]);
-        database_driver d_driver = database_driver.getConnection();
-        pat = (List<Patient>) d_driver.searchPatient(searchField);
+        pat = (List<Patient>) patientDao.searchPatient(searchField);
         if(!searchField.isEmpty()){
             if (!pat.isEmpty()) {
                 System.out.println(pat);
