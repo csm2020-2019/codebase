@@ -28,10 +28,12 @@ public class GP_Register_GUI {
     private static JDatePickerImpl datePicker;
 
     private static Patient patient;
+    private static User user;
+    private static patientDao patientDao; 
 
     private static String patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions;
     private static java.sql.Date patient_dob;
-    private static int userId = 1;
+    //private static int userId = 1;
     private static Boolean NewRecord;
 
 
@@ -56,6 +58,8 @@ public class GP_Register_GUI {
         northPanel = new JPanel();
         controlPanel = new JPanel();
         southPanel = new JPanel();
+        
+        patientDao = new patientDao();
 
         PatientPanel();
         MedicationPanel();
@@ -157,10 +161,11 @@ public class GP_Register_GUI {
         GrabValues();
         System.out.println("Submitting - First name: " + patient_first_name + ", Last name: " +
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
-                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId);
+                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + user.getUserId());
 
-        database_driver d_driver = database_driver.getConnection();
-        acceptedCheck = d_driver.addNewPatientToDatabase(patient_dob, patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions, userId);
+        patient = new Patient(-1, -1, patient_first_name, patient_last_name, patient_dob, patient_address,
+			patient_medical_history, patient_diagnosis, patient_prescriptions);
+        acceptedCheck = patientDao.addPatientToDatabase(patient,user);
 
         if (acceptedCheck == true) {
             mainFrame.setVisible(false);
@@ -180,10 +185,9 @@ public class GP_Register_GUI {
         GrabValues();
         System.out.println("Submitting - First name: " + patient_first_name + ", Last name: " +
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
-                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient.getPatientId());
+                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + user.getUserId() + ", Patient ID: " + patient.getPatientId());
 
-        database_driver d_driver = database_driver.getConnection();
-        acceptedCheck = d_driver.updatePatientRecord(patient.getPatientId() ,patient_dob, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions, userId, patient_first_name, patient_last_name);
+        acceptedCheck = patientDao.updatePatientRecord(patient);
 
         if (acceptedCheck == true) {
             mainFrame.setVisible(false);

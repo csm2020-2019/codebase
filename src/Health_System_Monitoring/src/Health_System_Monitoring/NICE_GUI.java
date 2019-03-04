@@ -385,7 +385,6 @@ public class NICE_GUI {
 						|| sexGroup.isSelected(null) || smokeGroup.isSelected(null)) {
 					JOptionPane.showMessageDialog(null, "Please enter all required fields");
 				} else {
-					database_driver db = database_driver.getConnection();
 					
 					try {
 						if(db.addNiceResults(resultId, patientId, userId, sexInput, age, date, height, weight, systolic, 
