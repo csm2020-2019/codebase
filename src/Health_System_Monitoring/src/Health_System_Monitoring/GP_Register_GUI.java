@@ -38,13 +38,14 @@ public class GP_Register_GUI {
 
 
     public void prepareGPGUI(boolean isNewRecord) {
-
         NewRecord = isNewRecord;
 
         if (isNewRecord == true) {
+            GP_GUI.mainFrame.setVisible(false);
             mainFrame = new JFrame("Register new patient");
             ClearValuesInBoxes();
         } else if (isNewRecord == false) {
+            Patient_GUI.mainFrame.setVisible(false);
             mainFrame = new JFrame("Modify current patient");
         }
         mainFrame.setSize(500, 500);
@@ -85,7 +86,7 @@ public class GP_Register_GUI {
             SubmitModifyButton();
         }
 
-        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
@@ -149,6 +150,8 @@ public class GP_Register_GUI {
 
     public void BackButtonFunction() {
         mainFrame.setVisible(false);
+        GP_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
+        GP_GUI.mainFrame.setVisible(true);
     }
 
     public void SubmitButtonFunction() throws SQLException {
@@ -448,15 +451,18 @@ public class GP_Register_GUI {
             if (command.equals("Default")) {
                 //Do nothing
             } else if (command.equals("GP_Register_Back")) {
+                Main_GUI.SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
                 BackButtonFunction();
             } else if (command.equals("GP_Register_Submit")) {
                 try {
+                    Main_GUI.SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
                     SubmitButtonFunction();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             } else if (command.equals("GP_Register_Submit_Modify")) {
                 try {
+                    Main_GUI.SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
                     SubmitModifyButtonFunction();
                 } catch (SQLException e1) {
                     e1.printStackTrace();

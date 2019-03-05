@@ -47,7 +47,7 @@ public class GP_GUI {
         PatientSearchButton();
         BackButton();
 
-        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setLocation(Main_GUI.GetWindowPosition().x -125, Main_GUI.GetWindowPosition().y -165);
         mainFrame.add(northPanel, BorderLayout.NORTH);
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
@@ -159,11 +159,13 @@ public class GP_GUI {
                 GoBackToMainGUI();
             } else if (command.equals("GP_Patient_Search")) {
                 try {
+                    Main_GUI.SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
                     PatientSearchButtonFunction();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             } else if (command.equals("GP_Register")) {
+                Main_GUI.SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
                 gp_register_gui.prepareGPGUI(true);
             }
         }

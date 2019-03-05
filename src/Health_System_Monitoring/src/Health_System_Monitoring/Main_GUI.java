@@ -1,7 +1,6 @@
 package Health_System_Monitoring;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.JButton;
@@ -15,6 +14,7 @@ public class Main_GUI implements KeyListener {
     public static JFrame mainFrame;
     private JLabel headerLabel1, headerLabel2;
     private JPanel controlPanel;
+    private static Point windowsPosition;
 
     private static JTextField usernameTextField;
 
@@ -58,10 +58,11 @@ public class Main_GUI implements KeyListener {
         LoginButton();
         BypassSCButton();
         BypassGPButton();
+        GetCenterPoint();
 
         controlPanel.addKeyListener(this);
 
-        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setLocation(windowsPosition);
         mainFrame.add(controlPanel);
         mainFrame.setVisible(true);
     }
@@ -129,6 +130,23 @@ public class Main_GUI implements KeyListener {
         controlPanel.add(GPButton);
     }
 
+    public static void SetWindowPosition(double x, double y){
+        Point pt = new Point((int)Math.round(x),(int)Math.round(y));
+        windowsPosition = pt;
+    }
+
+    public static Point GetWindowPosition(){
+        return windowsPosition;
+    }
+
+    private void GetCenterPoint(){
+        int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+
+        Point pt = new Point((screenWidth / 2) - 125, (screenHeight / 2) - 80);
+        windowsPosition = pt;
+    }
+
     /**
      * Action Listener that looks out for button presses in Main_GUI
      */
@@ -150,6 +168,7 @@ public class Main_GUI implements KeyListener {
             } else if (command.equals("SCBypass")) {
                 SC_GUI.prepareSCGUI();
             } else if (command.equals("GPBypass")) {
+                SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
                 GP_GUI gp_GUI = new GP_GUI();
                 gp_GUI.prepareGPGUI();
             } else if (command.equals("Nice_Back")) {

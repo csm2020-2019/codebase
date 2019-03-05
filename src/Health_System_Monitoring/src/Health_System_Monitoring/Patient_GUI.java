@@ -3,10 +3,7 @@ package Health_System_Monitoring;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +19,7 @@ public class Patient_GUI {
     private List<User> rd_list;
 
     public void preparePatientGUI(Patient pat) {
+        Main_GUI.SetWindowPosition(GP_GUI.mainFrame.getLocation().x, GP_GUI.mainFrame.getLocation().y);
         GP_GUI.mainFrame.setVisible(false);
 
         mainFrame = new JFrame("GP application");
@@ -49,7 +47,7 @@ public class Patient_GUI {
         PatientInfoDisplay();
         //PatientReferPanel();
 
-        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
@@ -122,9 +120,9 @@ public class Patient_GUI {
     }
 
     private void PrescribeCheckBox() {
-        JCheckBox PrescribeCheckBox = new JCheckBox("Prescribe to third party material");
-        PrescribeCheckBox.setActionCommand("");
-        PrescribeCheckBox.addActionListener(new Main_GUI.ButtonClickListener());
+        Boolean bool = Boolean.TRUE;
+        JCheckBox PrescribeCheckBox = new JCheckBox("Prescribe to third party material", bool);
+        PrescribeCheckBox.addItemListener(this::itemStateChanged);
         controlPanel.add(PrescribeCheckBox);
     }
 
@@ -156,6 +154,7 @@ public class Patient_GUI {
 
     public void GoToGPGUI() {
         mainFrame.setVisible(false);
+        GP_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
         GP_GUI.mainFrame.setVisible(true);
     }
 
@@ -262,6 +261,14 @@ public class Patient_GUI {
         successSouthPanel.add(BackButton);
     }
 
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+    }
+
     /**
      * Action Listener that looks out for button presses in Patient_GUI
      */
@@ -276,6 +283,7 @@ public class Patient_GUI {
             if (command.equals("Default")) {
                 //Do nothing
             } else if (command.equals("Patient_Back")) {
+                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 GoToGPGUI();
             } else if (command.equals("Patient_Delete_Cancel")) {
                 DeleteCancelButtonFunction();
@@ -288,6 +296,7 @@ public class Patient_GUI {
             } else if (command.equals("Patient_Delete_Record")) {
                 DeleteConfirmWindow();
             } else if (command.equals("Patient_Modify_Record")) {
+                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 ModifyRecordButtonFunction();
             } else if (command.equals("Patient_Nice")) {
                 nice_gui.prepareNiceGUI();
