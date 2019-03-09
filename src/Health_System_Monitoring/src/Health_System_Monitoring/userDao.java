@@ -331,4 +331,53 @@ public class userDao implements userDaoInterface{
         return new User(userId, username, null, userFirstName, userLastName,
                 userEmail, userType, false);
     }
+    
+    /*
+    method to add a referral to the referral table
+    @ param patient_id id of the patient in the user table
+    @ param gp_id id of the GP in the user table
+    @ param rd_id id of the RD in the user table
+    @return true if successfully added and false if not
+   */
+    public boolean addReferral(int patient_id, int gp_id, int rd_id)
+    {
+    	Connection databaseConnection = database_driver.getConnection();
+
+    	PreparedStatement sqlStatement = null;
+ 	   
+ 	   try {
+ 	   String query = "INSERT INTO referrals (patient_id, gp_id, rd_id, referral_date)" + " values (?, ?, ?, ?)";
+
+ 	   
+        //create mysql prepared statement
+        sqlStatement = databaseConnection.prepareStatement(query);
+        sqlStatement.setInt(1,patient_id);
+        sqlStatement.setInt(2,gp_id);
+        sqlStatement.setInt(3,rd_id);
+        sqlStatement.setDate(4, new java.sql.Date(System.currentTimeMillis())); // current date
+        
+        sqlStatement.executeUpdate();
+        
+        return true;
+ 	   }
+ 	   catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        } finally {
+            if (sqlStatement != null) {
+         	   try
+         	   {
+         		   sqlStatement.close();
+ 	           }
+ 	           catch (SQLException e) {
+ 	               e.printStackTrace();
+ 	               System.out.println(e.getMessage());
+ 	
+ 	           }
+            }
+        }
+ 	   
+ 	   return false;
+    }
 }

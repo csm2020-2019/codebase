@@ -385,10 +385,10 @@ public class NICE_GUI {
 						|| sexGroup.isSelected(null) || smokeGroup.isSelected(null)) {
 					JOptionPane.showMessageDialog(null, "Please enter all required fields");
 				} else {
-					database_driver db = (database_driver) database_driver.getConnection();
 					
 					try {
-						if(db.addNiceResults(resultId, patientId, userId, sexInput, age, date, height, weight, systolic, 
+						patientDaoInterface patientDao = new patientDao();
+						if(patientDao.addNiceResults(resultId, patientId, userId, sexInput, age, date, height, weight, systolic,
 								diastolic, smoker, haemoglobin, urinary, serum, egfr, cholesterol, 
 								ldl, kidneyDamage, eyeDamage, cercbroDamage, visionLoss, eyeHaemorrage,
 								retina, rubeosis, sensation, deformity, palpatation, shoes)) {

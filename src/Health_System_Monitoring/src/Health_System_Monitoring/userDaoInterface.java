@@ -59,4 +59,13 @@ public interface userDaoInterface {
      @return true if deleted and false if not
     */
     boolean deleteUserFromDatabase(int userId);
+    
+    /*
+    method to add a referral to the referral table
+    @ param patient_id id of the patient in the user table
+    @ param gp_id id of the GP in the user table
+    @ param rd_id id of the RD in the user table
+    @return true if successfully added and false if not
+   */
+    boolean addReferral(int patient_id, int gp_id, int rd_id);
 }
