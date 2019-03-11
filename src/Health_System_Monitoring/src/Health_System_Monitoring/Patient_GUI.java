@@ -74,36 +74,45 @@ public class Patient_GUI {
     	referPanel = new JPanel();
     	FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
     	referPanel.setLayout(flowLayout);
-    	
-    	// first up, the combo box containing all RDs
-    	//database_driver d_driver = database_driver.getConnection();
-    	
-    	if(rd_list == null) {
-    		rd_list = new ArrayList<User>();
-    	}
-    	else
-    	{
-    		rd_list.clear();
-    	}
-    	rd_list = userDao.getUserByType("rd");
-    	Vector<String> name_list = new Vector<String>(rd_list.size());
-    	
-    	for(User user : rd_list)
-    	{
-    		name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
-    	}
-    	
-    	referBox = new JComboBox<String>(name_list);
-    	
-    	// next up, the button to trigger referral
-    	
-    	JButton TriggerButton = new JButton("Refer");
-    	TriggerButton.setActionCommand("Refer_Patient");
-    	TriggerButton.addActionListener(new Main_GUI.ButtonClickListener());
-    	
-    	referPanel.add(referBox);
-    	referPanel.add(TriggerButton);
-    	
+
+    	// first check to see if we're already referred
+
+        int rd_id = userDao.getReferral(patient.getPatientUserId());
+        if(rd_id !=-1) {
+            // we have a referral, so show that
+            User rd = userDao.getUserById(rd_id);
+
+            JLabel referred = new JLabel (rd.getUserFirstName() + " " + rd.getUserLastName());
+            referPanel.add(referred);
+        }
+        else {
+            // first up, the combo box containing all RDs
+
+            if (rd_list == null) {
+                rd_list = new ArrayList<User>();
+            } else {
+                rd_list.clear();
+            }
+            rd_list = userDao.getUserByType("rd");
+            Vector<String> name_list = new Vector<String>(rd_list.size());
+
+            for (User user : rd_list) {
+                name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+            }
+
+            referBox = new JComboBox<String>(name_list);
+
+            // next up, the button to trigger referral
+
+            JButton TriggerButton = new JButton("Refer");
+            TriggerButton.setActionCommand("Refer_Patient");
+            TriggerButton.addActionListener(new Main_GUI.ButtonClickListener());
+
+            referPanel.add(referBox);
+            referPanel.add(TriggerButton);
+        }
+        TitledBorder referBorder = new TitledBorder("Referrals");
+        referPanel.setBorder(referBorder);
     	controlPanel.add(referPanel);
     }
 
@@ -148,6 +157,8 @@ public class Patient_GUI {
     	int patient_id = patient.getPatientUserId();
     	
     	boolean result = userDao.addReferral(patient_id, gp_id, rd_id);
+
+    	referBox.setEditable(false);
     }
     
     public static void ModifyRecordButtonFunction() {

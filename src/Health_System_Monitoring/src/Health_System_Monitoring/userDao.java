@@ -381,8 +381,9 @@ public class userDao implements userDaoInterface{
     /**
      * Method to retrieve referral for a given Patient
      * @param patient_id
-     * @return referralId, or -1 if no referral
+     * @return rd_id, or -1 if no referral
      */
+    @Override
     public int getReferral(int patient_id)
     {
         Connection databaseConnection = database_driver.getConnection();
@@ -392,7 +393,7 @@ public class userDao implements userDaoInterface{
         int output = -1; // default/null response
 
         try {
-            String query = "SELECT referralId FROM referrals WHERE patient_id=?";
+            String query = "SELECT rd_id FROM referrals WHERE patient_id=?";
 
             sqlStatement = databaseConnection.prepareStatement(query);
             sqlStatement.setInt(1,patient_id);
@@ -400,7 +401,7 @@ public class userDao implements userDaoInterface{
             ResultSet resultSet = sqlStatement.executeQuery();
 
             if(resultSet.next()) {
-                output = resultSet.getInt("referralId");
+                output = resultSet.getInt("rd_id");
             }
         }
         catch (SQLException e) {
@@ -431,6 +432,7 @@ public class userDao implements userDaoInterface{
     @ param rd_id id of the RD in the user table
     @return true if successfully added and false if not
    */
+    @Override
     public boolean addReferral(int patient_id, int gp_id, int rd_id) {
     	Connection databaseConnection = database_driver.getConnection();
 

@@ -27,7 +27,7 @@ public interface userDaoInterface {
      * @param id of the User to retrieve
      * @return User object for that id, or Null if not found
      */
-    public User getUserById(int id);
+    User getUserById(int id);
 
     /*
     method to search user
@@ -75,4 +75,11 @@ public interface userDaoInterface {
     @return true if successfully added and false if not
    */
     boolean addReferral(int patient_id, int gp_id, int rd_id);
+
+    /**
+     * Method to retrieve referral for a given Patient
+     * @param patient_id
+     * @return rd referred to, or -1 if no referral
+     */
+    int getReferral(int patient_id);
 }
