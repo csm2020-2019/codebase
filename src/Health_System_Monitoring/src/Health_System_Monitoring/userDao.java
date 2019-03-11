@@ -59,6 +59,52 @@ public class userDao implements userDaoInterface{
         return null;
     }
 
+    /**
+     * retrieve user by Id
+     * @param id of the User to retrieve
+     * @return User object for that id, or Null if not found
+     */
+    @Override
+    public User getUserById(int id) {
+        Connection databaseConnection = database_driver.getConnection();
+
+        PreparedStatement sqlStatement = null;
+
+        try {
+            String query = "SELECT * FROM user WHERE userId=?";
+
+            sqlStatement = databaseConnection.prepareStatement(query);
+            sqlStatement.setInt(1, id);
+
+            //holds the result from database
+            ResultSet resultSet = sqlStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return convertToUser(resultSet);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        } finally {
+            if (sqlStatement != null) {
+                try
+                {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+
+                }
+            }
+            //closeDbConnection();
+        }
+
+        return null;
+    }
+
     @Override
     public List<User> getUserByType(String userType) {
         Connection databaseConnection = database_driver.getConnection();
@@ -331,7 +377,53 @@ public class userDao implements userDaoInterface{
         return new User(userId, username, null, userFirstName, userLastName,
                 userEmail, userType, false);
     }
-    
+
+    /**
+     * Method to retrieve referral for a given Patient
+     * @param patient_id
+     * @return referralId, or -1 if no referral
+     */
+    public int getReferral(int patient_id)
+    {
+        Connection databaseConnection = database_driver.getConnection();
+
+        PreparedStatement sqlStatement = null;
+
+        int output = -1; // default/null response
+
+        try {
+            String query = "SELECT referralId FROM referrals WHERE patient_id=?";
+
+            sqlStatement = databaseConnection.prepareStatement(query);
+            sqlStatement.setInt(1,patient_id);
+
+            ResultSet resultSet = sqlStatement.executeQuery();
+
+            if(resultSet.next()) {
+                output = resultSet.getInt("referralId");
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        } finally {
+            if (sqlStatement != null) {
+                try
+                {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+
+                }
+            }
+        }
+
+        return output;
+    }
+
     /*
     method to add a referral to the referral table
     @ param patient_id id of the patient in the user table
@@ -339,8 +431,7 @@ public class userDao implements userDaoInterface{
     @ param rd_id id of the RD in the user table
     @return true if successfully added and false if not
    */
-    public boolean addReferral(int patient_id, int gp_id, int rd_id)
-    {
+    public boolean addReferral(int patient_id, int gp_id, int rd_id) {
     	Connection databaseConnection = database_driver.getConnection();
 
     	PreparedStatement sqlStatement = null;

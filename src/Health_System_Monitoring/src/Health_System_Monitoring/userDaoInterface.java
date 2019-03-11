@@ -22,6 +22,13 @@ public interface userDaoInterface {
     List<User> getUserByType(String userType);
 
 
+    /**
+     * get user by Id
+     * @param id of the User to retrieve
+     * @return User object for that id, or Null if not found
+     */
+    public User getUserById(int id);
+
     /*
     method to search user
     @param user last name
