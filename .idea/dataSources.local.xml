@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Project_DB" uuid="d5d9c035-b4eb-4bbb-9834-d08c5b17dae5">
+      <database-info product="MySQL" version="5.5.5-10.1.37-MariaDB-0+deb9u1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.46 ( Revision: 9cc87a48e75c2d2e87c1a293b2862ce651cb256e )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <user-name>csm2020_admin</user-name>
+      <introspection-schemas>*:csm2020_18_19</introspection-schemas>
+    </data-source>
+  </component>
+</project>
