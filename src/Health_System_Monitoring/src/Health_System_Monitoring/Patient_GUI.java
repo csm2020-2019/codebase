@@ -3,8 +3,7 @@ package Health_System_Monitoring;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
@@ -13,15 +12,14 @@ import java.util.ArrayList;
 
 public class Patient_GUI {
     public static JFrame mainFrame, confirmFrame;
-    private static JLabel headerLabel, searchLabel;
-    private static JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel;
-    private static Patient patient;
-    private static JComboBox<String> referBox;
-    private static List<User> rd_list;
-    private static userDao userDao;
-    private static patientDao patientDao;
+    private JLabel headerLabel;
+    private JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel;
+    private Patient patient;
+    private JComboBox<String> referBox;
+    private List<User> rd_list;
 
-    public static void preparePatientGUI(Patient pat) {
+    public void preparePatientGUI(Patient pat) {
+        Main_GUI.SetWindowPosition(GP_GUI.mainFrame.getLocation().x, GP_GUI.mainFrame.getLocation().y);
         GP_GUI.mainFrame.setVisible(false);
 
         mainFrame = new JFrame("GP application");
@@ -34,33 +32,29 @@ public class Patient_GUI {
         });
 
         northPanel = new JPanel();
-        //westPanel = new JPanel();
         controlPanel = new JPanel();
         southPanel = new JPanel();
 
         patient = pat;
-        
-        userDao = new userDao();
-        patientDao = new patientDao();
 
         HeaderLabel();
         ModifyRecordButton();
         DeleteRecordButton();
         PatientBackButton();
-        NiceButton();
+        AddNiceButton();
         PrescribeCheckBox();
         PatientInfoPanel();
         PatientInfoDisplay();
-        PatientReferPanel();
+        //PatientReferPanel();
 
-        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
     }
 
-    private static void PatientInfoPanel() {
+    private void PatientInfoPanel() {
         infoPanel = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
         infoPanel.setLayout(flowLayout);
@@ -69,45 +63,41 @@ public class Patient_GUI {
         infoPanel.setBorder(patientBorder);
         controlPanel.add(infoPanel);
     }
-    
-    private static void PatientReferPanel() {
-    	referPanel = new JPanel();
-    	FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
-    	referPanel.setLayout(flowLayout);
-    	
-    	// first up, the combo box containing all RDs
-    	//database_driver d_driver = database_driver.getConnection();
-    	
-    	if(rd_list == null) {
-    		rd_list = new ArrayList<User>();
-    	}
-    	else
-    	{
-    		rd_list.clear();
-    	}
-    	rd_list = userDao.getUserByType("rd");
-    	Vector<String> name_list = new Vector<String>(rd_list.size());
-    	
-    	for(User user : rd_list)
-    	{
-    		name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
-    	}
-    	
-    	referBox = new JComboBox<String>(name_list);
-    	
-    	// next up, the button to trigger referral
-    	
-    	JButton TriggerButton = new JButton("Refer");
-    	TriggerButton.setActionCommand("Refer_Patient");
-    	TriggerButton.addActionListener(new Main_GUI.ButtonClickListener());
-    	
-    	referPanel.add(referBox);
-    	referPanel.add(TriggerButton);
-    	
-    	controlPanel.add(referPanel);
+
+    private void PatientReferPanel() {
+        referPanel = new JPanel();
+        FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
+        referPanel.setLayout(flowLayout);
+
+        // first up, the combo box containing all RDs
+        database_driver d_driver = (database_driver) database_driver.getConnection();
+        if (rd_list == null) {
+            rd_list = new ArrayList<User>();
+        } else {
+            rd_list.clear();
+        }
+        rd_list = d_driver.getUsersByType("rd");
+        Vector<String> name_list = new Vector<String>(rd_list.size());
+
+        for (User user : rd_list) {
+            name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+        }
+
+        referBox = new JComboBox<String>(name_list);
+
+        // next up, the button to trigger referral
+
+        JButton TriggerButton = new JButton("Refer");
+        TriggerButton.setActionCommand("Patient_Refer");
+        TriggerButton.addActionListener(new Patient_GUI.ButtonClickListener());
+
+        referPanel.add(referBox);
+        referPanel.add(TriggerButton);
+
+        controlPanel.add(referPanel);
     }
 
-    private static void PatientInfoDisplay() {
+    private void PatientInfoDisplay() {
         JLabel NameLabel = new JLabel("", JLabel.CENTER);
         NameLabel.setText("Full name: " + patient.getPatientFirstName() + " " + patient.getPatientLastName());
         JLabel DoBLabel = new JLabel("", JLabel.CENTER);
@@ -129,77 +119,46 @@ public class Patient_GUI {
         infoPanel.add(PrescriptionLabel);
     }
 
-    private static void PrescribeCheckBox() {
-        JCheckBox PrescribeCheckBox = new JCheckBox("Prescribe to third party material");
-        PrescribeCheckBox.setActionCommand("");
-        PrescribeCheckBox.addActionListener(new Main_GUI.ButtonClickListener());
+    private void PrescribeCheckBox() {
+        Boolean bool = Boolean.TRUE;
+        JCheckBox PrescribeCheckBox = new JCheckBox("Prescribe to third party material", bool);
+        PrescribeCheckBox.addItemListener(this::itemStateChanged);
         controlPanel.add(PrescribeCheckBox);
     }
 
-    public static void ReferPatient() {
-    	int selected = referBox.getSelectedIndex();
-    	// text box maps one-to-one with returned RD user list, which is stored in rd_list
-    	
-    	User rd = rd_list.get(selected);
-    	User gp = Main_GUI.getCurrentUser();
-    	
-    	int rd_id = rd.getUserId();
-    	int gp_id = gp.getUserId();
-    	int patient_id = patient.getPatientUserId();
-    	
-    	boolean result = userDao.addReferral(patient_id, gp_id, rd_id);
+    public void ReferPatient() {
+        int selected = referBox.getSelectedIndex();
+        // text box maps one-to-one with returned RD user list, which is stored in rd_list
+
+        User rd = rd_list.get(selected);
+        User gp = Main_GUI.getCurrentUser();
+
+        int rd_id = rd.getUserId();
+        int gp_id = gp.getUserId();
+        int patient_id = patient.getPatientUserId();
+
+        database_driver d_driver = (database_driver) database_driver.getConnection();
+        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
     }
-    
-    public static void ModifyRecordButtonFunction() {
+
+    public void ModifyRecordButtonFunction() {
         GP_Register_GUI bob = new GP_Register_GUI();
         bob.prepareModifyGPGUI(patient);
     }
 
-    private static void ModifyRecordButton() {
-        JButton NiceButton = new JButton("Modify Record");
-        NiceButton.setActionCommand("Modify_Record");
-        NiceButton.addActionListener(new Main_GUI.ButtonClickListener());
-        controlPanel.add(NiceButton);
-    }
-
-    private static void DeleteRecordButton() {
-        JButton NiceButton = new JButton("Delete Record");
-        NiceButton.setActionCommand("Delete_Record");
-        NiceButton.addActionListener(new Main_GUI.ButtonClickListener());
-        controlPanel.add(NiceButton);
-    }
-
-    private static void HeaderLabel() {
+    private void HeaderLabel() {
         headerLabel = new JLabel("", JLabel.CENTER);
         headerLabel.setText("Patient Record Overview");
         northPanel.add(headerLabel);
     }
 
-    private static void NiceButton() {
-        JButton NiceButton = new JButton("Add Nice Test");
-        NiceButton.setActionCommand("Nice");
-        NiceButton.addActionListener(new Main_GUI.ButtonClickListener());
-        controlPanel.add(NiceButton);
-    }
-
-    private static void PatientBackButton() {
-        JButton BackButton = new JButton("Back");
-        BackButton.setActionCommand("Patient_Back");
-        BackButton.addActionListener(new Main_GUI.ButtonClickListener());
-        southPanel.add(BackButton);
-    }
-
-    public static void GoToNiceGUI() {
+    public void GoToGPGUI() {
         mainFrame.setVisible(false);
-        NICE_GUI.mainFrame.setVisible(true);
-    }
-
-    public static void GoToGPGUI() {
-        mainFrame.setVisible(false);
+        GP_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
         GP_GUI.mainFrame.setVisible(true);
     }
 
-    public static void DeleteConfirmWindow() {
+    public void DeleteConfirmWindow() {
         confirmFrame = new JFrame("Confirm Deletion");
         confirmFrame.setSize(320, 200);
         confirmFrame.setLayout(new BorderLayout());
@@ -225,32 +184,125 @@ public class Patient_GUI {
         confirmFrame.setVisible(true);
     }
 
-    private static void DeleteOkayButton() {
-        JButton NiceButton = new JButton("Okay");
-        NiceButton.setActionCommand("Delete_Okay");
-        NiceButton.addActionListener(new Main_GUI.ButtonClickListener());
-        successSouthPanel.add(NiceButton);
-    }
-
-    private static void DeleteCancelButton() {
-        JButton BackButton = new JButton("Cancel");
-        BackButton.setActionCommand("Delete_Cancel");
-        BackButton.addActionListener(new Main_GUI.ButtonClickListener());
-        successSouthPanel.add(BackButton);
-    }
-
-    public static void DeleteOkayButtonFunction() throws SQLException {
+    public void DeleteOkayButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
-        acceptedCheck = patientDao.deletePatientRecord(patient.getPatientId());
+        database_driver d_driver = (database_driver) database_driver.getConnection();
+        acceptedCheck = d_driver.deletePatientRecord(patient.getPatientId());
 
         if (acceptedCheck == true) {
             confirmFrame.setVisible(false);
-            Patient_GUI.GoToGPGUI();
+            Patient_GUI patient_GUI = new Patient_GUI();
+            patient_GUI.GoToGPGUI();
         }
     }
 
-    public static void DeleteCancelButtonFunction() {
+    public void DeleteCancelButtonFunction() {
         confirmFrame.setVisible(false);
+    }
+
+    /**
+     * Create GUI for
+     */
+    private void ModifyRecordButton() {
+        JButton NiceButton = new JButton("Modify Record");
+        NiceButton.setActionCommand("Patient_Modify_Record");
+        NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(NiceButton);
+    }
+
+    /**
+     * Create GUI for record delete button
+     */
+    private void DeleteRecordButton() {
+        JButton NiceButton = new JButton("Delete Record");
+        NiceButton.setActionCommand("Patient_Delete_Record");
+        NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(NiceButton);
+    }
+
+    /**
+     * Create GUI for add NICE test button
+     */
+    private void AddNiceButton() {
+        JButton NiceButton = new JButton("Add Nice Test");
+        NiceButton.setActionCommand("Patient_Nice");
+        NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(NiceButton);
+    }
+
+    /**
+     * Create GUI for back button
+     */
+    private void PatientBackButton() {
+        JButton BackButton = new JButton("Back");
+        BackButton.setActionCommand("Patient_Back");
+        BackButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        southPanel.add(BackButton);
+    }
+
+    /**
+     * Create GUI for okay button in delete confirmation window
+     */
+    private void DeleteOkayButton() {
+        JButton NiceButton = new JButton("Okay");
+        NiceButton.setActionCommand("Patient_Delete_Okay");
+        NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        successSouthPanel.add(NiceButton);
+    }
+
+    /**
+     * Create GUI for cancel button in delete confirmation window
+     */
+    private void DeleteCancelButton() {
+        JButton BackButton = new JButton("Cancel");
+        BackButton.setActionCommand("Patient_Delete_Cancel");
+        BackButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        successSouthPanel.add(BackButton);
+    }
+
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+    }
+
+    /**
+     * Action Listener that looks out for button presses in Patient_GUI
+     */
+    class ButtonClickListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+            GP_GUI gp_gui = new GP_GUI();
+            GP_Register_GUI gp_register_gui = new GP_Register_GUI();
+            //Patient_GUI patient_gui = new Patient_GUI();
+            NICE_GUI nice_gui = new NICE_GUI();
+
+            if (command.equals("Default")) {
+                //Do nothing
+            } else if (command.equals("Patient_Back")) {
+                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                GoToGPGUI();
+            } else if (command.equals("Patient_Delete_Cancel")) {
+                DeleteCancelButtonFunction();
+            } else if (command.equals("Patient_Delete_Okay")) {
+                try {
+                    DeleteOkayButtonFunction();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            } else if (command.equals("Patient_Delete_Record")) {
+                DeleteConfirmWindow();
+            } else if (command.equals("Patient_Modify_Record")) {
+                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                ModifyRecordButtonFunction();
+            } else if (command.equals("Patient_Nice")) {
+                nice_gui.prepareNiceGUI();
+            } else if (command.equals("Patient_Refer")) {
+                ReferPatient();
+            }
+        }
     }
 }
