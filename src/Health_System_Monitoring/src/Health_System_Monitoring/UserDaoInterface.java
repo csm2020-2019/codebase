@@ -3,7 +3,7 @@ package Health_System_Monitoring;
 import java.util.List;
 
 
-public interface userDaoInterface {
+public interface UserDaoInterface {
     /*
      * method to check login credentials
      * @params username and password of user

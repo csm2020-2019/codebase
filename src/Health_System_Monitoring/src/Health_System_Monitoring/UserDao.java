@@ -8,7 +8,11 @@ import java.util.List;
 import java.sql.*;
 
 
-public class userDao implements userDaoInterface{
+public class UserDao implements UserDaoInterface{
+
+    public UserDao() {}
+
+    public static UserDao getDAO() { return new UserDao(); }
 
     @Override
     public User checkCredentials(String userName, String userPassword) {
