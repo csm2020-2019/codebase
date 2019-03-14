@@ -264,10 +264,10 @@ public class patientDao implements patientDaoInterface{
      */
     public boolean addNiceResults(int patient_id, int user_id, String sex, int age, Date result_date,
                                   int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
-                                  BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
-                                  BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
-                                  boolean cercbrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
-                                  boolean retinal_detachment, boolean rubeosis, boolean lack_senastion, boolean deformity,
+                                  double haemoglobin, double urinary_albumin, int serum_creatinine, double egfr,
+                                  double total_cholesterol, double ldl_level, boolean kidney_damage, boolean eye_damage,
+                                  boolean cerebrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
+                                  boolean retinal_detachment, boolean rubeosis, boolean lack_sensation, boolean deformity,
                                   boolean foot_palpitation, boolean inappropriate_behaviour) {
 
         if(patient_id > 0 && user_id > 0 && sex != null && age > 0 && result_date != null &&
@@ -285,7 +285,7 @@ public class patientDao implements patientDaoInterface{
                 String query = "INSERT INTO nice_results (patient_id, user_id, sex, age, result_date, height, weight, " +
                         "systolic_bp, diastolic_bp, smoker, haemoglobin, urinary_albumin, serum_creatinine, egfr, " +
                         "total_cholesterol, ldl_level, kidney_damage, eye_damage, cerebrovascular_damage, vision_loss, " +
-                        "eye_haemorrhage, retinal_detachment, rubeosis, lack_senastion, deformity, foot_palpitation, " +
+                        "eye_haemorrhage, retinal_detachment, rubeosis, lack_sensation, deformity, foot_palpitation, " +
                         "inappropriate_behaviour)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
                         "?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -300,20 +300,20 @@ public class patientDao implements patientDaoInterface{
                 sqlStatement.setInt(8, systolic_bp);
                 sqlStatement.setInt(9, diastolic_bp);
                 sqlStatement.setBoolean(10, smoker);
-                sqlStatement.setBigDecimal(11, haemoglobin);
-                sqlStatement.setBigDecimal(12, urinary_albumin);
+                sqlStatement.setDouble(11, haemoglobin);
+                sqlStatement.setDouble(12, urinary_albumin);
                 sqlStatement.setInt(13, serum_creatinine);
-                sqlStatement.setBigDecimal(14, egfr);
-                sqlStatement.setBigDecimal(15, total_cholesterol);
-                sqlStatement.setBigDecimal(16, ldl_level);
+                sqlStatement.setDouble(14, egfr);
+                sqlStatement.setDouble(15, total_cholesterol);
+                sqlStatement.setDouble(16, ldl_level);
                 sqlStatement.setBoolean(17, kidney_damage);
                 sqlStatement.setBoolean(18, eye_damage);
-                sqlStatement.setBoolean(19, cercbrovascular_damage);
+                sqlStatement.setBoolean(19, cerebrovascular_damage);
                 sqlStatement.setBoolean(20, vision_loss);
                 sqlStatement.setBoolean(21, eye_haemorrhage);
                 sqlStatement.setBoolean(22, retinal_detachment);
                 sqlStatement.setBoolean(23, rubeosis);
-                sqlStatement.setBoolean(24, lack_senastion);
+                sqlStatement.setBoolean(24, lack_sensation);
                 sqlStatement.setBoolean(25, deformity);
                 sqlStatement.setBoolean(26, foot_palpitation);
                 sqlStatement.setBoolean(27, inappropriate_behaviour);
@@ -349,10 +349,10 @@ public class patientDao implements patientDaoInterface{
 
     public boolean updateNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
                                      int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
-                                     BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
-                                     BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
-                                     boolean cercbrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
-                                     boolean retinal_detachment, boolean rubeosis, boolean lack_senastion, boolean deformity,
+                                     double haemoglobin, double urinary_albumin, int serum_creatinine, double egfr,
+                                     double total_cholesterol, double ldl_level, boolean kidney_damage, boolean eye_damage,
+                                     boolean cerebrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
+                                     boolean retinal_detachment, boolean rubeosis, boolean lack_sensation, boolean deformity,
                                      boolean foot_palpitation, boolean inappropriate_behaviour){
 
         if(result_id > 0 && patient_id > 0 && user_id > 0 && sex != null && age > 0 && result_date != null &&
@@ -364,8 +364,8 @@ public class patientDao implements patientDaoInterface{
             try{
                 String query = "UPDATE nice_results SET sex=?, age=?, result_date=?, height=?, weight=?, systolic_bp=?, " +
                         "diastolic_bp=?, smoker=?, haemoglobin=?, urinary_albumin=?, serum_creatinine=?, egfr=?, " +
-                        "total_cholesterol=?, ldl_level=?, kidney_damage=?, eye_damage=?, cercbrovascular_damage=?, " +
-                        "vision_loss=?, eye_haemorrhage=?, retinal_detachment=?, rubeosis=?, lack_senastion=?, deformity=?, " +
+                        "total_cholesterol=?, ldl_level=?, kidney_damage=?, eye_damage=?, cerebrovascular_damage=?, " +
+                        "vision_loss=?, eye_haemorrhage=?, retinal_detachment=?, rubeosis=?, lack_sensation=?, deformity=?, " +
                         "foot_palpitation=?, inappropriate_behaviour=? where result_id=?";
 
                 sqlStatement = databaseConnection.prepareStatement(query);
@@ -377,20 +377,20 @@ public class patientDao implements patientDaoInterface{
                 sqlStatement.setInt(6, systolic_bp);
                 sqlStatement.setInt(7, diastolic_bp);
                 sqlStatement.setBoolean(8, smoker);
-                sqlStatement.setBigDecimal(9, haemoglobin);
-                sqlStatement.setBigDecimal(10, urinary_albumin);
+                sqlStatement.setDouble(9, haemoglobin);
+                sqlStatement.setDouble(10, urinary_albumin);
                 sqlStatement.setInt(11, serum_creatinine);
-                sqlStatement.setBigDecimal(12, egfr);
-                sqlStatement.setBigDecimal(13, total_cholesterol);
-                sqlStatement.setBigDecimal(14, ldl_level);
+                sqlStatement.setDouble(12, egfr);
+                sqlStatement.setDouble(13, total_cholesterol);
+                sqlStatement.setDouble(14, ldl_level);
                 sqlStatement.setBoolean(15, kidney_damage);
                 sqlStatement.setBoolean(16, eye_damage);
-                sqlStatement.setBoolean(17, cercbrovascular_damage);
+                sqlStatement.setBoolean(17, cerebrovascular_damage);
                 sqlStatement.setBoolean(18, vision_loss);
                 sqlStatement.setBoolean(19, eye_haemorrhage);
                 sqlStatement.setBoolean(20, retinal_detachment);
                 sqlStatement.setBoolean(21, rubeosis);
-                sqlStatement.setBoolean(22, lack_senastion);
+                sqlStatement.setBoolean(22, lack_sensation);
                 sqlStatement.setBoolean(23, deformity);
                 sqlStatement.setBoolean(24, foot_palpitation);
                 sqlStatement.setBoolean(25, inappropriate_behaviour);

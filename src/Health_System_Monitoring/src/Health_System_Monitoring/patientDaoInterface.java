@@ -46,17 +46,17 @@ public interface patientDaoInterface {
 
     public boolean addNiceResults(int patient_id, int user_id, String sex, int age, Date result_date,
                                   int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
-                                  BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
-                                  BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
+                                  double haemoglobin, double urinary_albumin, int serum_creatinine, double egfr,
+                                  double total_cholesterol, double ldl_level, boolean kidney_damage, boolean eye_damage,
                                   boolean cercbrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
-                                  boolean retinal_detachment, boolean rubeosis, boolean lack_senastion, boolean deformity,
+                                  boolean retinal_detachment, boolean rubeosis, boolean lack_sensation, boolean deformity,
                                   boolean foot_palpitation, boolean inappropriate_behaviour);
 
     public boolean updateNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
                                      int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
-                                     BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
-                                     BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
+                                     double haemoglobin, double urinary_albumin, int serum_creatinine, double egfr,
+                                     double total_cholesterol, double ldl_level, boolean kidney_damage, boolean eye_damage,
                                      boolean cercbrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
-                                     boolean retinal_detachment, boolean rubeosis, boolean lack_senastion, boolean deformity,
+                                     boolean retinal_detachment, boolean rubeosis, boolean lack_sensation, boolean deformity,
                                      boolean foot_palpitation, boolean inappropriate_behaviour);
 }
