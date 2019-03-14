@@ -394,6 +394,8 @@ public class patientDao implements patientDaoInterface{
                 sqlStatement.setBoolean(23, deformity);
                 sqlStatement.setBoolean(24, foot_palpitation);
                 sqlStatement.setBoolean(25, inappropriate_behaviour);
+                sqlStatement.setInt(26, result_id);
+
 
                 sqlStatement.executeUpdate();
                 System.out.println("Nice result updated");
