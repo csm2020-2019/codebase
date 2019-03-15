@@ -78,7 +78,7 @@ public class Patient_GUI {
         }
         userDao userDao = new userDao();
 
-        
+
         rd_list = userDao.getUserByType("rd");
 //        rd_list = d_driver.getUsersByType("rd");
         Vector<String> name_list = new Vector<String>(rd_list.size());
@@ -141,8 +141,12 @@ public class Patient_GUI {
         int gp_id = gp.getUserId();
         int patient_id = patient.getPatientUserId();
 
-        database_driver d_driver = (database_driver) database_driver.getConnection();
-        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
+//        database_driver d_driver = (database_driver) database_driver.getConnection();
+//        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
+
+        userDao userDao = new userDao();
+        boolean reuslt = userDao.addReferral(patient_id, gp_id, rd_id);
+
     }
 
     public void ModifyRecordButtonFunction() {
