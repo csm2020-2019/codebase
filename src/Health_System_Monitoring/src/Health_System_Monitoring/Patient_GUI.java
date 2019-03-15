@@ -187,13 +187,17 @@ public class Patient_GUI {
     public void DeleteOkayButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
-        database_driver d_driver = (database_driver) database_driver.getConnection();
-        acceptedCheck = d_driver.deletePatientRecord(patient.getPatientId());
+//        database_driver d_driver = (database_driver) database_driver.getConnection();
+//        acceptedCheck = d_driver.deletePatientRecord(patient.getPatientId());
+
+        patientDao patientDao = new patientDao();
+        acceptedCheck = patientDao.deletePatientRecord(patient.getPatientId());
 
         if (acceptedCheck == true) {
             confirmFrame.setVisible(false);
             Patient_GUI patient_GUI = new Patient_GUI();
             patient_GUI.GoToGPGUI();
+
         }
     }
 
