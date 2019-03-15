@@ -3,12 +3,7 @@ package Health_System_Monitoring;
 import java.awt.*;
 import java.awt.event.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class Main_GUI implements KeyListener {
     public static JFrame mainFrame;
@@ -91,7 +86,7 @@ public class Main_GUI implements KeyListener {
     private method to validate login
     It opens the GP Gui if authentication is successful
      */
-    private void LoginFunction() {
+    private static void LoginFunction() {
         String username = usernameTextField.getText();
         String userPassword = String.valueOf(passwordField.getPassword());
 
@@ -99,13 +94,12 @@ public class Main_GUI implements KeyListener {
 
         user = uDao.checkCredentials(username, userPassword);
 
-        if (user != null) {
-//            System.out.println(user);
+        if (user == null) {
+            JOptionPane.showMessageDialog(null,"Incorrect username or password. Try again",
+                    "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
             GP_GUI gp_GUI = new GP_GUI();
             gp_GUI.prepareGPGUI();
-
-        } else {
-            System.out.println("Incorrect password");
         }
     }
 
@@ -158,9 +152,6 @@ public class Main_GUI implements KeyListener {
     static class ButtonClickListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
-            Patient_GUI patient_gui = new Patient_GUI();
-            GP_Register_GUI gp_register_gui = new GP_Register_GUI();
-            NICE_GUI nice_gui = new NICE_GUI();
 
             //get the text value from the username and pwd text field
             //converted to string type
@@ -168,16 +159,26 @@ public class Main_GUI implements KeyListener {
             if (command.equals("Default")) {
                 //Do Something?
             } else if (command.equals("Login")) {
-                Main_GUI main_gui = new Main_GUI();
-                main_gui.LoginFunction();
+
+                System.out.println(usernameTextField.getText());
+
+                    LoginFunction();
+
             } else if (command.equals("SCBypass")) {
+
                 SC_GUI.prepareSCGUI();
+
             } else if (command.equals("GPBypass")) {
+
                 SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
                 GP_GUI gp_GUI = new GP_GUI();
                 gp_GUI.prepareGPGUI();
+
             } else if (command.equals("Nice_Back")) {
+
+                NICE_GUI nice_gui = new NICE_GUI();
                 nice_gui.GoToPatientGUI();
+
             } else {
                 System.out.println("No Input for button");
             }
