@@ -87,6 +87,10 @@ public class Main_GUI implements KeyListener {
         return user;
     }
 
+    /*
+    private method to validate login
+    It opens the GP Gui if authentication is successful
+     */
     private void LoginFunction() {
         String username = usernameTextField.getText();
         String userPassword = String.valueOf(passwordField.getPassword());
@@ -96,9 +100,10 @@ public class Main_GUI implements KeyListener {
         user = uDao.checkCredentials(username, userPassword);
 
         if (user != null) {
-            System.out.println(user);
+//            System.out.println(user);
             GP_GUI gp_GUI = new GP_GUI();
             gp_GUI.prepareGPGUI();
+
         } else {
             System.out.println("Incorrect password");
         }
