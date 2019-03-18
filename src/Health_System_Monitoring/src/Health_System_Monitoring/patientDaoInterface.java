@@ -2,6 +2,7 @@ package Health_System_Monitoring;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface patientDaoInterface {
