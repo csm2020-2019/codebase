@@ -9,17 +9,9 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import org.jfree.ui.RefineryUtilities;
 
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -271,7 +263,7 @@ public class NICE_GUI {
 		controlPanel.add(niceBackBtn);
 	}
 
-	/*
+	/**
 	 * Set the border title for a panel within the frame
 	 * @param border
 	 */
@@ -280,7 +272,7 @@ public class NICE_GUI {
 		border.setTitlePosition(TitledBorder.TOP);
 	}
 
-	/*
+	/**
 	 * Takes user to Patient GUI
 	 */
 	public void GoToPatientGUI() {
@@ -288,7 +280,7 @@ public class NICE_GUI {
 		Patient_GUI.mainFrame.setVisible(true);
 	}
 
-	/*
+	/**
 	 * Gets results from NICE test and displayed them in NICE_Results_GUI 
 	 */
 	public void GoToNiceResults() {
@@ -327,6 +319,20 @@ public class NICE_GUI {
 		} else {
 			bool = false;
 		}
+	}
+
+	public void GraphButton() {
+		JButton graphBtn = new JButton ("Graph");
+
+		graphBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainFrame.setVisible(false);
+				result_graph graph = new result_graph("School Vs Years", "Number of Schools vs Years");
+				graph.pack();
+				RefineryUtilities.centerFrameOnScreen(graph);
+				graph.setVisible(true);
+			}
+		});
 	}
 	
 	public void SubmitButton() {
