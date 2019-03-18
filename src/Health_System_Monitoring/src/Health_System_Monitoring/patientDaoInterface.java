@@ -44,18 +44,20 @@ public interface patientDaoInterface {
     @return a list of patients that matches the name
      */
     List<Patient> searchPatient(String patient_last_name);
-    
-    /*
-    method to add nice results to database
-    @param nice results parameters
-    @return true if successfully added to database
-     and false if not.
-     */
-    public boolean addNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
+
+    public boolean addNiceResults(int patient_id, int user_id, String sex, int age, Date result_date,
                                   int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
                                   BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
                                   BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
                                   boolean cercbrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
-                                  boolean retinal_detachment, boolean rubeosis, boolean lack_senastion, boolean deformity,
-                                  boolean foot_palpitation, boolean inappropriate_behaviour) throws SQLException;
+                                  boolean retinal_detachment, boolean rubeosis, boolean lack_sensation, boolean deformity,
+                                  boolean foot_palpitation, boolean inappropriate_behaviour);
+
+    public boolean updateNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
+                                     int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
+                                     BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
+                                     BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
+                                     boolean cercbrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
+                                     boolean retinal_detachment, boolean rubeosis, boolean lack_sensation, boolean deformity,
+                                     boolean foot_palpitation, boolean inappropriate_behaviour);
 }
