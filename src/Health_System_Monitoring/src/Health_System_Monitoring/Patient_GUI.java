@@ -102,7 +102,7 @@ public class Patient_GUI {
 
             JButton TriggerButton = new JButton("Refer");
             TriggerButton.setActionCommand("Refer_Patient");
-            TriggerButton.addActionListener(new Main_GUI.ButtonClickListener());
+            TriggerButton.addActionListener(new Main_GUI());
 
             referPanel.add(referBox);
             referPanel.add(TriggerButton);
