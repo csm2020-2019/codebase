@@ -10,24 +10,24 @@ public class Main {
 	public static void main(String[] args) throws SQLException {
 
 //		Connection db = database_driver.getConnection();
-		List<User> usserRecordList = null;
+		//List<User> usserRecordList = null;
 
-		userDao userDao = new userDao();
-		usserRecordList = userDao.getAllUsers();
+		//userDao userDao = new userDao();
+		//usserRecordList = userDao.getAllUsers();
 
 
 //		patientDao patientDao = new patientDao();
 //		patientRecordList = patientDao.getAllPatientgRecords();
 
-		for(User user : usserRecordList){
-			System.out.println(user);
-		}
+		//for(User user : usserRecordList){
+		//	System.out.println(user);
+		//}
 
 //		db.close();
 
 
 
-//		Main_GUI main = new Main_GUI();
+		Main_GUI main = new Main_GUI();
 //		List<User> userRecord = null;
 //		User user = null;
 

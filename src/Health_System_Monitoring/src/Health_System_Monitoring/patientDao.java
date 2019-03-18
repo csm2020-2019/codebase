@@ -264,8 +264,8 @@ public class patientDao implements patientDaoInterface{
      */
     public boolean addNiceResults(int patient_id, int user_id, String sex, int age, Date result_date,
                                   int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
-                                  double haemoglobin, double urinary_albumin, int serum_creatinine, double egfr,
-                                  double total_cholesterol, double ldl_level, boolean kidney_damage, boolean eye_damage,
+                                  BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
+                                  BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
                                   boolean cerebrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
                                   boolean retinal_detachment, boolean rubeosis, boolean lack_sensation, boolean deformity,
                                   boolean foot_palpitation, boolean inappropriate_behaviour) {
@@ -300,12 +300,12 @@ public class patientDao implements patientDaoInterface{
                 sqlStatement.setInt(8, systolic_bp);
                 sqlStatement.setInt(9, diastolic_bp);
                 sqlStatement.setBoolean(10, smoker);
-                sqlStatement.setDouble(11, haemoglobin);
-                sqlStatement.setDouble(12, urinary_albumin);
+                sqlStatement.setBigDecimal(11, haemoglobin);
+                sqlStatement.setBigDecimal(12, urinary_albumin);
                 sqlStatement.setInt(13, serum_creatinine);
-                sqlStatement.setDouble(14, egfr);
-                sqlStatement.setDouble(15, total_cholesterol);
-                sqlStatement.setDouble(16, ldl_level);
+                sqlStatement.setBigDecimal(14, egfr);
+                sqlStatement.setBigDecimal(15, total_cholesterol);
+                sqlStatement.setBigDecimal(16, ldl_level);
                 sqlStatement.setBoolean(17, kidney_damage);
                 sqlStatement.setBoolean(18, eye_damage);
                 sqlStatement.setBoolean(19, cerebrovascular_damage);
@@ -349,8 +349,8 @@ public class patientDao implements patientDaoInterface{
 
     public boolean updateNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
                                      int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
-                                     double haemoglobin, double urinary_albumin, int serum_creatinine, double egfr,
-                                     double total_cholesterol, double ldl_level, boolean kidney_damage, boolean eye_damage,
+                                     BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
+                                     BigDecimal total_cholesterol, BigDecimal ldl_level, boolean kidney_damage, boolean eye_damage,
                                      boolean cerebrovascular_damage, boolean vision_loss, boolean eye_haemorrhage,
                                      boolean retinal_detachment, boolean rubeosis, boolean lack_sensation, boolean deformity,
                                      boolean foot_palpitation, boolean inappropriate_behaviour){
@@ -377,12 +377,12 @@ public class patientDao implements patientDaoInterface{
                 sqlStatement.setInt(6, systolic_bp);
                 sqlStatement.setInt(7, diastolic_bp);
                 sqlStatement.setBoolean(8, smoker);
-                sqlStatement.setDouble(9, haemoglobin);
-                sqlStatement.setDouble(10, urinary_albumin);
+                sqlStatement.setBigDecimal(9, haemoglobin);
+                sqlStatement.setBigDecimal(10, urinary_albumin);
                 sqlStatement.setInt(11, serum_creatinine);
-                sqlStatement.setDouble(12, egfr);
-                sqlStatement.setDouble(13, total_cholesterol);
-                sqlStatement.setDouble(14, ldl_level);
+                sqlStatement.setBigDecimal(12, egfr);
+                sqlStatement.setBigDecimal(13, total_cholesterol);
+                sqlStatement.setBigDecimal(14, ldl_level);
                 sqlStatement.setBoolean(15, kidney_damage);
                 sqlStatement.setBoolean(16, eye_damage);
                 sqlStatement.setBoolean(17, cerebrovascular_damage);
