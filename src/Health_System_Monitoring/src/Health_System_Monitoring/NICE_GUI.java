@@ -267,7 +267,7 @@ public class NICE_GUI {
 	public void NiceBackButton() {
 		JButton niceBackBtn = new JButton("Back");
 		niceBackBtn.setActionCommand("Nice_Back");
-		niceBackBtn.addActionListener(new Main_GUI.ButtonClickListener());
+		niceBackBtn.addActionListener(new Main_GUI());
 		controlPanel.add(niceBackBtn);
 	}
 
