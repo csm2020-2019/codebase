@@ -245,6 +245,7 @@ public class NICE_GUI {
 		footPanel.add(shoeCheck);
 		controlPanel.add(footPanel);
 
+		GraphButton();
 		NiceBackButton();
 		SubmitButton();
 
@@ -333,6 +334,7 @@ public class NICE_GUI {
 				graph.setVisible(true);
 			}
 		});
+		controlPanel.add(graphBtn);
 	}
 	
 	public void SubmitButton() {
