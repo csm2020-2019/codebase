@@ -70,13 +70,17 @@ public class Patient_GUI {
         referPanel.setLayout(flowLayout);
 
         // first up, the combo box containing all RDs
-        database_driver d_driver = (database_driver) database_driver.getConnection();
+//        database_driver d_driver = (database_driver) database_driver.getConnection();
         if (rd_list == null) {
             rd_list = new ArrayList<User>();
         } else {
             rd_list.clear();
         }
-        rd_list = d_driver.getUsersByType("rd");
+        userDao userDao = new userDao();
+
+
+        rd_list = userDao.getUserByType("rd");
+//        rd_list = d_driver.getUsersByType("rd");
         Vector<String> name_list = new Vector<String>(rd_list.size());
 
         for (User user : rd_list) {
@@ -137,8 +141,12 @@ public class Patient_GUI {
         int gp_id = gp.getUserId();
         int patient_id = patient.getPatientUserId();
 
-        database_driver d_driver = (database_driver) database_driver.getConnection();
-        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
+//        database_driver d_driver = (database_driver) database_driver.getConnection();
+//        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
+
+        userDao userDao = new userDao();
+        boolean reuslt = userDao.addReferral(patient_id, gp_id, rd_id);
+
     }
 
     public void ModifyRecordButtonFunction() {
@@ -187,13 +195,15 @@ public class Patient_GUI {
     public void DeleteOkayButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
-        database_driver d_driver = (database_driver) database_driver.getConnection();
-        acceptedCheck = d_driver.deletePatientRecord(patient.getPatientId());
+        patientDao patientDao = new patientDao();
+        acceptedCheck = patientDao.deletePatientRecord(patient.getPatientId());
+
 
         if (acceptedCheck == true) {
             confirmFrame.setVisible(false);
             Patient_GUI patient_GUI = new Patient_GUI();
             patient_GUI.GoToGPGUI();
+
         }
     }
 
