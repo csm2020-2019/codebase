@@ -45,7 +45,7 @@ public class Patient_GUI {
         PrescribeCheckBox();
         PatientInfoPanel();
         PatientInfoDisplay();
-        //PatientReferPanel();
+        PatientReferPanel();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);

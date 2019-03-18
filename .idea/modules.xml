@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/Health_System_Monitoring.iml" filepath="P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/Health_System_Monitoring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Health_System_Monitoring.iml" filepath="$PROJECT_DIR$/Health_System_Monitoring.iml" />
     </modules>
   </component>
 </project>
