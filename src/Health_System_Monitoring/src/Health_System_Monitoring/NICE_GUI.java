@@ -31,23 +31,23 @@ import javax.swing.border.TitledBorder;
 
 public class NICE_GUI {
 	public static JFrame mainFrame;
-	private static JPanel welcomePanel, controlPanel, bmiPanel, bpPanel, smokingPanel, hbaPanel, urinaryPanel,
+	private JPanel welcomePanel, controlPanel, bmiPanel, bpPanel, smokingPanel, hbaPanel, urinaryPanel,
 			serumPanel, cholPanel, eyePanel, footPanel;
-	private static JLabel welcomeLbl;
-	private static JTextField heightTxt, weightTxt, ageTxt, systolicTxt, diastolicTxt, hbaTxt, acrTxt, egfrTxt,
+	private JLabel welcomeLbl;
+	private JTextField heightTxt, weightTxt, ageTxt, systolicTxt, diastolicTxt, hbaTxt, acrTxt, egfrTxt,
 			micromolTxt, tcTxt, lipoTxt;
-	private static ButtonGroup sexGroup, smokeGroup;
-	private static JCheckBox kidneyDamCheck, eyeDamCheck, cercDamCheck, visionCheck, retinaCheck, detatchCheck, rubeosisCheck, senseCheck, deformCheck, pulseCheck, shoeCheck;
-	private static String heightInput, weightInput, ageInput, systolicInput, diastolicInput, hbaInput, acrInput, micromolInput, egfrInput, tcInput, lipoInput, sexInput, smokeInput;
-	private static int resultId, patientId, userId, age, systolic, diastolic, serum, weight, height;
-	private static Date date;
-	private static Boolean smoker, kidneyDamage, eyeDamage, cercbroDamage, visionLoss, eyeHaemorrage, retina, rubeosis, sensation, deformity, palpatation, shoes;
-	private static BigDecimal haemoglobin, urinary, egfr, cholesterol, ldl;
+	private ButtonGroup sexGroup, smokeGroup;
+	private JCheckBox kidneyDamCheck, eyeDamCheck, cercDamCheck, visionCheck, retinaCheck, detatchCheck, rubeosisCheck, senseCheck, deformCheck, pulseCheck, shoeCheck;
+	private String heightInput, weightInput, ageInput, systolicInput, diastolicInput, hbaInput, acrInput, micromolInput, egfrInput, tcInput, lipoInput, sexInput, smokeInput;
+	private int resultId, patientId, userId, age, systolic, diastolic, serum, weight, height;
+	private Date date;
+	private Boolean smoker, kidneyDamage, eyeDamage, cercbroDamage, visionLoss, eyeHaemorrage, retina, rubeosis, sensation, deformity, palpatation, shoes;
+	private BigDecimal haemoglobin, urinary, egfr, cholesterol, ldl;
 	
 	/**
 	 * Build the GUI for the NICE test
 	 */
-	public static void prepareNiceGUI() {
+	public void prepareNiceGUI() {
 
 		mainFrame = new JFrame("NICE Test");
 		mainFrame.setSize(600, 550);
@@ -264,7 +264,7 @@ public class NICE_GUI {
 	/**
 	 * Return to the GP GUI
 	 */
-	public static void NiceBackButton() {
+	public void NiceBackButton() {
 		JButton niceBackBtn = new JButton("Back");
 		niceBackBtn.setActionCommand("Nice_Back");
 		niceBackBtn.addActionListener(new Main_GUI.ButtonClickListener());
@@ -275,7 +275,7 @@ public class NICE_GUI {
 	 * Set the border title for a panel within the frame
 	 * @param border
 	 */
-	public static void SetBorderTitle(TitledBorder border) {
+	public void SetBorderTitle(TitledBorder border) {
 		border.setTitleJustification(TitledBorder.LEFT);
 		border.setTitlePosition(TitledBorder.TOP);
 	}
@@ -283,7 +283,7 @@ public class NICE_GUI {
 	/*
 	 * Takes user to Patient GUI
 	 */
-	public static void GoToPatientGUI() {
+	public void GoToPatientGUI() {
 		mainFrame.setVisible(false);
 		Patient_GUI.mainFrame.setVisible(true);
 	}
@@ -291,7 +291,7 @@ public class NICE_GUI {
 	/*
 	 * Gets results from NICE test and displayed them in NICE_Results_GUI 
 	 */
-	public static void GoToNiceResults() {
+	public void GoToNiceResults() {
 
 		mainFrame.setVisible(false);
 		NICE_Results_GUI results = new NICE_Results_GUI();
@@ -306,7 +306,7 @@ public class NICE_GUI {
 	 * @return selected button from group
 	 * 
 	 */
-	public static String GetButtonGroupSelection(ButtonGroup buttonGroup) {
+	public String GetButtonGroupSelection(ButtonGroup buttonGroup) {
 		for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
 			AbstractButton button = buttons.nextElement();
 			
@@ -321,7 +321,7 @@ public class NICE_GUI {
 	/*
 	 * If the checkbox button has been selected, the corresponding boolean value is set to true
 	 */
-	public static void GetCheckBool(JCheckBox check, Boolean bool) {
+	public void GetCheckBool(JCheckBox check, Boolean bool) {
 		if(check.isSelected()) {
 			bool = true;
 		} else {
@@ -329,7 +329,7 @@ public class NICE_GUI {
 		}
 	}
 	
-	public static void SubmitButton() {
+	public void SubmitButton() {
 		JButton submitBtn = new JButton("Submit");
 		/*
 		 * Validate the nice test. This validation forces the user to enter all required
@@ -388,7 +388,7 @@ public class NICE_GUI {
 					
 					try {
 						patientDaoInterface patientDao = new patientDao();
-						if(patientDao.addNiceResults(resultId, patientId, userId, sexInput, age, date, height, weight, systolic, 
+						if(patientDao.addNiceResults(resultId, patientId, userId, sexInput, age, date, height, weight, systolic,
 								diastolic, smoker, haemoglobin, urinary, serum, egfr, cholesterol, 
 								ldl, kidneyDamage, eyeDamage, cercbroDamage, visionLoss, eyeHaemorrage,
 								retina, rubeosis, sensation, deformity, palpatation, shoes)) {

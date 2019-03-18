@@ -1,14 +1,7 @@
 package Health_System_Monitoring;
 
-
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.sql.SQLException;
-import java.util.List;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,36 +10,23 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-
-public class Main_GUI {
+public class Main_GUI implements KeyListener {
     public static JFrame mainFrame;
-    private JLabel headerLabel1;
-    private JLabel headerLabel2;
+    private JLabel headerLabel1, headerLabel2;
     private JPanel controlPanel;
-    
+    private static Point windowsPosition;
+
     private static JTextField usernameTextField;
-    
+
     private static JPasswordField passwordField;
 
-    
-//    private static int userId;
-//    private static List<User> userInfo = null;
+    //private static int userId;
+    //private static List<User> userInfo = null;
     private static User user;
-    private static userDao userDao;
 
     public Main_GUI() {
-        prepareGUI();
-    }
-
-    
-    public static User getCurrentUser() {
-    	return user;
-    }
-    
-    public void prepareGUI() {
         mainFrame = new JFrame("Login");
         mainFrame.setSize(250, 175);
-        //mainFrame.setLayout(new GridBagLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
                 System.exit(0);
@@ -64,10 +44,11 @@ public class Main_GUI {
 
         usernameTextField = new JTextField("");
         usernameTextField.setPreferredSize(new Dimension(100, 25));
-
+        usernameTextField.addKeyListener(this);
 
         passwordField = new JPasswordField("");
         passwordField.setPreferredSize(new Dimension(100, 25));
+        passwordField.addKeyListener(this);
 
         controlPanel.add(headerLabel1);
         controlPanel.add(usernameTextField);
@@ -77,99 +58,55 @@ public class Main_GUI {
         LoginButton();
         BypassSCButton();
         BypassGPButton();
-        
-        userDao = new userDao();
+        GetCenterPoint();
 
-        mainFrame.setLocationRelativeTo(null);
+        controlPanel.addKeyListener(this);
+
+        mainFrame.setLocation(windowsPosition);
         mainFrame.add(controlPanel);
         mainFrame.setVisible(true);
     }
 
-    static class ButtonClickListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            String command = e.getActionCommand();
-            //get the text value from the username and pwd text field
-            //converted to string type
-            String username = usernameTextField.getText().toString();
-            String userPassword = String.valueOf(passwordField.getPassword());
+    @Override
+    public void keyTyped(KeyEvent e) {
 
+    }
 
-            if (command.equals("Default")) {
-                //Do Something?
-            } else if (command.equals("Login")) {
-            	user = userDao.checkCredentials(username, userPassword);
-            	
-                if(user != null){
-                   System.out.println(user);
-                    GP_GUI.prepareGPGUI();
-                }
-                else {
-                    System.out.println("Incorrect password");
-                }
-
-//                if (userId != -1) {
-//                    //for debug purpose
-//                    System.out.println("User id is: " + userId);
-//
-//                } else System.out.println("Incorrect password");
-
-            } else if (command.equals("SCBypass")) {
-                SC_GUI.prepareSCGUI();
-            } else if (command.equals("GPBypass")) {
-            	GP_GUI.prepareGPGUI();
-            } else if (command.equals("Back")) {
-                GP_GUI.GoBackToMainGUI();
-            } else if (command.equals("Nice")) {
-                NICE_GUI.prepareNiceGUI();
-            } else if (command.equals("GP_Register")) {
-                GP_Register_GUI.prepareGPGUI(true);
-            } else if (command.equals("GP_Register_Back")) {
-                GP_Register_GUI.BackButtonFunction();
-            } else if (command.equals("GP_Register_Submit")) {
-                try {
-                    GP_Register_GUI.SubmitButtonFunction();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
-            } else if (command.equals("GP_Patient_Search")) {
-                try {
-                    GP_GUI.PatientSearchButtonFunction();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
-            } else if (command.equals("GP_Register_Submit_Modify")) {
-                try {
-                    GP_Register_GUI.SubmitModifyButtonFunction();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
-            } else if (command.equals("Patient_Back")) {
-                Patient_GUI.GoToGPGUI();
-            } else if (command.equals("Nice_Back")) {
-                NICE_GUI.GoToPatientGUI();
-            } else if (command.equals("Modify_Record")) {
-                Patient_GUI.ModifyRecordButtonFunction();
-            } else if (command.equals("Delete_Record")) {
-                Patient_GUI.DeleteConfirmWindow();
-            } else if (command.equals("Delete_Okay")) {
-                try {
-                    Patient_GUI.DeleteOkayButtonFunction();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
-            } else if (command.equals("Refer_Patient")) {
-                Patient_GUI.ReferPatient();
-
-            } else if (command.equals("Delete_Cancel")) {
-                Patient_GUI.DeleteCancelButtonFunction();
-            } else {
-                System.out.println("No Input for button");
-            }
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            LoginFunction();
         }
     }
 
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
 
-    
+    public static User getCurrentUser() {
+        return user;
+    }
+
+    private void LoginFunction() {
+        String username = usernameTextField.getText();
+        String userPassword = String.valueOf(passwordField.getPassword());
+
+        userDao uDao = (userDao) new userDao();
+
+        user = uDao.checkCredentials(username, userPassword);
+
+        if (user != null) {
+            System.out.println(user);
+            GP_GUI gp_GUI = new GP_GUI();
+            gp_GUI.prepareGPGUI();
+        } else {
+            System.out.println("Incorrect password");
+        }
+    }
+
+    /**
+     * Creates GUI for login button
+     */
     public void LoginButton() {
         JButton AddButton = new JButton("Login");
         AddButton.setActionCommand("Login");
@@ -177,7 +114,6 @@ public class Main_GUI {
         controlPanel.add(AddButton);
     }
 
-    
     //Temporary button that will be removed later on in development
     private void BypassSCButton() {
         JButton SCButton = new JButton("Bypass");
@@ -185,11 +121,61 @@ public class Main_GUI {
         SCButton.addActionListener((ActionListener) new ButtonClickListener());
         controlPanel.add(SCButton);
     }
-    
+
+    //Temporary button that will be removed later on in development
     private void BypassGPButton() {
-    	JButton GPButton = new JButton("Bypass GP");
-    	GPButton.setActionCommand("GPBypass");
-    	GPButton.addActionListener((ActionListener) new ButtonClickListener());
-    	controlPanel.add(GPButton);
+        JButton GPButton = new JButton("Bypass GP");
+        GPButton.setActionCommand("GPBypass");
+        GPButton.addActionListener((ActionListener) new ButtonClickListener());
+        controlPanel.add(GPButton);
+    }
+
+    public static void SetWindowPosition(double x, double y){
+        Point pt = new Point((int)Math.round(x),(int)Math.round(y));
+        windowsPosition = pt;
+    }
+
+    public static Point GetWindowPosition(){
+        return windowsPosition;
+    }
+
+    private void GetCenterPoint(){
+        int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+
+        Point pt = new Point((screenWidth / 2) - 125, (screenHeight / 2) - 80);
+        windowsPosition = pt;
+    }
+
+    /**
+     * Action Listener that looks out for button presses in Main_GUI
+     */
+    static class ButtonClickListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+            Patient_GUI patient_gui = new Patient_GUI();
+            GP_Register_GUI gp_register_gui = new GP_Register_GUI();
+            NICE_GUI nice_gui = new NICE_GUI();
+
+            //get the text value from the username and pwd text field
+            //converted to string type
+
+            if (command.equals("Default")) {
+                //Do Something?
+            } else if (command.equals("Login")) {
+                Main_GUI main_gui = new Main_GUI();
+                main_gui.LoginFunction();
+            } else if (command.equals("SCBypass")) {
+                SC_GUI.prepareSCGUI();
+            } else if (command.equals("GPBypass")) {
+                SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
+                GP_GUI gp_GUI = new GP_GUI();
+                gp_GUI.prepareGPGUI();
+            } else if (command.equals("Nice_Back")) {
+                nice_gui.GoToPatientGUI();
+            } else {
+                System.out.println("No Input for button");
+            }
+        }
     }
 }
