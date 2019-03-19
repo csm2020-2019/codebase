@@ -3,23 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="56044113-7bea-4abe-b359-43325a50716c" name="Default Changelist" comment="Merging GUI-Cleanup&#10;&#10;# Conflicts:&#10;#&#9;src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java&#10;#&#9;src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java&#10;#&#9;src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java&#10;#&#9;src/Health_System_Monitoring/src/Health_System_Monitoring/NICE_GUI.java&#10;#&#9;src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI$DateLabelFormatter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI$DateLabelFormatter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Main_GUI$ButtonClickListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Main_GUI$ButtonClickListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Main_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Main_GUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Health_System_Monitoring.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Health_System_Monitoring.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/NICE_GUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/NICE_GUI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Patient_GUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Patient_GUI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Patient_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Patient_GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/.settings/org.eclipse.jdt.core.prefs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/NICE_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/NICE_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/patientDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/patientDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/patientDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/patientDaoInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/userDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/userDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/userDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/userDaoInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/NICE_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/NICE_GUI.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="C:\Users\Lucas\OneDrive\IdeaProjects\Health_System_Monitoring\.idea\shelf/" />
@@ -30,12 +16,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="8" column="64" lean-forward="true" selection-start-line="8" selection-start-column="64" selection-end-line="8" selection-end-column="64" />
+            <state relative-caret-position="119">
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
             </state>
           </provider>
         </entry>
@@ -43,7 +29,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
+            <state relative-caret-position="1564">
               <caret line="114" selection-start-line="114" selection-end-line="114" />
               <folding>
                 <element signature="e#3129#3130#0" expanded="true" />
@@ -52,11 +38,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/NICE_GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4233">
-              <caret line="269" column="46" selection-start-line="269" selection-start-column="46" selection-end-line="269" selection-end-column="46" />
+            <state relative-caret-position="340">
+              <caret line="20" column="3" selection-start-line="20" selection-start-column="3" selection-end-line="20" selection-end-column="3" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -64,8 +53,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1581">
-              <caret line="101" column="13" selection-start-line="101" selection-start-column="13" selection-end-line="101" selection-end-column="13" />
+            <state relative-caret-position="1462">
+              <caret line="100" column="13" selection-start-line="100" selection-start-column="13" selection-end-line="100" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -91,7 +80,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/patientDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
+            <state relative-caret-position="306">
               <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
             </state>
           </provider>
@@ -109,16 +98,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
+            <state relative-caret-position="136">
               <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2022#2177#0" expanded="true" />
-                <element signature="e#2176#2177#0" expanded="true" />
-                <element signature="e#14088#14243#0" expanded="true" />
-                <element signature="e#14242#14243#0" expanded="true" />
-                <element signature="e#14973#15128#0" expanded="true" />
-                <element signature="e#15127#15128#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -174,7 +157,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="953" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
@@ -183,15 +166,54 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="codebase" type="b2602c69:ProjectViewProjectNode" />
+              <item name="codebase" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="codebase" type="b2602c69:ProjectViewProjectNode" />
+              <item name="codebase" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="codebase" type="b2602c69:ProjectViewProjectNode" />
+              <item name="codebase" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Health_System_Monitoring" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="codebase" type="b2602c69:ProjectViewProjectNode" />
+              <item name="codebase" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Health_System_Monitoring" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="codebase" type="b2602c69:ProjectViewProjectNode" />
+              <item name="codebase" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Health_System_Monitoring" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552146547136" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552992637680" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Health_System_Monitoring/lib/jcommon-1.0.23.jar!/" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="application.passwordSafe" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -349,9 +371,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.35557988" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.36353946" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -360,7 +382,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49641576" weight="0.23632385" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49641576" weight="0.23618636" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39934355" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -368,7 +390,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3298611" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5035842" side_tool="true" weight="0.23644933" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49880525" weight="0.32166302" />
-      <window_info active="true" anchor="bottom" id="Messages" order="10" visible="true" weight="0.32822758" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3531961" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -380,7 +402,7 @@
       <window_info anchor="right" id="Maven" order="8" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.34792122" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3555437" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -389,15 +411,15 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49641576" visible="true" weight="0.23632385" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3998429" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49641576" weight="0.23618636" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39934355" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32914376" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3298611" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5035842" side_tool="true" weight="0.23644933" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49880525" weight="0.32166302" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32822758" />
+      <window_info anchor="bottom" id="Messages" order="10" visible="true" weight="0.32822758" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -429,7 +451,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java</url>
-          <line>309</line>
+          <line>307</line>
           <properties class="Health_System_Monitoring.GP_Register_GUI">
             <option name="EMULATED" value="true" />
           </properties>
@@ -437,7 +459,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java</url>
-          <line>188</line>
+          <line>186</line>
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
@@ -551,24 +573,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java">
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1581">
-          <caret line="101" column="13" selection-start-line="101" selection-start-column="13" selection-end-line="101" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="33" selection-start-column="33" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/patientDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
+        <state relative-caret-position="136">
+          <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -579,19 +590,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java">
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/patientDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2022#2177#0" expanded="true" />
-            <element signature="e#2176#2177#0" expanded="true" />
-            <element signature="e#14088#14243#0" expanded="true" />
-            <element signature="e#14242#14243#0" expanded="true" />
-            <element signature="e#14973#15128#0" expanded="true" />
-            <element signature="e#15127#15128#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="306">
+          <caret line="25" column="16" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -602,16 +604,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/NICE_GUI.java">
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4233">
-          <caret line="269" column="46" selection-start-line="269" selection-start-column="46" selection-end-line="269" selection-end-column="46" />
+        <state>
+          <caret column="33" selection-start-column="33" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1462">
+          <caret line="100" column="13" selection-start-line="100" selection-start-column="13" selection-end-line="100" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
+        <state relative-caret-position="1564">
           <caret line="114" selection-start-line="114" selection-end-line="114" />
           <folding>
             <element signature="e#3129#3130#0" expanded="true" />
@@ -621,8 +630,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="8" column="64" lean-forward="true" selection-start-line="8" selection-start-column="64" selection-end-line="8" selection-end-column="64" />
+        <state relative-caret-position="119">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/NICE_GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="3" selection-start-line="20" selection-start-column="3" selection-end-line="20" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -691,7 +710,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>jdatepicker-1.3.4</last-edited>
+          <last-edited>jcommon-1.0.23</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
