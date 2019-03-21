@@ -164,7 +164,7 @@ public class GP_Register_GUI {
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
                 + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient id: " + patientId);
 
-        patientDao pDao = (patientDao) new patientDao();
+        PatientDao pDao = (PatientDao) new PatientDao();
         acceptedCheck = (boolean) pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
 
         if (acceptedCheck == true) {
@@ -187,7 +187,7 @@ public class GP_Register_GUI {
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
                 + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient.getPatientId());
 
-        patientDao pDao = (patientDao) new patientDao();
+        PatientDao pDao = (PatientDao) new PatientDao();
         acceptedCheck = (boolean) pDao.updatePatientRecord(patient);
 
         if (acceptedCheck == true) {

@@ -16,13 +16,14 @@ public class Patient {
 	private String patient_medical_history;
 	private String patient_diagnosis;
 	private String patient_prescriptions;
+	private boolean patient_email_prescription;
 	
 	public Patient() {
 		
 	}
 	
 	public Patient(int patient_id, int patient_userid, String patient_first_name, String patient_last_name, Date patient_dob, String patient_address,
-			String patient_medical_history, String patient_diagnosis, String patient_prescriptions) {
+			String patient_medical_history, String patient_diagnosis, String patient_prescriptions, boolean patient_email_prescription) {
 		this.patient_id = patient_id;
 		this.patient_userid = patient_userid;
 		this.patient_dob = patient_dob;
@@ -32,6 +33,7 @@ public class Patient {
 		this.patient_medical_history = patient_medical_history;
 		this.patient_diagnosis = patient_diagnosis;
 		this.patient_prescriptions = patient_prescriptions;
+		this.patient_email_prescription = patient_email_prescription;
 	}
 	
 	public int getPatientId() {
@@ -71,6 +73,8 @@ public class Patient {
 	public String getPatientPrescriptions() {
 		return patient_prescriptions;
 	}
+
+	public boolean getPatientEmailPrescription() { return patient_email_prescription; }
 	
 //	public String toString() {
 //		return "Id: " + getPatientId() + " \nFirst name: " + getPatientFirstName() + " \nLast name: " + getPatientLastName() +
@@ -90,6 +94,7 @@ public class Patient {
 				" \npatient_medical_history='" + patient_medical_history + '\'' +
 				" \npatient_diagnosis='" + patient_diagnosis + '\'' +
 				" \npatient_prescriptions='" + patient_prescriptions + '\'' +
+				" \npatient_email_prescription='" + patient_email_prescription + '\'' +
 				'}';
 	}
 
@@ -147,5 +152,12 @@ public class Patient {
 	 */
 	public void setPatient_prescriptions(String patient_prescriptions) {
 		this.patient_prescriptions = patient_prescriptions;
+	}
+
+	/**
+	 * @param patient_email_prescription the email prescription to set
+	 */
+	public void setPatient_email_prescription(boolean patient_email_prescription) {
+		this.patient_email_prescription = patient_email_prescription;
 	}
 }
