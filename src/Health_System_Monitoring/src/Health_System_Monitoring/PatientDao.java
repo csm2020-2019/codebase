@@ -24,8 +24,8 @@ public class PatientDao implements PatientDaoInterface {
             PreparedStatement sqlStatement = null;
             try {
                 String query = "INSERT INTO patient_records (patient_dob, patient_address, patient_medical_history,"
-                        + "patient_diagnosis, patient_prescriptions, userId, patient_first_name, patient_last_name)" +
-                        " values (?, ?, ?, ?, ?, ?, ?, ?)";
+                        + "patient_diagnosis, patient_prescriptions, userId, patient_first_name, patient_last_name, patient_email_prescription)" +
+                        " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                 //create mysql prepared statement
                 sqlStatement = databaseConnection.prepareStatement(query);
@@ -37,6 +37,7 @@ public class PatientDao implements PatientDaoInterface {
                 sqlStatement.setInt(6, user.getUserId());
                 sqlStatement.setString(7, patient.getPatientFirstName());
                 sqlStatement.setString(8, patient.getPatientLastName());
+                sqlStatement.setBoolean(9, patient.getPatientEmailPrescription());
 
                 sqlStatement.executeUpdate();
                 //closeDbConnection();
@@ -78,7 +79,7 @@ public class PatientDao implements PatientDaoInterface {
             try {
                 String query = "UPDATE patient_records SET patient_dob=?, patient_address=?, patient_medical_history=?,"
                         + "patient_diagnosis=?, patient_prescriptions=?, patient_first_name=?," +
-                        "patient_last_name=? where patient_id=?";
+                        "patient_last_name=?, patient_email_prescription=? where patient_id=?";
 
                 sqlStatement = databaseConnection.prepareStatement(query);
 
@@ -89,7 +90,8 @@ public class PatientDao implements PatientDaoInterface {
                 sqlStatement.setString(5, patient.getPatientPrescriptions());
                 sqlStatement.setString(6, patient.getPatientFirstName());
                 sqlStatement.setString(7, patient.getPatientLastName());
-                sqlStatement.setInt(8, patient.getPatientId());
+                sqlStatement.setBoolean(8, patient.getPatientEmailPrescription());
+                sqlStatement.setInt(9, patient.getPatientId());
 
                 sqlStatement.executeUpdate();
                 System.out.println("Patient record updated!");
@@ -251,9 +253,10 @@ public class PatientDao implements PatientDaoInterface {
         String patient_diagnosis = resultSet.getString("patient_diagnosis");
         int patient_userid = resultSet.getInt("userId");
         String patient_prescriptions = resultSet.getString("patient_prescriptions");
+        boolean patient_email_prescription = resultSet.getBoolean("patient_email_prescription");
 
         return new Patient(patient_id, patient_userid, patient_first_name, patient_last_name, patient_dob, patient_address,
-                patient_medical_history, patient_diagnosis, patient_prescriptions);
+                patient_medical_history, patient_diagnosis, patient_prescriptions, patient_email_prescription);
     }
 
     /*
