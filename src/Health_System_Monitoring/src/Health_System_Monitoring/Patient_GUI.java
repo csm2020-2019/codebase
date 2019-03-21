@@ -42,7 +42,6 @@ public class Patient_GUI {
         DeleteRecordButton();
         PatientBackButton();
         AddNiceButton();
-        PrescribeCheckBox();
         PatientInfoPanel();
         PatientInfoDisplay();
         //PatientReferPanel();
@@ -119,13 +118,6 @@ public class Patient_GUI {
         infoPanel.add(PrescriptionLabel);
     }
 
-    private void PrescribeCheckBox() {
-        Boolean bool = Boolean.TRUE;
-        JCheckBox PrescribeCheckBox = new JCheckBox("Prescribe to third party material", bool);
-        PrescribeCheckBox.addItemListener(this::itemStateChanged);
-        controlPanel.add(PrescribeCheckBox);
-    }
-
     public void ReferPatient() {
         int selected = referBox.getSelectedIndex();
         // text box maps one-to-one with returned RD user list, which is stored in rd_list
@@ -187,8 +179,8 @@ public class Patient_GUI {
     public void DeleteOkayButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
-        database_driver d_driver = (database_driver) database_driver.getConnection();
-        acceptedCheck = d_driver.deletePatientRecord(patient.getPatientId());
+        patientDao pDao = (patientDao) new patientDao();
+        acceptedCheck = pDao.deletePatientRecord(patient.getPatientId());
 
         if (acceptedCheck == true) {
             confirmFrame.setVisible(false);
@@ -259,14 +251,6 @@ public class Patient_GUI {
         BackButton.setActionCommand("Patient_Delete_Cancel");
         BackButton.addActionListener(new Patient_GUI.ButtonClickListener());
         successSouthPanel.add(BackButton);
-    }
-
-    public void itemStateChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-            System.out.println("Yes");
-        } else {
-            System.out.println("No");
-        }
     }
 
     /**

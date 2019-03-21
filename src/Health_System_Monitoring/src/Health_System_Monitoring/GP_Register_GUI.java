@@ -7,10 +7,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,7 +17,7 @@ import java.util.Properties;
 
 public class GP_Register_GUI {
     public static JFrame mainFrame;
-    private JPanel northPanel, controlPanel, southPanel, patientPanel, medicationPanel, infoPanel;
+    private JPanel controlPanel, southPanel, patientPanel, medicationPanel, infoPanel;
 
     private JLabel firstNameLabel, lastNameLabel, addressLabel, dateOfBirthLabel, medicalHistoryLabel, patientDiagnosisLabel, patientPrescriptionsLabel;
     private JTextField firstNameTextField, lastNameTextField, patientDiagnosisTextField;
@@ -34,11 +31,14 @@ public class GP_Register_GUI {
     private String patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions;
     private java.sql.Date patient_dob;
     private int userId = 1;
-    private Boolean NewRecord;
+    private int patient_ID;
+    private Boolean newRecord, patient_email_prescription;
 
 
     public void prepareGPGUI(boolean isNewRecord) {
-        NewRecord = isNewRecord;
+        newRecord = isNewRecord;
+
+        //userId = Main_GUI.getCurrentUser().getUserId();
 
         if (isNewRecord == true) {
             GP_GUI.mainFrame.setVisible(false);
@@ -52,7 +52,7 @@ public class GP_Register_GUI {
         mainFrame.setLayout(new BorderLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
-                mainFrame.setVisible(false);
+                System.exit(0);
             }
         });
 
@@ -77,14 +77,12 @@ public class GP_Register_GUI {
         PatientDiagnosisTextField();
         PatientPrescriptionsLabel();
         PatientPrescriptionsTextArea();
+        PrescribeCheckBox();
 
         BackButton();
 
-        if (isNewRecord == true) {
-            SubmitButton();
-        } else if (isNewRecord == false) {
-            SubmitModifyButton();
-        }
+        SubmitButton();
+
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(controlPanel, BorderLayout.CENTER);
@@ -148,10 +146,25 @@ public class GP_Register_GUI {
         controlPanel.add(infoPanel);
     }
 
+    private void PrescribeCheckBox() {
+        if(patient_email_prescription == null){
+            patient_email_prescription = true;
+        }
+        JCheckBox PrescribeCheckBox = new JCheckBox("Prescribe to third party material", patient_email_prescription);
+        PrescribeCheckBox.addItemListener(this::itemStateChanged);
+        infoPanel.add(PrescribeCheckBox);
+    }
+
     public void BackButtonFunction() {
         mainFrame.setVisible(false);
-        GP_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
-        GP_GUI.mainFrame.setVisible(true);
+        if (newRecord == true) {
+            GP_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
+            GP_GUI.mainFrame.setVisible(true);
+        } else {
+            Patient_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
+            Patient_GUI.mainFrame.setVisible(true);
+        }
+
     }
 
     public void SubmitButtonFunction() throws SQLException {
@@ -160,43 +173,36 @@ public class GP_Register_GUI {
         GrabValues();
         System.out.println("Submitting - First name: " + patient_first_name + ", Last name: " +
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
-                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId);
+                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient_ID);
 
         patientDao pDao = (patientDao) new patientDao();
-        acceptedCheck = (boolean) pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
 
-        if (acceptedCheck == true) {
-            mainFrame.setVisible(false);
-            SubmitConfirmedWindow();
+        if (newRecord == true) {
+            acceptedCheck = (boolean) pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
         } else {
-            JLabel errorLabel = new JLabel();
-            errorLabel.setText("Something was wrong with the submission");
-            infoPanel.removeAll();
-            infoPanel.add(errorLabel);
-            infoPanel.updateUI();
+            acceptedCheck = (boolean) pDao.updatePatientRecord(patient);
         }
-    }
-
-    public void SubmitModifyButtonFunction() throws SQLException {
-        boolean acceptedCheck;
-
-        GrabValues();
-        System.out.println("Submitting - First name: " + patient_first_name + ", Last name: " +
-                patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
-                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient.getPatientId());
-
-        patientDao pDao = (patientDao) new patientDao();
-        acceptedCheck = (boolean) pDao.updatePatientRecord(patient);
 
         if (acceptedCheck == true) {
             mainFrame.setVisible(false);
-            SubmitModifyConfirmedWindow();
+            if (newRecord == true) {
+                GP_GUI.mainFrame.setVisible(true);
+                SubmitConfirmedWindow();
+            } else {
+                //Patient_GUI.mainFrame.setVisible(true);
+                Patient_GUI patient_gui = new Patient_GUI();
+                patient_gui.preparePatientGUI(patient);
+                SubmitModifyConfirmedWindow();
+            }
         } else {
+            /*
             JLabel errorLabel = new JLabel();
             errorLabel.setText("Something was wrong with the submission");
             infoPanel.removeAll();
             infoPanel.add(errorLabel);
-            infoPanel.updateUI();
+            infoPanel.updateUI();*/
+
+            JOptionPane.showMessageDialog(null, "Something was wrong with the submission");
         }
     }
 
@@ -293,7 +299,7 @@ public class GP_Register_GUI {
 
     private void DateOfBirthField() {
         dateOfBirthModel = new UtilDateModel();
-        if (NewRecord != true) {
+        if (newRecord != true) {
             dateOfBirthModel.setDate(getDate().get(Calendar.YEAR), getDate().get(Calendar.MONTH), getDate().get(Calendar.DAY_OF_MONTH));
             dateOfBirthModel.setSelected(true);
         }
@@ -339,6 +345,9 @@ public class GP_Register_GUI {
         patient.setPatient_medical_history(patient_medical_history);
         patient.setPatient_diagnosis(patient_diagnosis);
         patient.setPatient_prescriptions(patient_prescriptions);
+        if (!newRecord) {
+            patient.setPatient_id(patient_ID);
+        }
     }
 
     private void GrabValues() {
@@ -352,6 +361,9 @@ public class GP_Register_GUI {
         patient_medical_history = CheckStringEmpty(patient_medical_history, medicalHistoryTextArea.getText());
         patient_diagnosis = CheckStringEmpty(patient_diagnosis, patientDiagnosisTextField.getText());
         patient_prescriptions = CheckStringEmpty(patient_prescriptions, patientPrescriptionsTextArea.getText());
+        if (!newRecord) {
+            patient_ID = patient.getPatientId();
+        }
         createPatient();
     }
 
@@ -409,16 +421,6 @@ public class GP_Register_GUI {
     }
 
     /**
-     * Create GUI for
-     */
-    private void SubmitModifyButton() {
-        JButton BackButton = new JButton("Modify");
-        BackButton.setActionCommand("GP_Register_Submit_Modify");
-        BackButton.addActionListener(new GP_Register_GUI.ButtonClickListener());
-        southPanel.add(BackButton);
-    }
-
-    /**
      * Create GUI for back button
      */
     private void BackButton() {
@@ -438,6 +440,14 @@ public class GP_Register_GUI {
         southPanel.add(BackButton);
     }
 
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            patient_email_prescription = true;
+        } else {
+            patient_email_prescription = false;
+        }
+    }
+
     /**
      * Action Listener that looks out for button presses GP_Register_GUI
      */
@@ -451,19 +461,12 @@ public class GP_Register_GUI {
             if (command.equals("Default")) {
                 //Do nothing
             } else if (command.equals("GP_Register_Back")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
+                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 BackButtonFunction();
             } else if (command.equals("GP_Register_Submit")) {
                 try {
-                    Main_GUI.SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
+                    Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                     SubmitButtonFunction();
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
-                }
-            } else if (command.equals("GP_Register_Submit_Modify")) {
-                try {
-                    Main_GUI.SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
-                    SubmitModifyButtonFunction();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
