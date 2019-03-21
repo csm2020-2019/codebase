@@ -114,6 +114,7 @@ public class GP_Register_GUI {
         patient_medical_history = patient.getPatientMedicalHistory();
         patient_diagnosis = patient.getPatientDiagnosis();
         patient_prescriptions = patient.getPatientPrescriptions();
+        patient_ID = patient.getPatientId();
     }
 
     private void PatientPanel() {
