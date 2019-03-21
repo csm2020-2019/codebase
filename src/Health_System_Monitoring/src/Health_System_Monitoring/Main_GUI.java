@@ -90,7 +90,7 @@ public class Main_GUI implements KeyListener, ActionListener {
         String username = usernameTextField.getText();
         String userPassword = String.valueOf(passwordField.getPassword());
 
-        userDao uDao = (userDao) new userDao();
+        UserDaoInterface uDao = (UserDaoInterface) new UserDao();
 
         user = uDao.checkCredentials(username, userPassword);
 

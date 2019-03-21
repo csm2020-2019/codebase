@@ -5,7 +5,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class Patient_GUI {
         PrescribeCheckBox();
         PatientInfoPanel();
         PatientInfoDisplay();
-        //PatientReferPanel();
+        PatientReferPanel();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);
@@ -63,42 +62,53 @@ public class Patient_GUI {
         infoPanel.setBorder(patientBorder);
         controlPanel.add(infoPanel);
     }
-
+    
     private void PatientReferPanel() {
-        referPanel = new JPanel();
-        FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
-        referPanel.setLayout(flowLayout);
+    	referPanel = new JPanel();
+    	FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
+    	referPanel.setLayout(flowLayout);
 
-        // first up, the combo box containing all RDs
-//        database_driver d_driver = (database_driver) database_driver.getConnection();
-        if (rd_list == null) {
-            rd_list = new ArrayList<User>();
-        } else {
-            rd_list.clear();
+    	// first check to see if we're already referred
+
+        UserDaoInterface userDao = UserDao.getDAO();
+
+        int rd_id = userDao.getReferralByPatientId(patient.getPatientUserId());
+        if(rd_id !=-1) {
+            // we have a referral, so show that
+            User rd = userDao.getUserById(rd_id);
+
+            JLabel referred = new JLabel (rd.getUserFirstName() + " " + rd.getUserLastName());
+            referPanel.add(referred);
         }
-        userDao userDao = new userDao();
+        else {
+            // first up, the combo box containing all RDs
 
+            if (rd_list == null) {
+                rd_list = new ArrayList<User>();
+            } else {
+                rd_list.clear();
+            }
+            rd_list = userDao.getUserByType("rd");
+            Vector<String> name_list = new Vector<String>(rd_list.size());
 
-        rd_list = userDao.getUserByType("rd");
-//        rd_list = d_driver.getUsersByType("rd");
-        Vector<String> name_list = new Vector<String>(rd_list.size());
+            for (User user : rd_list) {
+                name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+            }
 
-        for (User user : rd_list) {
-            name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+            referBox = new JComboBox<String>(name_list);
+
+            // next up, the button to trigger referral
+
+            JButton TriggerButton = new JButton("Refer");
+            TriggerButton.setActionCommand("Refer_Patient");
+            TriggerButton.addActionListener(new Main_GUI());
+
+            referPanel.add(referBox);
+            referPanel.add(TriggerButton);
         }
-
-        referBox = new JComboBox<String>(name_list);
-
-        // next up, the button to trigger referral
-
-        JButton TriggerButton = new JButton("Refer");
-        TriggerButton.setActionCommand("Patient_Refer");
-        TriggerButton.addActionListener(new Patient_GUI.ButtonClickListener());
-
-        referPanel.add(referBox);
-        referPanel.add(TriggerButton);
-
-        controlPanel.add(referPanel);
+        TitledBorder referBorder = new TitledBorder("Referrals");
+        referPanel.setBorder(referBorder);
+    	controlPanel.add(referPanel);
     }
 
     private void PatientInfoDisplay() {
@@ -144,9 +154,11 @@ public class Patient_GUI {
 //        database_driver d_driver = (database_driver) database_driver.getConnection();
 //        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
 
-        userDao userDao = new userDao();
+        UserDaoInterface userDao = new UserDao();
         boolean reuslt = userDao.addReferral(patient_id, gp_id, rd_id);
 
+
+    	referBox.setEditable(false);
     }
 
     public void ModifyRecordButtonFunction() {
@@ -195,7 +207,7 @@ public class Patient_GUI {
     public void DeleteOkayButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
-        patientDao patientDao = new patientDao();
+        PatientDao patientDao = new PatientDao();
         acceptedCheck = patientDao.deletePatientRecord(patient.getPatientId());
 
 

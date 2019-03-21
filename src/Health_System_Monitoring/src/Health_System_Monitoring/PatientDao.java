@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 
 
-public class patientDao implements patientDaoInterface{
+public class PatientDao implements PatientDaoInterface {
 
 
     @Override

@@ -16,8 +16,8 @@ public class Main {
 		//usserRecordList = userDao.getAllUsers();
 
 
-//		patientDao patientDao = new patientDao();
-//		patientRecordList = patientDao.getAllPatientgRecords();
+//		PatientDao PatientDao = new PatientDao();
+//		patientRecordList = PatientDao.getAllPatientgRecords();
 
 		//for(User user : usserRecordList){
 		//	System.out.println(user);

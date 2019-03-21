@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.Enumeration;
 
 import javax.swing.AbstractButton;
@@ -386,7 +385,7 @@ public class NICE_GUI {
 					JOptionPane.showMessageDialog(null, "Please enter all required fields");
 				} else {
 
-						patientDaoInterface patientDao = new patientDao();
+						PatientDaoInterface patientDao = new PatientDao();
 						if(patientDao.addNiceResults(patientId, userId, sexInput, age, date, height, weight, systolic,
 								diastolic, smoker, haemoglobin, urinary, serum, egfr, cholesterol, 
 								ldl, kidneyDamage, eyeDamage, cercbroDamage, visionLoss, eyeHaemorrage,
