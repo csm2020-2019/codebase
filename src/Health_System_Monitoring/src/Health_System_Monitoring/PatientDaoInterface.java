@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface patientDaoInterface {
+public interface PatientDaoInterface {
     /*
     @param patient the Patient object - Create a patient object and pass into the method
     @param user the user logged into the system (maybe GP) adding the patient

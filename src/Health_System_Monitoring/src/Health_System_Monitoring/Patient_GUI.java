@@ -75,7 +75,7 @@ public class Patient_GUI {
         } else {
             rd_list.clear();
         }
-        userDao userDao = new userDao();
+        UserDao userDao = new UserDao();
 
 
         rd_list = userDao.getUserByType("rd");
@@ -136,7 +136,7 @@ public class Patient_GUI {
         //database_driver d_driver = (database_driver) database_driver.getConnection();
         //boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
 
-        userDao userDao = new userDao();
+        UserDao userDao = new UserDao();
         boolean result = userDao.addReferral(patient_id, gp_id, rd_id);
 
     }
@@ -187,7 +187,7 @@ public class Patient_GUI {
     public void DeleteOkayButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
-        patientDao pDao = (patientDao) new patientDao();
+        PatientDao pDao = (PatientDao) new PatientDao();
         acceptedCheck = pDao.deletePatientRecord(patient.getPatientId());
 
         if (acceptedCheck == true) {

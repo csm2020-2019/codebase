@@ -176,7 +176,7 @@ public class GP_Register_GUI {
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
                 + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient_ID);
 
-        patientDao pDao = (patientDao) new patientDao();
+        PatientDao pDao = (PatientDao) new PatientDao();
 
         if (newRecord == true) {
             acceptedCheck = (boolean) pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
