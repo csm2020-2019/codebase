@@ -115,7 +115,7 @@ public interface FormDao {
 	/**
 	 * Get structure of specified Form
 	 * @param formId to retrieve
-	 * @return List of FormElement objects
+	 * @return ArrayList of FormElement objects (without answers)
 	 */
 	public Collection<FormElement> getFormElements(int formId);
 	
@@ -128,5 +128,11 @@ public interface FormDao {
 	 */
 	public int submitFormAnswers(int formId, int submitterId, List<Object> values);
 
+	/**
+	 * Get form structure and answers for a given Submission
+	 * @param formId specific form to retrieve
+	 * @param submissionId specific submission to retrieve
+	 * @return ArrayList of FormElement objects (with answers folded in)
+	 */
 	public Collection<FormElement> getSubmission(int formId, int submissionId);
 }

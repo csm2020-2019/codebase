@@ -147,6 +147,7 @@ public class Form_GUI {
         for(FormElement fe : formElements)
         {
              fe.value = fe.default_value;
+             dao.addAnswer(fe.question_id, submissionId, fe.value );
         }
     }
 
@@ -170,6 +171,7 @@ public class Form_GUI {
         FormElement fe = formElements.get(elementId);
         fe.value = value;
 
+        updateSubmissionAnswer(fe);
     }
 
     /**
@@ -222,6 +224,31 @@ public class Form_GUI {
                 yesButton.setVisible(true);
                 noButton.setVisible(false);
 
+                yesButton.setActionCommand(String.valueOf(newIndex));
+                noButton.setActionCommand(String.valueOf(newIndex));
+
+                yesButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        BigInteger indexB = new BigInteger(e.getActionCommand());
+                        int index = indexB.intValue();
+                        FormElement fe = formElements.get(index);
+                        fe.value = true;
+                        dao.updateAnswer(fe.question_id,submissionId,true);
+                    }
+                });
+
+                noButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        BigInteger indexB = new BigInteger(e.getActionCommand());
+                        int index = indexB.intValue();
+                        FormElement fe = formElements.get(index);
+                        fe.value = false;
+                        dao.updateAnswer(fe.question_id,submissionId,false);
+                    }
+                });
+
                 newPanel.add(buttonPanel);
 
                 formEntries.add(buttonPanel);
@@ -262,6 +289,19 @@ public class Form_GUI {
                 valueField.setEnabled(false);
                 valueField.setVisible(true);
 
+                valueField.setActionCommand(String.valueOf(newIndex));
+                valueField.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        BigInteger indexB = new BigInteger(e.getActionCommand());
+                        int index = indexB.intValue();
+                        FormElement fe = formElements.get(index);
+                        JTextField tf = (JTextField)formEntries.get(index);
+                        fe.value = new BigDecimal(tf.getText()).intValue();
+                        dao.updateAnswer(fe.question_id,submissionId,fe.value);
+                    }
+                });
+
                 newPanel.add(valueField);
                 formEntries.add(valueField);
             }
@@ -294,6 +334,19 @@ public class Form_GUI {
                 valueField.setEnabled(false);
                 valueField.setVisible(true);
 
+                valueField.setActionCommand(String.valueOf(newIndex));
+                valueField.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        BigInteger indexB = new BigInteger(e.getActionCommand());
+                        int index = indexB.intValue();
+                        FormElement fe = formElements.get(index);
+                        JTextField tf = (JTextField)formEntries.get(index);
+                        fe.value = new BigDecimal(tf.getText()).floatValue();
+                        dao.updateAnswer(fe.question_id,submissionId,fe.value);
+                    }
+                });
+
                 newPanel.add(valueField);
                 formEntries.add(valueField);
             }
@@ -306,6 +359,19 @@ public class Form_GUI {
                 // starts out as disabled but visible
                 valueField.setEnabled(false);
                 valueField.setVisible(true);
+
+                valueField.setActionCommand(String.valueOf(newIndex));
+                valueField.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        BigInteger indexB = new BigInteger(e.getActionCommand());
+                        int index = indexB.intValue();
+                        FormElement fe = formElements.get(index);
+                        JTextField tf = (JTextField)formEntries.get(index);
+                        fe.value = tf.getText();
+                        dao.updateAnswer(fe.question_id,submissionId,fe.value);
+                    }
+                });
 
                 newPanel.add(valueField);
                 formEntries.add(valueField);
