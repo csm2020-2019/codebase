@@ -6,7 +6,9 @@ package Health_System_Monitoring;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * @author user
@@ -115,7 +117,7 @@ public interface FormDao {
 	 * @param formId to retrieve
 	 * @return List of FormElement objects
 	 */
-	public List<FormElement> getFormElements(int formId);
+	public Collection<FormElement> getFormElements(int formId);
 	
 	/**
 	 * Submit form answers for specified Form
@@ -125,4 +127,6 @@ public interface FormDao {
 	 * @return submission id
 	 */
 	public int submitFormAnswers(int formId, int submitterId, List<Object> values);
+
+	public Collection<FormElement> getSubmission(int formId, int submissionId);
 }

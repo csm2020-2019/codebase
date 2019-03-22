@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,7 +17,9 @@ import java.util.List;
 public class FormJDBC implements FormDao {
 	
 	public Connection database_connection;
-	
+
+	public static FormDao getDAO() { return new FormJDBC(); }
+
 	public FormJDBC()
 	{
 		database_connection = database_driver.getConnection();
@@ -26,7 +29,7 @@ public class FormJDBC implements FormDao {
 	{
 		 PreparedStatement sqlStatement = null;
 		 try {
-			 String query = "INSERT INTO forms (form_name,userId) VALUES (?,?)\n" + 
+			 String query = "INSERT INTO forms (form_name,userId) VALUES (?,?);\n" +
 							"SELECT LAST_INSERT_ID()";
 			
 			 sqlStatement = database_connection.prepareStatement(query);
@@ -54,7 +57,7 @@ public class FormJDBC implements FormDao {
 	{
 		PreparedStatement sqlStatement = null;
         try {
-            String query = "UPDATE forms SET (form_name,userId) = (?,?) WHERE form_id=?";
+            String query = "UPDATE forms SET form_name = ? , userId = ? WHERE form_id=?";
 
             sqlStatement = database_connection.prepareStatement(query);
 
@@ -108,7 +111,7 @@ public class FormJDBC implements FormDao {
 	{
 		PreparedStatement sqlStatement = null;
 		 try {
-			 String query = "INSERT INTO questions (form_id,q_type,label) VALUES (?,?,?)\n" + 
+			 String query = "INSERT INTO questions (form_id,q_type,label) VALUES (?,?,?);\n" +
 							"SELECT LAST_INSERT_ID()";
 			
 			 sqlStatement = database_connection.prepareStatement(query);
@@ -139,7 +142,7 @@ public class FormJDBC implements FormDao {
 	{
 		PreparedStatement sqlStatement = null;
         try {
-            String query = "UPDATE questions SET (q_type,label) = (?,?) WHERE question_id=?";
+            String query = "UPDATE questions SET q_type = ?, label = ? WHERE question_id=?";
 
             sqlStatement = database_connection.prepareStatement(query);
 
@@ -193,7 +196,7 @@ public class FormJDBC implements FormDao {
 	{
 		PreparedStatement sqlStatement = null;
 		 try {
-			 String query = "INSERT INTO submissions (form_id,submitter_id) VALUES (?,?)\n" + 
+			 String query = "INSERT INTO submissions (form_id,submitter_id) VALUES (?,?);\n" +
 							"SELECT LAST_INSERT_ID()";
 			
 			 sqlStatement = database_connection.prepareStatement(query);
@@ -361,13 +364,13 @@ public class FormJDBC implements FormDao {
 	
 	// utility functions
 	
-	public List<FormElement> getFormElements(int formId)
+	public Collection<FormElement> getFormElements(int formId)
 	{
-		List<FormElement> outputList = new ArrayList<FormElement>();
+		ArrayList<FormElement> outputList = new ArrayList<FormElement>();
 		
 		PreparedStatement sqlStatement = null;
 		 try {
-			 String query = "SELECT * FROM questions WHERE form_id = ?";
+			 String query = "SELECT * FROM questions WHERE form_id = ? ORDER BY question_id ASC";
 			
 			 sqlStatement = database_connection.prepareStatement(query);
 			 sqlStatement.setInt(1, formId);
@@ -400,7 +403,7 @@ public class FormJDBC implements FormDao {
 	{
 		int submissionId = addSubmission(formId,submitterId);
 		
-		List<FormElement> elements = getFormElements(formId);
+		ArrayList<FormElement> elements = (ArrayList)getFormElements(formId);
 		
 		for(int i=0;i<elements.size();i++)
 		{
@@ -411,5 +414,75 @@ public class FormJDBC implements FormDao {
 		
 		return submissionId;
 	}
+
+	public Collection<FormElement> getSubmission(int formId, int submissionId)
+	{
+		// get the array structure
+		ArrayList<FormElement> elements = (ArrayList)getFormElements(formId);
+
+		PreparedStatement sqlStatement = null;
+
+		// for each element, get the relevant value
+		for(FormElement fe : elements)
+		{
+			FormType type = fe.type;
+			String typeString = type.toString().toLowerCase();
+			String query = "SELECT * FROM answer_" + typeString + " WHERE question_id = ? AND submission_id = ?";
+
+			try {
+				sqlStatement = database_connection.prepareStatement(query);
+
+				sqlStatement.setInt(1, fe.question_id);
+				sqlStatement.setInt(2, submissionId);
+
+				ResultSet resultSet = sqlStatement.executeQuery();
+
+				if(resultSet.next()) {
+					switch(fe.type) {
+						case FT_STRING:
+						{
+							fe.value = resultSet.getString("value");
+						}
+						break;
+
+						case FT_INT:
+						{
+							fe.value = resultSet.getInt("value");
+						}
+						break;
+
+						case FT_FLOAT:
+						{
+							fe.value = resultSet.getFloat("value");
+						}
+						break;
+
+						case FT_BOOLEAN:
+						{
+							fe.value = resultSet.getBoolean("value");
+						}
+						break;
+					}
+				}
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
+			finally {
+				if (sqlStatement != null) {
+					try {
+						sqlStatement.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+		return elements;
+	}
+
 
 }

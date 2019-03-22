@@ -26,7 +26,12 @@ public class Form_GUI {
 
     private static boolean editMode = false;
 
-    public static void prepareSCGUI() {
+    private static int formId; // form we're using
+    private static int submissionId; // submission ID for the current answer set (outside Edit Mode)
+
+    private static FormDao dao;
+
+    public static void prepareFormGUI() {
         JLabel titlelabel = new JLabel("title ");
         titlepanel.add(titlelabel);
         titlepanel.add(editbutton);
@@ -68,6 +73,8 @@ public class Form_GUI {
         contentpanel.setLayout(new FlowLayout());
 
         scrollpanel.add(contentpanel);
+
+        dao = FormJDBC.getDAO();
     }
 
     public static void toggleEditMode() {
@@ -97,23 +104,58 @@ public class Form_GUI {
     public static void insertItem(FormType f) {
         // we now know the Type of our new form, so create an edit-mode version of that form element
 
+        int newID = formElements.size();
         FormElement newElement = new FormElement();
         formElements.add(newElement);
 
-        JPanel newPanel = createPanel(f);
+        addQuestionToFormDao(newID);
 
+        JPanel newPanel = createPanel(f);
         contentpanel.add(newPanel);
     }
 
+    /// ---------------------------------------------------------------------------------
+
     private static void updateFormDaoForElement(int elementId)
     {
-
+        // we just updated an Question element, so we need to update the corresponding part of the Question table
+        FormElement fe = formElements.get(elementId);
+        dao.updateQuestion(fe.question_id, fe.type, fe.label);
     }
 
-    private static void updateFormDao(int elementId)
+    private static void addQuestionToFormDao(int elementId)
     {
-
+        // we just added the question, so it needs to be added to the DAO
+        FormElement fe = formElements.get(elementId);
+        int id = dao.addQuestion(formId, fe.type, fe.label);
+        fe.question_id = id;
     }
+
+    private static void removeQuestionFromFormDao(int elementId)
+    {
+        // we just removed a question, so it needs to be removed from the DAO
+        FormElement fe = formElements.get(elementId);
+        dao.removeQuestion(fe.question_id);
+    }
+
+    private static void newSubmissionToFormDao()
+    {
+        // create new submission and populate the table
+        submissionId = dao.addSubmission(formId, Main_GUI.getCurrentUser().getUserId());
+
+        // add default answers for all fields
+        for(FormElement fe : formElements)
+        {
+             fe.value = fe.default_value;
+        }
+    }
+
+    private static void updateSubmissionAnswer(FormElement answer)
+    {
+        dao.updateAnswer(answer.question_id, submissionId, answer.value);
+    }
+
+    /// --------------------------------------------------------------------------------
 
     private static void updateElementLabel(int elementId, String labelText)
     {
@@ -124,9 +166,10 @@ public class Form_GUI {
 
     private static void updateElementControl(int elementId, Object value)
     {
+        // this can only happen when we're not in Edit Mode, which means we have a Submission ID
         FormElement fe = formElements.get(elementId);
         fe.value = value;
-        updateFormDaoForElement(elementId);
+
     }
 
     /**
