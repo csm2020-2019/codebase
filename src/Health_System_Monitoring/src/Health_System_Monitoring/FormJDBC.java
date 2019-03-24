@@ -25,15 +25,15 @@ public class FormJDBC implements FormDao {
 	{
 		 PreparedStatement sqlStatement = null;
 		 try {
-			 String query = "INSERT INTO forms (form_name,userId) VALUES (?,?);\n" +
-							"SELECT LAST_INSERT_ID()";
+			 String query = "INSERT INTO forms (form_name,userId) VALUES (?,?)";
 			
-			 sqlStatement = database_connection.prepareStatement(query);
+			 sqlStatement = database_connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			 sqlStatement.setString(1, form_name);
 			 sqlStatement.setInt(2, creator.getUserId());
 			 
-			 ResultSet resultSet = sqlStatement.executeQuery();
-			
+			 sqlStatement.executeQuery();
+			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
+
 			 if (resultSet.next()) {
 				 return resultSet.getInt(0);
 			 }
@@ -107,18 +107,18 @@ public class FormJDBC implements FormDao {
 	{
 		PreparedStatement sqlStatement = null;
 		 try {
-			 String query = "INSERT INTO questions (form_id,q_type,label) VALUES (?,?,?);\n" +
-							"SELECT LAST_INSERT_ID()";
-			
-			 sqlStatement = database_connection.prepareStatement(query);
-			 
+			 String query = "INSERT INTO questions (form_id,q_type,label) VALUES (?,?,?)";
+
+			 sqlStatement = database_connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
 			 sqlStatement.setInt(1, formId);
 			 sqlStatement.setString(2, type.toString());
 			 sqlStatement.setString(3, label);
-			 
-			 
-			 ResultSet resultSet = sqlStatement.executeQuery();
-			
+
+			 sqlStatement.executeQuery();
+			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
+
+
 			 if (resultSet.next()) {
 				 return resultSet.getInt(0);
 			 }
@@ -192,17 +192,17 @@ public class FormJDBC implements FormDao {
 	{
 		PreparedStatement sqlStatement = null;
 		 try {
-			 String query = "INSERT INTO submissions (form_id,submitter_id,subject_id, date) VALUES (?,?,?,?);\n" +
-							"SELECT LAST_INSERT_ID()";
-			
-			 sqlStatement = database_connection.prepareStatement(query);
-			 
+			 String query = "INSERT INTO submissions (form_id,submitter_id,subject_id, date) VALUES (?,?,?,?)";
+
+			 sqlStatement = database_connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
 			 sqlStatement.setInt(1, formId);
 			 sqlStatement.setInt(2, submitterId);
 			 sqlStatement.setInt(3, subjectId);
 			 sqlStatement.setDate(4, currentDate);
-			 
-			 ResultSet resultSet = sqlStatement.executeQuery();
+
+			 sqlStatement.executeQuery();
+			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 			
 			 if (resultSet.next()) {
 				 return resultSet.getInt(0);
@@ -284,13 +284,13 @@ public class FormJDBC implements FormDao {
 		
 		PreparedStatement sqlStatement = null;
 		 try {
-			 String query = "INSERT INTO " + destination_table + " (question_id,submission_id,value) VALUES (?,?,?)\n" + 
-							"SELECT LAST_INSERT_ID()";
-			
-			 sqlStatement = database_connection.prepareStatement(query);
-			 
+			 String query = "INSERT INTO " + destination_table + " (question_id,submission_id,value) VALUES (?,?,?)";
+
+			 sqlStatement = database_connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
 			 sqlStatement.setInt(1, questionId);
 			 sqlStatement.setInt(2, submissionId);
+
 			 switch(valueType)
 			 {
 			 case "String":
@@ -302,10 +302,11 @@ public class FormJDBC implements FormDao {
 			 case "Boolean":
 				 sqlStatement.setBoolean(3, (Boolean)value);
 			 }
-			 
-			 ResultSet resultSet = sqlStatement.executeQuery();
+
+			 sqlStatement.executeQuery();
+			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 			
-			 if (resultSet.next()) {
+			 if (resultSet.first()) {
 				 return resultSet.getInt(0);
 			 }
 			 if (sqlStatement != null) {
