@@ -162,13 +162,15 @@ public class GP_Register_GUI {
         GrabValues();
         System.out.println("Submitting - First name: " + patient_first_name + ", Last name: " +
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
-                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient id: " + patientId);
+                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", Doctor User ID: " + userId);
 
         PatientDao pDao = (PatientDao) new PatientDao();
-        acceptedCheck = (boolean) pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
+        int newId = pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
 
-        if (acceptedCheck == true) {
+        if (newId != -1) {
+            patientId = newId;
             mainFrame.setVisible(false);
+            System.out.println("Submitted, new Patient ID: " + patientId);
             SubmitConfirmedWindow();
         } else {
             JLabel errorLabel = new JLabel();
@@ -185,7 +187,7 @@ public class GP_Register_GUI {
         GrabValues();
         System.out.println("Submitting - First name: " + patient_first_name + ", Last name: " +
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
-                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient.getPatientId());
+                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", Doctor User ID: " + userId + ", Patient ID: " + patient.getPatientId());
 
         PatientDao pDao = (PatientDao) new PatientDao();
         acceptedCheck = (boolean) pDao.updatePatientRecord(patient);
@@ -355,8 +357,8 @@ public class GP_Register_GUI {
         patient_medical_history = CheckStringEmpty(patient_medical_history, medicalHistoryTextArea.getText());
         patient_diagnosis = CheckStringEmpty(patient_diagnosis, patientDiagnosisTextField.getText());
         patient_prescriptions = CheckStringEmpty(patient_prescriptions, patientPrescriptionsTextArea.getText());
-        patientId = patient.getPatientId();
         createPatient();
+        //patientId = patient.getPatientId();
     }
 
     private String CheckStringEmpty(String x, String y) {
