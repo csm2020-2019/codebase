@@ -29,6 +29,8 @@ public class Form_GUI {
     private static int formId; // form we're using
     private static int submissionId; // submission ID for the current answer set (outside Edit Mode)
 
+    private static int patientID; // from the patient table
+
     private static FormDao dao;
 
     public static void prepareFormGUI() {
@@ -102,7 +104,7 @@ public class Form_GUI {
 
 
     public static void insertItem(FormType f) {
-        // we now know the Type of our new form, so create an edit-mode version of that form element
+        // we now know the Type of our new form element, so create an edit-mode version of that form element
 
         int newID = formElements.size();
         FormElement newElement = new FormElement();
@@ -141,7 +143,7 @@ public class Form_GUI {
     private static void newSubmissionToFormDao()
     {
         // create new submission and populate the table
-        submissionId = dao.addSubmission(formId, Main_GUI.getCurrentUser().getUserId());
+        submissionId = dao.addSubmission(formId, Main_GUI.getCurrentUser().getUserId(), patientID, new java.sql.Date(System.currentTimeMillis()));
 
         // add default answers for all fields
         for(FormElement fe : formElements)

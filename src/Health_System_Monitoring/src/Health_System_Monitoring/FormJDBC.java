@@ -1,12 +1,8 @@
 package Health_System_Monitoring;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 /**
  * 
@@ -192,17 +188,19 @@ public class FormJDBC implements FormDao {
 	
 	// ----------------------------------------------------------------------
 	
-	public int addSubmission(int formId, int submitterId)
+	public int addSubmission(int formId, int submitterId, int subjectId, Date currentDate)
 	{
 		PreparedStatement sqlStatement = null;
 		 try {
-			 String query = "INSERT INTO submissions (form_id,submitter_id) VALUES (?,?);\n" +
+			 String query = "INSERT INTO submissions (form_id,submitter_id,subject_id, date) VALUES (?,?,?,?);\n" +
 							"SELECT LAST_INSERT_ID()";
 			
 			 sqlStatement = database_connection.prepareStatement(query);
 			 
 			 sqlStatement.setInt(1, formId);
 			 sqlStatement.setInt(2, submitterId);
+			 sqlStatement.setInt(3, subjectId);
+			 sqlStatement.setDate(4, currentDate);
 			 
 			 ResultSet resultSet = sqlStatement.executeQuery();
 			
@@ -219,6 +217,37 @@ public class FormJDBC implements FormDao {
        }
        
        return -1;
+	}
+
+	// originally didn't have an Update for this - it was originally just a link table.
+	// However, submissions can have some info of their own - particularly the date of the last update
+
+	public boolean updateSubmission(int submissionId, int submitterId, int subjectId, Date currentDate)
+	{
+		PreparedStatement sqlStatement = null;
+		try {
+			String query = "UPDATE submissions SET submitter_id = ?, subject_id = ?, date = ? WHERE submission_id=?";
+
+			sqlStatement = database_connection.prepareStatement(query);
+
+			sqlStatement.setInt(1, submitterId);
+			sqlStatement.setInt(2, subjectId);
+			sqlStatement.setDate(3, currentDate);
+			sqlStatement.setInt(4, submissionId);
+
+			sqlStatement.executeUpdate();
+			System.out.println("Submission updated");
+
+			sqlStatement.close();
+
+			return true;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+
+		}
+		return false;
 	}
 
 	public boolean removeSubmission(int submissionId)
@@ -399,20 +428,39 @@ public class FormJDBC implements FormDao {
 		return outputList;
 	}
 	
-	public int submitFormAnswers(int formId, int submitterId, List<Object> values)
+	public int submitFormAnswers(int formId, int submitterId, int subjectId, List<Object> values)
 	{
-		int submissionId = addSubmission(formId,submitterId);
-		
+		int submissionId = addSubmission(formId,submitterId, subjectId, new java.sql.Date(System.currentTimeMillis()));
+
 		ArrayList<FormElement> elements = (ArrayList)getFormElements(formId);
-		
+
 		for(int i=0;i<elements.size();i++)
 		{
 			Object value = values.get(i);
 			FormElement element = elements.get(i);
 			int answerId = addAnswer(element.question_id, submissionId, value);
 		}
-		
+
 		return submissionId;
+	}
+
+	public Map<Date, Collection<FormElement>> getSubmissionsByDate(int formId, int patientID)
+	{
+		HashMap<Date, Collection<FormElement>> output = new HashMap<Date, Collection<FormElement>>();
+
+		Map<Integer, Date> submissions = getSubmissionsForPatient(formId, patientID);
+
+		for(Map.Entry<Integer,Date> entry : submissions.entrySet())
+		{
+			Date entryDate = entry.getValue();
+			Integer submissionId = entry.getKey();
+
+			Collection<FormElement> submission = getSubmission(formId, submissionId);
+
+			output.put(entryDate, submission);
+		}
+
+		return output;
 	}
 
 	public Collection<FormElement> getSubmission(int formId, int submissionId)
@@ -484,5 +532,42 @@ public class FormJDBC implements FormDao {
 		return elements;
 	}
 
+
+	public Map<Integer,Date> getSubmissionsForPatient(int formID, int patientID)
+	{
+		HashMap<Integer,Date> output = new HashMap<Integer,Date>();
+
+		PreparedStatement sqlStatement = null;
+
+		String query = "SELECT submission_id,date FROM submissions WHERE patient_id = ? AND form_id = ? ORDER BY date DESC";
+
+		try {
+			sqlStatement = database_connection.prepareStatement(query);
+
+			sqlStatement.setInt(1, patientID);
+			sqlStatement.setInt(2, formID);
+
+			ResultSet resultSet = sqlStatement.executeQuery();
+
+			while(resultSet.next()) {
+				output.put(resultSet.getInt("submission_id"), resultSet.getDate("date"));
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		finally {
+			if (sqlStatement != null) {
+				try {
+					sqlStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return output;
+	}
 
 }
