@@ -112,7 +112,7 @@ public class Form_GUI {
 
         addQuestionToFormDao(newID);
 
-        JPanel newPanel = createPanel(f);
+        JPanel newPanel = createPanel(f,newID);
         contentpanel.add(newPanel);
     }
 
@@ -181,9 +181,11 @@ public class Form_GUI {
      * @param f FormType of the panel to create
      * @return the new JPanel
      */
-    private static JPanel createPanel(FormType f)
+    private static JPanel createPanel(FormType f, int questionId)
     {
         JPanel newPanel = new JPanel();
+        // set the name to the question id so we can retrieve it
+        newPanel.setName(String.valueOf(questionId));
 
         // label is actually a text field; we turn off editable once we're done with Edit Mode
         JTextField labelField = new JTextField("Name");
@@ -204,7 +206,7 @@ public class Form_GUI {
 
         formLabels.add(labelField);
 
-        // now add the appropriate
+        // now add the appropriate value control
         switch (f)
         {
             case FT_BOOLEAN: {
@@ -380,6 +382,17 @@ public class Form_GUI {
             }
             break;
         }
+
+        JButton closeButton = new JButton("\u274c");
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //int question_id = Integer.getInteger(newPanel.getName());
+                contentpanel.remove(newPanel);
+                dao.removeQuestion(questionId);
+            }
+        });
+        newPanel.add(closeButton);
 
         newPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return newPanel;
