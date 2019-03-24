@@ -76,10 +76,17 @@ public interface UserDaoInterface {
    */
     boolean addReferral(int patient_id, int gp_id, int rd_id);
 
-    /**
+    /*
      * Method to retrieve referral for a given Patient
      * @param patient_id
      * @return rd referred to, or -1 if no referral
      */
-    int getReferral(int patient_id);
+    int getReferralByPatientId(int patient_id);
+
+    /*
+     * Method to retrieve referral for a given Patient
+     * @param rd_id
+     * @return list of user IDs for patients referred to given RD
+     */
+    List<Integer> getReferralByRD(int rd_id);
 }

@@ -34,6 +34,7 @@ public class GP_Register_GUI {
     private String patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions;
     private java.sql.Date patient_dob;
     private int userId = 1;
+    private int patientId;
     private Boolean NewRecord;
 
 
@@ -116,6 +117,7 @@ public class GP_Register_GUI {
         patient_medical_history = patient.getPatientMedicalHistory();
         patient_diagnosis = patient.getPatientDiagnosis();
         patient_prescriptions = patient.getPatientPrescriptions();
+        patientId = patient.getPatientId();
     }
 
     private void PatientPanel() {
@@ -160,9 +162,9 @@ public class GP_Register_GUI {
         GrabValues();
         System.out.println("Submitting - First name: " + patient_first_name + ", Last name: " +
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
-                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId);
+                + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient id: " + patientId);
 
-        patientDao pDao = (patientDao) new patientDao();
+        PatientDao pDao = (PatientDao) new PatientDao();
         acceptedCheck = (boolean) pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
 
         if (acceptedCheck == true) {
@@ -185,7 +187,7 @@ public class GP_Register_GUI {
                 patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
                 + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient.getPatientId());
 
-        patientDao pDao = (patientDao) new patientDao();
+        PatientDao pDao = (PatientDao) new PatientDao();
         acceptedCheck = (boolean) pDao.updatePatientRecord(patient);
 
         if (acceptedCheck == true) {
@@ -332,6 +334,7 @@ public class GP_Register_GUI {
 
     private void createPatient() {
         patient = new Patient();
+        patient.setPatient_id(patientId);
         patient.setPatient_first_name(patient_first_name);
         patient.setPatient_last_name(patient_last_name);
         patient.setPatient_address(patient_address);
@@ -352,6 +355,7 @@ public class GP_Register_GUI {
         patient_medical_history = CheckStringEmpty(patient_medical_history, medicalHistoryTextArea.getText());
         patient_diagnosis = CheckStringEmpty(patient_diagnosis, patientDiagnosisTextField.getText());
         patient_prescriptions = CheckStringEmpty(patient_prescriptions, patientPrescriptionsTextArea.getText());
+        patientId = patient.getPatientId();
         createPatient();
     }
 
@@ -406,6 +410,10 @@ public class GP_Register_GUI {
         mainFrame.add(successPanel, BorderLayout.CENTER);
         mainFrame.add(successSouthPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
+        //go back
+        GP_GUI gp_gui = new GP_GUI();
+        gp_gui.prepareGPGUI();
+
     }
 
     /**

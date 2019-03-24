@@ -348,9 +348,10 @@ public class database_driver {
                 String patient_medical_history = resultSet.getString("patient_medical_history");
                 String patient_diagnosis = resultSet.getString("patient_diagnosis");
                 String patient_prescriptions = resultSet.getString("patient_prescriptions");
+                boolean patient_email_prescription = resultSet.getBoolean("patient_email_prescription");
 
                 patient = new Patient(patient_id, patient_userid, patient_first_name, patient_last_name, patient_dob, patient_address,
-                        patient_medical_history, patient_diagnosis, patient_prescriptions);
+                        patient_medical_history, patient_diagnosis, patient_prescriptions, patient_email_prescription);
 
                 patientRecordList.add(patient);
             }
@@ -463,9 +464,10 @@ public class database_driver {
         String patient_diagnosis = resultSet.getString("patient_diagnosis");
         int patient_userid = resultSet.getInt("userId");
         String patient_prescriptions = resultSet.getString("patient_prescriptions");
+        boolean patient_email_prescription = resultSet.getBoolean("patient_email_prescription");
 
         Patient patient = new Patient(patient_id, patient_userid, patient_first_name, patient_last_name, patient_dob, patient_address,
-                patient_medical_history, patient_diagnosis, patient_prescriptions);
+                patient_medical_history, patient_diagnosis, patient_prescriptions, patient_email_prescription);
 
         return patient;
     }

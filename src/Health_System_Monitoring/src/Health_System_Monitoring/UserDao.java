@@ -388,7 +388,7 @@ public class UserDao implements UserDaoInterface{
      * @return rd_id, or -1 if no referral
      */
     @Override
-    public int getReferral(int patient_id)
+    public int getReferralByPatientId(int patient_id)
     {
         Connection databaseConnection = database_driver.getConnection();
 
@@ -406,6 +406,48 @@ public class UserDao implements UserDaoInterface{
 
             if(resultSet.next()) {
                 output = resultSet.getInt("rd_id");
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        } finally {
+            if (sqlStatement != null) {
+                try
+                {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+
+                }
+            }
+        }
+
+        return output;
+    }
+
+    @Override
+    public List<Integer> getReferralByRD(int rd_id)
+    {
+        Connection databaseConnection = database_driver.getConnection();
+
+        PreparedStatement sqlStatement = null;
+
+        List<Integer> output = new ArrayList<Integer>();
+
+        try {
+            String query = "SELECT patient_id FROM referrals WHERE rd_id=?";
+
+            sqlStatement = databaseConnection.prepareStatement(query);
+            sqlStatement.setInt(1,rd_id);
+
+            ResultSet resultSet = sqlStatement.executeQuery();
+
+            if(resultSet.next()) {
+                output.add(resultSet.getInt("patient_id"));
             }
         }
         catch (SQLException e) {
@@ -477,4 +519,6 @@ public class UserDao implements UserDaoInterface{
  	   
  	   return false;
     }
+
+
 }

@@ -5,7 +5,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.ArrayList;
@@ -73,7 +72,7 @@ public class Patient_GUI {
 
         UserDaoInterface userDao = UserDao.getDAO();
 
-        int rd_id = userDao.getReferral(patient.getPatientUserId());
+        int rd_id = userDao.getReferralByPatientId(patient.getPatientUserId());
         if(rd_id !=-1) {
             // we have a referral, so show that
             User rd = userDao.getUserById(rd_id);
@@ -152,8 +151,12 @@ public class Patient_GUI {
         int gp_id = gp.getUserId();
         int patient_id = patient.getPatientUserId();
 
-        database_driver d_driver = (database_driver) database_driver.getConnection();
-        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
+//        database_driver d_driver = (database_driver) database_driver.getConnection();
+//        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
+
+        UserDaoInterface userDao = new UserDao();
+        boolean reuslt = userDao.addReferral(patient_id, gp_id, rd_id);
+
 
     	referBox.setEditable(false);
     }
@@ -204,13 +207,15 @@ public class Patient_GUI {
     public void DeleteOkayButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
-        database_driver d_driver = (database_driver) database_driver.getConnection();
-        acceptedCheck = d_driver.deletePatientRecord(patient.getPatientId());
+        PatientDao patientDao = new PatientDao();
+        acceptedCheck = patientDao.deletePatientRecord(patient.getPatientId());
+
 
         if (acceptedCheck == true) {
             confirmFrame.setVisible(false);
             Patient_GUI patient_GUI = new Patient_GUI();
             patient_GUI.GoToGPGUI();
+
         }
     }
 

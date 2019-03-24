@@ -3,12 +3,7 @@ package Health_System_Monitoring;
 import java.awt.*;
 import java.awt.event.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class Main_GUI implements KeyListener, ActionListener {
     public static JFrame mainFrame;
@@ -85,20 +80,24 @@ public class Main_GUI implements KeyListener, ActionListener {
         return user;
     }
 
-    private void LoginFunction() {
+    /*
+    private method to validate login
+    It opens the GP Gui if authentication is successful
+     */
+    private static void LoginFunction() {
         String username = usernameTextField.getText();
         String userPassword = String.valueOf(passwordField.getPassword());
 
-        UserDaoInterface uDao = (UserDao) new UserDao();
+        UserDaoInterface uDao = (UserDaoInterface) new UserDao();
 
         user = uDao.checkCredentials(username, userPassword);
 
-        if (user != null) {
-            System.out.println(user);
+        if (user == null) {
+            JOptionPane.showMessageDialog(null,"Incorrect username or password. Try again",
+                    "Alert", JOptionPane.WARNING_MESSAGE);
+        } else {
             GP_GUI gp_GUI = new GP_GUI();
             gp_GUI.prepareGPGUI();
-        } else {
-            System.out.println("Incorrect password");
         }
     }
 

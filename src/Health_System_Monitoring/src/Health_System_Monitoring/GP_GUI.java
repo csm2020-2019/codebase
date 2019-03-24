@@ -64,7 +64,7 @@ public class GP_GUI {
         System.out.println("Print off of search bar input: " + searchField);
 
         List<Patient> pat = Arrays.asList(new Patient[0]);
-        patientDao pDao = new patientDao();
+        PatientDao pDao = new PatientDao();
         pat = (List<Patient>) pDao.searchPatient(searchField);
         if (!searchField.isEmpty()) {
             if (!pat.isEmpty()) {
