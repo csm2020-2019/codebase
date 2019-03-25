@@ -116,10 +116,9 @@ public class FormJDBC implements FormDao {
 			 sqlStatement.setInt(1, formId);
 			 sqlStatement.setString(2, type.toString());
 			 sqlStatement.setString(3, label);
-			 
-			 
+
 			 ResultSet resultSet = sqlStatement.executeQuery();
-			
+
 			 if (resultSet.next()) {
 				 return resultSet.getInt(0);
 			 }
