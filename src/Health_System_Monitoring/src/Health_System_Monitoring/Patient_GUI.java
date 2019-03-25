@@ -13,6 +13,7 @@ public class Patient_GUI {
     public static JFrame mainFrame, confirmFrame;
     private JLabel headerLabel;
     private JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel;
+    private JButton triggerButton;
     private Patient patient;
     private JComboBox<String> referBox;
     private List<User> rd_list;
@@ -72,7 +73,7 @@ public class Patient_GUI {
 
         UserDaoInterface userDao = UserDao.getDAO();
 
-        int rd_id = userDao.getReferralByPatientId(patient.getPatientUserId());
+        int rd_id = userDao.getReferralByPatientId(patient.getPatientId());
         if(rd_id !=-1) {
             // we have a referral, so show that
             User rd = userDao.getUserById(rd_id);
@@ -99,12 +100,12 @@ public class Patient_GUI {
 
             // next up, the button to trigger referral
 
-            JButton TriggerButton = new JButton("Refer");
-            TriggerButton.setActionCommand("Refer_Patient");
-            TriggerButton.addActionListener(new Main_GUI());
+            triggerButton = new JButton("Refer");
+            triggerButton.setActionCommand("Refer_Patient");
+            triggerButton.addActionListener(new Patient_GUI.ButtonClickListener());
 
             referPanel.add(referBox);
-            referPanel.add(TriggerButton);
+            referPanel.add(triggerButton);
         }
         TitledBorder referBorder = new TitledBorder("Referrals");
         referPanel.setBorder(referBorder);
@@ -149,7 +150,7 @@ public class Patient_GUI {
 
         int rd_id = rd.getUserId();
         int gp_id = gp.getUserId();
-        int patient_id = patient.getPatientUserId();
+        int patient_id = patient.getPatientId();
 
 //        database_driver d_driver = (database_driver) database_driver.getConnection();
 //        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
@@ -159,6 +160,9 @@ public class Patient_GUI {
 
 
     	referBox.setEditable(false);
+    	referBox.setEnabled(false);
+        triggerButton.setEnabled(false);
+        triggerButton.setText("Referred");
     }
 
     public void ModifyRecordButtonFunction() {
@@ -322,7 +326,7 @@ public class Patient_GUI {
                 ModifyRecordButtonFunction();
             } else if (command.equals("Patient_Nice")) {
                 nice_gui.prepareNiceGUI();
-            } else if (command.equals("Patient_Refer")) {
+            } else if (command.equals("Refer_Patient")) {
                 ReferPatient();
             }
         }
