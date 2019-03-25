@@ -15,8 +15,6 @@ public class Main_GUI implements KeyListener, ActionListener {
 
     private static JPasswordField passwordField;
 
-    //private static int userId;
-    //private static List<User> userInfo = null;
     private static User user;
 
     public Main_GUI() {
