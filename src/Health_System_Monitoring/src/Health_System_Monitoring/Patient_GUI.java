@@ -151,9 +151,6 @@ public class Patient_GUI {
         int gp_id = gp.getUserId();
         int patient_id = patient.getPatientUserId();
 
-//        database_driver d_driver = (database_driver) database_driver.getConnection();
-//        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
-
         UserDaoInterface userDao = new UserDao();
         boolean reuslt = userDao.addReferral(patient_id, gp_id, rd_id);
 

@@ -572,4 +572,40 @@ public class FormJDBC implements FormDao {
 		return output;
 	}
 
+	public Map<String, Integer> getFormsForGP(int gp_id)
+	{
+		HashMap<String,Integer> forms = new HashMap<>();
+
+		PreparedStatement sqlStatement = null;
+
+		String query = "SELECT form_id,form_name FROM forms WHERE userId = ?";
+
+		try {
+			sqlStatement = database_connection.prepareStatement(query);
+
+			sqlStatement.setInt(1, gp_id);
+
+			ResultSet resultSet = sqlStatement.executeQuery();
+
+			while(resultSet.next()) {
+				forms.put(resultSet.getString("form_name"), resultSet.getInt("form_id"));
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		finally {
+			if (sqlStatement != null) {
+				try {
+					sqlStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return forms;
+	}
+
 }

@@ -126,7 +126,9 @@ public interface FormDao {
 	// ----------------------------------------------------------------------
 	
 	// utility functions
-	
+
+	public Map<String, Integer> getFormsForGP(int gp_id);
+
 	/**
 	 * Get structure of specified Form
 	 * @param formId to retrieve
