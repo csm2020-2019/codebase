@@ -7,18 +7,26 @@ import org.jfree.ui.ApplicationFrame;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import javax.swing.*;
 import java.awt.*;
 
 
-public class result_graph extends ApplicationFrame {
+public class result_graph extends JFrame {
 
 
-
-    public result_graph(String appTitle, String chartTitle){
-        super(appTitle);
+    /**
+     *
+     * @param frameTitle - Title displayed at the top of the frame
+     * @param chartTitle - Title of the chart
+     * @param categoryLabel - y axis label
+     * @param valueLabel - x axis label
+     */
+    public result_graph(String frameTitle, String chartTitle, String categoryLabel, String valueLabel){
+        super(frameTitle);
         JFreeChart lineChart = ChartFactory.createLineChart(
                 chartTitle,
-                "Years", "Number of Schools",
+               categoryLabel,
+                valueLabel,
                 createDataset(),
                 PlotOrientation.VERTICAL,
                 true, true, false);
@@ -28,6 +36,17 @@ public class result_graph extends ApplicationFrame {
         setContentPane(chartPanel);
     }
 
+    /**
+     * Retrieve data from tables to convert them to chart values
+     */
+    public void setData() {
+
+    }
+
+    /**
+     * Plot values to the chart
+     * @return dataset
+     */
     private DefaultCategoryDataset createDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         dataset.addValue(15, "schools", "1970");
@@ -36,6 +55,7 @@ public class result_graph extends ApplicationFrame {
         dataset.addValue(120, "schools", "2000");
         dataset.addValue(240, "schools", "2010");
         dataset.addValue(300, "schools", "2014");
+
         return dataset;
     }
 

@@ -260,7 +260,7 @@ public class NICE_GUI {
 	public void NiceBackButton() {
 		JButton niceBackBtn = new JButton("Back");
 		niceBackBtn.setActionCommand("Nice_Back");
-		niceBackBtn.addActionListener(new Main_GUI.ButtonClickListener());
+		niceBackBtn.addActionListener(new Main_GUI());
 		controlPanel.add(niceBackBtn);
 	}
 
@@ -328,7 +328,7 @@ public class NICE_GUI {
 		graphBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainFrame.setVisible(false);
-				result_graph graph = new result_graph("School Vs Years", "Number of Schools vs Years");
+				result_graph graph = new result_graph("Weight", "Weight of Patient", "Date", "kg");
 				graph.pack();
 				RefineryUtilities.centerFrameOnScreen(graph);
 				graph.setVisible(true);
@@ -393,10 +393,9 @@ public class NICE_GUI {
 						|| sexGroup.isSelected(null) || smokeGroup.isSelected(null)) {
 					JOptionPane.showMessageDialog(null, "Please enter all required fields");
 				} else {
-					
-					try {
+
 						patientDaoInterface patientDao = new patientDao();
-						if(patientDao.addNiceResults(resultId, patientId, userId, sexInput, age, date, height, weight, systolic,
+						if(patientDao.addNiceResults(patientId, userId, sexInput, age, date, height, weight, systolic,
 								diastolic, smoker, haemoglobin, urinary, serum, egfr, cholesterol, 
 								ldl, kidneyDamage, eyeDamage, cercbroDamage, visionLoss, eyeHaemorrage,
 								retina, rubeosis, sensation, deformity, palpatation, shoes)) {
@@ -404,11 +403,7 @@ public class NICE_GUI {
 						} else {
 							JOptionPane.showMessageDialog(null, "Error!");
 						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
+
 					GoToNiceResults();
 				}
 
