@@ -42,7 +42,14 @@ public interface PatientDaoInterface {
     @param patient name
     @return a list of patients that matches the name
      */
-    List<Patient> searchPatient(String patient_last_name);
+    List<Patient> searchPatientByLastName(String patient_last_name);
+
+    /*
+        search patient by patient id
+        @param patient_id The id of the patient
+        @return a list of patients matching search criteria
+     */
+    List<Patient> searchPatientById(int patient_id);
 
     public boolean addNiceResults(int patient_id, int user_id, String sex, int age, Date result_date,
                                   int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
@@ -52,6 +59,7 @@ public interface PatientDaoInterface {
                                   boolean retinal_detachment, boolean rubeosis, boolean lack_sensation, boolean deformity,
                                   boolean foot_palpitation, boolean inappropriate_behaviour);
 
+    
     public boolean updateNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
                                      int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
                                      BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
