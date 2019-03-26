@@ -57,8 +57,6 @@ public interface PatientDaoInterface {
      */
     void setPatientThirdPartyPrescription(Patient patient);
 
-
-
     /*
         get patient prescription to thirdparty materials
         @return true or false
