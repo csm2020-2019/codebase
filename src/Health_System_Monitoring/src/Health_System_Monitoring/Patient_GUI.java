@@ -138,6 +138,8 @@ public class Patient_GUI {
         Boolean bool = Boolean.TRUE;
         JCheckBox PrescribeCheckBox = new JCheckBox("Prescribe to third party material", bool);
         PrescribeCheckBox.addItemListener(this::itemStateChanged);
+
+        if(PrescribeCheckBox = )
         controlPanel.add(PrescribeCheckBox);
     }
 
@@ -284,9 +286,15 @@ public class Patient_GUI {
         successSouthPanel.add(BackButton);
     }
 
+    /*
+    check if check box is checked
+    Checkbox - PrescribeCheckBox
+    if checked, set patient to prescribe thirdparty materials
+     */
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
-            System.out.println("Yes");
+            PatientDao pDao = new PatientDao();
+
         } else {
             System.out.println("No");
         }
