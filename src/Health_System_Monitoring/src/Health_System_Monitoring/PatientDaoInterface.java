@@ -51,6 +51,20 @@ public interface PatientDaoInterface {
      */
     List<Patient> searchPatientById(int patient_id);
 
+    /*
+        prescribe patient to third party materials
+        @return true of false
+     */
+    void setPatientThirdPartyPrescription(Patient patient);
+
+
+
+    /*
+        get patient prescription to thirdparty materials
+        @return true or false
+     */
+    boolean getPatientThirdPartyPrescriptionStatus(int patient_id);
+
     public boolean addNiceResults(int patient_id, int user_id, String sex, int age, Date result_date,
                                   int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
                                   BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
@@ -59,7 +73,7 @@ public interface PatientDaoInterface {
                                   boolean retinal_detachment, boolean rubeosis, boolean lack_sensation, boolean deformity,
                                   boolean foot_palpitation, boolean inappropriate_behaviour);
 
-    
+
     public boolean updateNiceResults(int result_id, int patient_id, int user_id, String sex, int age, Date result_date,
                                      int height, int weight, int systolic_bp, int diastolic_bp, boolean smoker,
                                      BigDecimal haemoglobin, BigDecimal urinary_albumin, int serum_creatinine, BigDecimal egfr,
