@@ -284,11 +284,25 @@ public class Patient_GUI {
         successSouthPanel.add(BackButton);
     }
 
+    /*
+    check if check box is checked
+    Checkbox - PrescribeCheckBox
+    if checked, set patient to prescribe third party materials
+     */
     public void itemStateChanged(ItemEvent e) {
+
         if (e.getStateChange() == ItemEvent.SELECTED) {
-            System.out.println("Yes");
+            PatientDao pDao = new PatientDao();
+            patient.setPatient_email_prescription(true);
+            pDao.setPatientThirdPartyPrescription(patient);
+
+            System.out.println("Patient prescribed");
         } else {
-            System.out.println("No");
+            PatientDao pDao = new PatientDao();
+            patient.setPatient_email_prescription(false);
+            pDao.setPatientThirdPartyPrescription(patient);
+
+            System.out.println("Patient not prescribed");
         }
     }
 
