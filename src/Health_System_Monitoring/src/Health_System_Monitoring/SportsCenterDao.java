@@ -170,6 +170,45 @@ public class SportsCenterDao implements SportsCenterDaoInterface {
         return false;
     }
 
+    public List<SportsCenter> getAllAvailableSportsCenter(){
+        Connection databaseConnection = database_driver.getConnection();
+        PreparedStatement sqlStatement = null;
+        List<SportsCenter> availabilityList = new ArrayList<>();
+
+        try{
+            String query = "SELECT * FROM sports_center WHERE sportsCenterAvailability = true";
+
+            sqlStatement = databaseConnection.prepareStatement(query);
+
+            ResultSet resultSet = sqlStatement.executeQuery();
+
+            while(resultSet.next()){
+                SportsCenter sportsCenter = convertResultSetToSportsCenter(resultSet);
+                availabilityList.add(sportsCenter);
+            }
+
+            return availabilityList;
+
+        } catch (SQLException e){
+            e.printStackTrace();
+
+        } finally {
+            if (sqlStatement != null) {
+                try {
+                    sqlStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    databaseConnection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
     //convert sports center result set to sports center instance
     private SportsCenter convertResultSetToSportsCenter(ResultSet resultSet) throws SQLException {
 

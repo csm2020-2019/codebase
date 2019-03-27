@@ -24,6 +24,12 @@ public interface SportsCenterDaoInterface {
      */
     List<SportsCenter> getAllSportsCenterRecord();
 
+
+    /*
+        get a list of all available sports center
+     */
+    List<SportsCenter> getAllAvailableSportsCenter();
+
     /*
        add sports center to database
        @param sports center instance of SportsCenter class
