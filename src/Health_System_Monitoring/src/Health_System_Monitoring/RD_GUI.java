@@ -135,6 +135,7 @@ public class RD_GUI {
 
         for (int i = 0; i < patientsNum; i ++) {
             System.out.println("Referral patient ID: " + referrals.get(i));
+            patients = pDao.searchPatientById(referrals.get(i));
             patientReferals[i][0] = referrals.get(i);
             patientReferals[i][1] = "Lorem Ipsum";
             patientReferals[i][2] = "Lorem Ipsum";

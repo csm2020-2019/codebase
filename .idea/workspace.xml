@@ -1,39 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="56044113-7bea-4abe-b359-43325a50716c" name="Default Changelist" comment="Making own branch to do some GUI patient development">
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/ExerciseDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/ExerciseDaoInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/ExerciseRegime.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/ExerciseTrial.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/SportsCenter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/SportsCenterDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/SportsCenterDaoInterface.java" afterDir="false" />
+    <list default="true" id="56044113-7bea-4abe-b359-43325a50716c" name="Default Changelist" comment="Updated from master">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_GUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_GUI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI$DateLabelFormatter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI$DateLabelFormatter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/GP_Register_GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Main_GUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Main_GUI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Main_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Main_GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Patient.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Patient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Patient_GUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Patient_GUI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Patient_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/Patient_GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/database_driver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Health_System_Monitoring/Health_System_Monitoring/database_driver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormJDBC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormJDBC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Form_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Form_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDaoInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/UserDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/UserDaoInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/database_driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/database_driver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/RD_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/RD_GUI.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="C:\Users\Lucas\OneDrive\IdeaProjects\Health_System_Monitoring\.idea\shelf/" />
@@ -112,7 +82,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="612">
@@ -121,11 +91,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/RD_GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2261">
-              <caret line="146" column="49" selection-start-line="146" selection-start-column="49" selection-end-line="146" selection-end-column="49" />
+            <state relative-caret-position="352">
+              <caret line="137" column="62" selection-start-line="137" selection-start-column="62" selection-end-line="137" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -136,8 +106,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1190">
-              <caret line="78" column="19" selection-start-line="78" selection-start-column="19" selection-end-line="78" selection-end-column="19" />
+            <state relative-caret-position="352">
+              <caret line="276" column="50" lean-forward="true" selection-start-line="276" selection-start-column="50" selection-end-line="276" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -145,8 +115,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="986">
-              <caret line="69" selection-start-line="69" selection-end-line="69" />
+            <state relative-caret-position="199">
+              <caret line="73" selection-start-line="73" selection-end-line="73" />
             </state>
           </provider>
         </entry>
@@ -224,9 +194,9 @@
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDao.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/UserDao.java" />
-        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/RD_GUI.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/RD_GUI.java" />
       </list>
     </option>
   </component>
@@ -271,7 +241,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -309,6 +278,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane">
         <subPane>
           <expand>
@@ -320,7 +290,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -482,7 +451,14 @@
       <option name="project" value="LOCAL" />
       <updated>1553178722691</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Updated from master">
+      <created>1553692165179</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1553692165179</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -501,7 +477,7 @@
     <frame x="953" y="0" width="974" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.31780168" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.31732777" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -576,7 +552,8 @@
     <MESSAGE value="Patient register GUI finished, ready for QA" />
     <MESSAGE value="Making own branch to do some GUI patient development" />
     <MESSAGE value="Updated branch from Master and fixed some merging issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated branch from Master and fixed some merging issues" />
+    <MESSAGE value="Updated from master" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated from master" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -789,30 +766,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/RD_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2261">
-          <caret line="146" column="49" selection-start-line="146" selection-start-column="49" selection-end-line="146" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1190">
-          <caret line="78" column="19" selection-start-line="78" selection-start-column="19" selection-end-line="78" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="69" selection-start-line="69" selection-end-line="69" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/database_driver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="816">
@@ -838,6 +791,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="612">
           <caret line="49" column="39" selection-start-line="49" selection-start-column="39" selection-end-line="49" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="276" column="50" lean-forward="true" selection-start-line="276" selection-start-column="50" selection-end-line="276" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/RD_GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="137" column="62" selection-start-line="137" selection-start-column="62" selection-end-line="137" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
