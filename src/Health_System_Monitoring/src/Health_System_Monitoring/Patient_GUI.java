@@ -286,6 +286,7 @@ public class Patient_GUI {
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
             System.out.println("Yes");
+
         } else {
             System.out.println("No");
         }
