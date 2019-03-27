@@ -7,11 +7,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.Enumeration;
-import org.jfree.ui.RefineryUtilities;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -245,7 +252,6 @@ public class NICE_GUI {
 		footPanel.add(shoeCheck);
 		controlPanel.add(footPanel);
 
-		GraphButton();
 		NiceBackButton();
 		SubmitButton();
 
@@ -264,7 +270,7 @@ public class NICE_GUI {
 		controlPanel.add(niceBackBtn);
 	}
 
-	/**
+	/*
 	 * Set the border title for a panel within the frame
 	 * @param border
 	 */
@@ -273,7 +279,7 @@ public class NICE_GUI {
 		border.setTitlePosition(TitledBorder.TOP);
 	}
 
-	/**
+	/*
 	 * Takes user to Patient GUI
 	 */
 	public void GoToPatientGUI() {
@@ -281,7 +287,7 @@ public class NICE_GUI {
 		Patient_GUI.mainFrame.setVisible(true);
 	}
 
-	/**
+	/*
 	 * Gets results from NICE test and displayed them in NICE_Results_GUI 
 	 */
 	public void GoToNiceResults() {
@@ -320,21 +326,6 @@ public class NICE_GUI {
 		} else {
 			bool = false;
 		}
-	}
-
-	public void GraphButton() {
-		JButton graphBtn = new JButton ("Graph");
-
-		graphBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				mainFrame.setVisible(false);
-				result_graph graph = new result_graph("Weight", "Weight of Patient", "Date", "kg");
-				graph.pack();
-				RefineryUtilities.centerFrameOnScreen(graph);
-				graph.setVisible(true);
-			}
-		});
-		controlPanel.add(graphBtn);
 	}
 	
 	public void SubmitButton() {
@@ -394,7 +385,7 @@ public class NICE_GUI {
 					JOptionPane.showMessageDialog(null, "Please enter all required fields");
 				} else {
 
-						patientDaoInterface patientDao = new patientDao();
+						PatientDaoInterface patientDao = new PatientDao();
 						if(patientDao.addNiceResults(patientId, userId, sexInput, age, date, height, weight, systolic,
 								diastolic, smoker, haemoglobin, urinary, serum, egfr, cholesterol, 
 								ldl, kidneyDamage, eyeDamage, cercbroDamage, visionLoss, eyeHaemorrage,

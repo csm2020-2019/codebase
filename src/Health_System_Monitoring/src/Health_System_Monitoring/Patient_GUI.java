@@ -5,7 +5,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ public class Patient_GUI {
     public static JFrame mainFrame, confirmFrame;
     private JLabel headerLabel;
     private JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel;
+    private JButton triggerButton;
     private Patient patient;
     private JComboBox<String> referBox;
     private List<User> rd_list;
@@ -45,7 +45,7 @@ public class Patient_GUI {
         PrescribeCheckBox();
         PatientInfoPanel();
         PatientInfoDisplay();
-        //PatientReferPanel();
+        PatientReferPanel();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);
@@ -63,38 +63,53 @@ public class Patient_GUI {
         infoPanel.setBorder(patientBorder);
         controlPanel.add(infoPanel);
     }
-
+    
     private void PatientReferPanel() {
-        referPanel = new JPanel();
-        FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
-        referPanel.setLayout(flowLayout);
+    	referPanel = new JPanel();
+    	FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
+    	referPanel.setLayout(flowLayout);
 
-        // first up, the combo box containing all RDs
-        database_driver d_driver = (database_driver) database_driver.getConnection();
-        if (rd_list == null) {
-            rd_list = new ArrayList<User>();
-        } else {
-            rd_list.clear();
+    	// first check to see if we're already referred
+
+        UserDaoInterface userDao = UserDao.getDAO();
+
+        int rd_id = userDao.getReferralByPatientId(patient.getPatientId());
+        if(rd_id !=-1) {
+            // we have a referral, so show that
+            User rd = userDao.getUserById(rd_id);
+
+            JLabel referred = new JLabel (rd.getUserFirstName() + " " + rd.getUserLastName());
+            referPanel.add(referred);
         }
-        rd_list = d_driver.getUsersByType("rd");
-        Vector<String> name_list = new Vector<String>(rd_list.size());
+        else {
+            // first up, the combo box containing all RDs
 
-        for (User user : rd_list) {
-            name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+            if (rd_list == null) {
+                rd_list = new ArrayList<User>();
+            } else {
+                rd_list.clear();
+            }
+            rd_list = userDao.getUserByType("rd");
+            Vector<String> name_list = new Vector<String>(rd_list.size());
+
+            for (User user : rd_list) {
+                name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+            }
+
+            referBox = new JComboBox<String>(name_list);
+
+            // next up, the button to trigger referral
+
+            triggerButton = new JButton("Refer");
+            triggerButton.setActionCommand("Refer_Patient");
+            triggerButton.addActionListener(new Patient_GUI.ButtonClickListener());
+
+            referPanel.add(referBox);
+            referPanel.add(triggerButton);
         }
-
-        referBox = new JComboBox<String>(name_list);
-
-        // next up, the button to trigger referral
-
-        JButton TriggerButton = new JButton("Refer");
-        TriggerButton.setActionCommand("Patient_Refer");
-        TriggerButton.addActionListener(new Patient_GUI.ButtonClickListener());
-
-        referPanel.add(referBox);
-        referPanel.add(TriggerButton);
-
-        controlPanel.add(referPanel);
+        TitledBorder referBorder = new TitledBorder("Referrals");
+        referPanel.setBorder(referBorder);
+    	controlPanel.add(referPanel);
     }
 
     private void PatientInfoDisplay() {
@@ -135,10 +150,16 @@ public class Patient_GUI {
 
         int rd_id = rd.getUserId();
         int gp_id = gp.getUserId();
-        int patient_id = patient.getPatientUserId();
+        int patient_id = patient.getPatientId();
 
-        database_driver d_driver = (database_driver) database_driver.getConnection();
-        boolean result = d_driver.addReferral(patient_id, gp_id, rd_id);
+        UserDaoInterface userDao = new UserDao();
+        boolean reuslt = userDao.addReferral(patient_id, gp_id, rd_id);
+
+
+    	referBox.setEditable(false);
+    	referBox.setEnabled(false);
+        triggerButton.setEnabled(false);
+        triggerButton.setText("Referred");
     }
 
     public void ModifyRecordButtonFunction() {
@@ -187,13 +208,15 @@ public class Patient_GUI {
     public void DeleteOkayButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
-        database_driver d_driver = (database_driver) database_driver.getConnection();
-        acceptedCheck = d_driver.deletePatientRecord(patient.getPatientId());
+        PatientDao patientDao = new PatientDao();
+        acceptedCheck = patientDao.deletePatientRecord(patient.getPatientId());
+
 
         if (acceptedCheck == true) {
             confirmFrame.setVisible(false);
             Patient_GUI patient_GUI = new Patient_GUI();
             patient_GUI.GoToGPGUI();
+
         }
     }
 
@@ -261,11 +284,25 @@ public class Patient_GUI {
         successSouthPanel.add(BackButton);
     }
 
+    /*
+    check if check box is checked
+    Checkbox - PrescribeCheckBox
+    if checked, set patient to prescribe third party materials
+     */
     public void itemStateChanged(ItemEvent e) {
+
         if (e.getStateChange() == ItemEvent.SELECTED) {
-            System.out.println("Yes");
+            PatientDao pDao = new PatientDao();
+            patient.setPatient_email_prescription(true);
+            pDao.setPatientThirdPartyPrescription(patient);
+
+            System.out.println("Patient prescribed");
         } else {
-            System.out.println("No");
+            PatientDao pDao = new PatientDao();
+            patient.setPatient_email_prescription(false);
+            pDao.setPatientThirdPartyPrescription(patient);
+
+            System.out.println("Patient not prescribed");
         }
     }
 
@@ -300,7 +337,7 @@ public class Patient_GUI {
                 ModifyRecordButtonFunction();
             } else if (command.equals("Patient_Nice")) {
                 nice_gui.prepareNiceGUI();
-            } else if (command.equals("Patient_Refer")) {
+            } else if (command.equals("Refer_Patient")) {
                 ReferPatient();
             }
         }

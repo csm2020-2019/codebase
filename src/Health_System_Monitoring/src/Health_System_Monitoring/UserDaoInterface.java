@@ -3,7 +3,7 @@ package Health_System_Monitoring;
 import java.util.List;
 
 
-public interface userDaoInterface {
+public interface UserDaoInterface {
     /*
      * method to check login credentials
      * @params username and password of user
@@ -21,6 +21,13 @@ public interface userDaoInterface {
      */
     List<User> getUserByType(String userType);
 
+
+    /**
+     * get user by Id
+     * @param id of the User to retrieve
+     * @return User object for that id, or Null if not found
+     */
+    User getUserById(int id);
 
     /*
     method to search user
@@ -62,10 +69,24 @@ public interface userDaoInterface {
     
     /*
     method to add a referral to the referral table
-    @ param patient_id id of the patient in the user table
+    @ param patient_id id of the patient in the patient table
     @ param gp_id id of the GP in the user table
     @ param rd_id id of the RD in the user table
     @return true if successfully added and false if not
    */
     boolean addReferral(int patient_id, int gp_id, int rd_id);
+
+    /*
+     * Method to retrieve referral for a given Patient
+     * @param patient_id
+     * @return rd referred to, or -1 if no referral
+     */
+    int getReferralByPatientId(int patient_id);
+
+    /*
+     * Method to retrieve referral for a given Patient
+     * @param rd_id
+     * @return list of patient IDs for patients referred to given RD
+     */
+    List<Integer> getReferralByRD(int rd_id);
 }
