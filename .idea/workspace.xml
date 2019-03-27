@@ -1,42 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5c940792-07c0-4e62-9df0-5043e39bed97" name="Default" comment="?">
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/ExerciseDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/ExerciseDaoInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/ExerciseRegime.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/ExerciseTrial.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/SportsCenter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/SportsCenterDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/SportsCenterDaoInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d5d9c035-b4eb-4bbb-9834-d08c5b17dae5.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d5d9c035-b4eb-4bbb-9834-d08c5b17dae5/storage_v2/_src_/schema/csm2020_18_19.-nMVdA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d5d9c035-b4eb-4bbb-9834-d08c5b17dae5/storage_v2/_src_/schema/csm2020_18_19.-nMVdA.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_13_beta_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/jdatepicker_1_3_4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_15.xml" beforeDir="false" />
+    <list default="true" id="56044113-7bea-4abe-b359-43325a50716c" name="Default Changelist" comment="Making own branch to do some GUI patient development">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d5d9c035-b4eb-4bbb-9834-d08c5b17dae5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d5d9c035-b4eb-4bbb-9834-d08c5b17dae5/storage_v2/_src_/schema/csm2020_18_19.-nMVdA.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d5d9c035-b4eb-4bbb-9834-d08c5b17dae5/storage_v2/_src_/schema/csm2020_18_19.-nMVdA.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_activation_activation_1_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_mail_javax_mail_api_1_6_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_13_beta_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/jdatepicker_1_3_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_15.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormJDBC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormJDBC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Form_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Form_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDaoInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/UserDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/UserDaoInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/database_driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/database_driver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/Health_System_Monitoring.iml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/Health_System_Monitoring.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Email.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Email.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="C:\Users\Lucas\OneDrive\IdeaProjects\Health_System_Monitoring\.idea\shelf/" />
+    <ignored path="P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/target/" />
+    <ignored path="$PROJECT_DIR$/src/Health_System_Monitoring/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,57 +35,86 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="973066591">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="20" />
+          <entry key="project.open.time.0" value="2" />
+          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.14" value="1" />
+          <entry key="project.open.time.15" value="4" />
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.3" value="10" />
+          <entry key="project.open.time.4" value="2" />
+          <entry key="project.opened" value="22" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="class" value="1" />
+          <entry key="classpath" value="3" />
+          <entry key="iml" value="1" />
+          <entry key="java" value="53" />
+          <entry key="project" value="3" />
+          <entry key="xml" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="CLASS" value="1" />
+          <entry key="Eclipse" value="6" />
+          <entry key="IDEA_MODULE" value="1" />
+          <entry key="JAVA" value="53" />
+          <entry key="XML" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="dummy" value="7" />
+          <entry key="java" value="7054" />
+          <entry key="txt" value="998" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="7054" />
+          <entry key="PLAIN_TEXT" value="1005" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.vcs.git.usages">
+        <counts>
+          <entry key="git.branch.create.new" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Main_GUI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="20" selection-start-line="20" selection-end-line="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="GP_GUI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="64" column="67" lean-forward="true" selection-start-line="64" selection-start-column="67" selection-end-line="64" selection-end-column="67" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GP_Register_GUI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="51" column="33" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
+            <state relative-caret-position="408">
+              <caret line="154" selection-start-line="154" selection-end-line="154" />
               <folding>
-                <element signature="e#2092#2247#0" expanded="true" />
-                <element signature="e#2246#2247#0" expanded="true" />
-                <element signature="e#14843#14998#0" expanded="true" />
-                <element signature="e#14997#14998#0" expanded="true" />
-                <element signature="e#15728#15883#0" expanded="true" />
-                <element signature="e#15882#15883#0" expanded="true" />
+                <element signature="e#971#1113#0" expanded="true" />
+                <element signature="e#1112#1113#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PatientDao.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2031">
-              <caret line="397" column="68" selection-start-line="397" selection-start-column="68" selection-end-line="397" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -102,26 +122,57 @@
       <file leaf-file-name="database_driver.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/database_driver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="425">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Patient_GUI.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FormDao.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormDao.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="361">
+              <caret line="160" column="7" selection-start-line="160" selection-start-column="7" selection-end-line="160" selection-end-column="7" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FormElement.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormElement.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FormType.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="35" column="6" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FormJDBC.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormJDBC.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1312">
+              <caret line="438" column="42" selection-start-line="438" selection-start-column="42" selection-end-line="438" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Patient_GUI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="298" lean-forward="true" selection-start-line="298" selection-end-line="298" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Patient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="935">
-              <caret line="67" column="29" lean-forward="true" selection-start-line="67" selection-start-column="29" selection-end-line="67" selection-end-column="29" />
+            <state relative-caret-position="331">
+              <caret line="147" column="40" lean-forward="true" selection-start-line="147" selection-start-column="40" selection-end-line="147" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -129,11 +180,31 @@
       <file leaf-file-name="Email.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Email.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+            <state relative-caret-position="493">
+              <caret line="29" column="11" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#917#1108#0" expanded="true" />
+                <element signature="e#1107#1108#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="43" column="25" lean-forward="true" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Patient.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1411">
+              <caret line="83" column="46" selection-start-line="83" selection-start-column="46" selection-end-line="83" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -158,13 +229,34 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/src/Main_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/GP_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/Main_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/Health_System_Monitoring/database_driver.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/Health_System_Monitoring/GP_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/Health_System_Monitoring/Main_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/Health_System_Monitoring/Main.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/database_driver.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/GP_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Main_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/NICE_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/database_driver.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Records_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/NICE_GUI.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main.java" />
-        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java" />
-        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Email.java" />
-        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java" />
-        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDao.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/database_driver.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/userDaoInterface.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/userDao.java" />
+        <option value="P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/Form_GUI.java" />
+        <option value="P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/pom.xml" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Email.java" />
       </list>
     </option>
   </component>
@@ -174,49 +266,77 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="Health_System_Monitoring" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="Health_System_Monitoring" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="Health_System_Monitoring" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Dependencies" type="f4be9f2a:MavenProjectsStructure$DependenciesNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="953" />
+    <option name="x" value="-7" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="csm2020" type="b2602c69:ProjectViewProjectNode" />
+              <item name="codebase" type="b2602c69:ProjectViewProjectNode" />
               <item name="Health_System_Monitoring" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="csm2020" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Health_System_Monitoring" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="csm2020" type="b2602c69:ProjectViewProjectNode" />
+              <item name="codebase" type="b2602c69:ProjectViewProjectNode" />
               <item name="Health_System_Monitoring" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="codebase" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Health_System_Monitoring" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Health_System_Monitoring" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="csm2020" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="codebase" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
             </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
             <path>
-              <item name="csm2020" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="lib" type="70bed36:NamedLibraryElementNode" />
+              <item name="codebase" type="58d84e3e:PackageViewProjectNode" />
+              <item name="Health_System_Monitoring" type="616d4139:PackageViewModuleNode" />
             </path>
           </expand>
           <select />
@@ -228,13 +348,13 @@
     <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="M:/Documents/mail" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551066812158" />
+    <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Health_System_Monitoring/pom.xml" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pathVariables" />
+    <property name="project.structure.side.proportion" value="0.4275862" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -252,7 +372,6 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Health_System_Monitoring.Main" />
       <module name="Health_System_Monitoring" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="Health_System_Monitoring.*" />
@@ -260,49 +379,22 @@
         </pattern>
       </extension>
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
-    <configuration default="true" type="TestNG" factoryName="TestNG">
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <option name="USE_DEFAULT_REPORTERS" value="false" />
-      <option name="PROPERTIES_FILE" />
-      <properties />
-      <listeners />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="Health_System_Monitoring.Main" />
+      <module name="Health_System_Monitoring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Health_System_Monitoring.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -312,62 +404,190 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5c940792-07c0-4e62-9df0-5043e39bed97" name="Default" comment="" />
-      <created>1553177445019</created>
+      <changelist id="56044113-7bea-4abe-b359-43325a50716c" name="Default Changelist" comment="" />
+      <created>1549361233643</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1553177445019</updated>
-      <workItem from="1553177448009" duration="3147000" />
-      <workItem from="1553523302812" duration="109000" />
-      <workItem from="1553523870047" duration="1441000" />
-      <workItem from="1553685577174" duration="6217000" />
+      <updated>1549361233643</updated>
+      <workItem from="1552305650678" duration="2975000" />
+      <workItem from="1552481060188" duration="6930000" />
+      <workItem from="1552568747618" duration="6281000" />
+      <workItem from="1552907579774" duration="3011000" />
+      <workItem from="1552910640919" duration="1441000" />
     </task>
-    <task id="LOCAL-00001" summary="?">
-      <created>1553686372467</created>
+    <task id="LOCAL-00001" summary="Just resubmitting with a few fixes as it wasn't seeming to run in IntelliJ after adding other class">
+      <created>1549794689853</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1553686372467</updated>
+      <updated>1549794689854</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Just resubmitting with a few fixes as it wasn't seeming to run in IntelliJ after adding other class">
+      <created>1549805481103</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1549805481103</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added a Bypass button if youre too lazy to type a password in everytime like me">
+      <created>1549819477620</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1549819477620</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added package declaration for each class and edited project structure in IntelliJ so people can use Eclipse or IntelliJ for editing code :)">
+      <created>1550013242666</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1550013242666</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added a new GUI for registering a patient with a GP, this will still need wiring up to the backend and added some functionality to some GP_GUI assets that didn't do anything">
+      <created>1550499566059</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1550499566059</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added a few elements to patient register GUI, more to come">
+      <created>1550695656990</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1550695656991</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Finished patient register GUI, almost done connecting it to backend">
+      <created>1550720054820</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1550720054820</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Patient register GUI working, just needs testing (some components commented out until tested)">
+      <created>1550759443205</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1550759443205</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Patient register GUI finished, ready for QA">
+      <created>1550784683810</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1550784683810</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Making own branch to do some GUI patient development">
+      <created>1551027351577</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1551027351577</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10914000" />
+    <option name="totallyTimeSpent" value="22995000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.32837406" />
-      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32914376" />
+      <window_info anchor="bottom" id="Messages" order="10" visible="true" weight="0.32629356" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info id="Image Layers" order="2" />
-      <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5035842" side_tool="true" weight="0.23644933" />
+      <window_info anchor="right" id="Maven Projects" order="7" visible="true" weight="0.26145834" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32624868" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32943678" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.19872476" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.31243357" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.109375" />
-      <window_info anchor="right" id="Database" order="3" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1203125" />
+      <window_info anchor="right" id="Bean Validation" order="8" />
+      <window_info anchor="right" id="Database" order="3" weight="0.3296875" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39915523" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5035842" side_tool="true" weight="0.23644933" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1203125" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Maven" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Maven Projects" order="7" visible="true" weight="0.16458334" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3995749" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.19872476" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32914376" />
       <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.31243357" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32731137" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info id="Designer" order="2" />
     </layout>
+    <layout-to-restore>
+      <window_info anchor="right" id="Maven" order="9" />
+      <window_info id="Designer" order="2" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info id="Image Layers" order="3" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.31243357" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5035842" side_tool="true" visible="true" weight="0.23548046" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32731137" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.19872476" />
+      <window_info anchor="right" id="Maven Projects" order="8" visible="true" weight="0.16458334" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1203125" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32914376" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3995749" />
+      <window_info anchor="right" id="Bean Validation" order="10" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -376,247 +596,271 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="?" />
-    <option name="LAST_COMMIT_MESSAGE" value="?" />
+    <MESSAGE value="Just resubmitting with a few fixes as it wasn't seeming to run in IntelliJ after adding other class" />
+    <MESSAGE value="Added a Bypass button if youre too lazy to type a password in everytime like me" />
+    <MESSAGE value="Added package declaration for each class and edited project structure in IntelliJ so people can use Eclipse or IntelliJ for editing code :)" />
+    <MESSAGE value="Added a new GUI for registering a patient with a GP, this will still need wiring up to the backend and added some functionality to some GP_GUI assets that didn't do anything" />
+    <MESSAGE value="Added a few elements to patient register GUI, more to come" />
+    <MESSAGE value="Finished patient register GUI, almost done connecting it to backend" />
+    <MESSAGE value="Patient register GUI working, just needs testing (some components commented out until tested)" />
+    <MESSAGE value="Patient register GUI finished, ready for QA" />
+    <MESSAGE value="Making own branch to do some GUI patient development" />
+    <option name="LAST_COMMIT_MESSAGE" value="Making own branch to do some GUI patient development" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java</url>
+          <line>138</line>
+          <properties />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="7" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Main.java" />
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Main_GUI.java" />
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/GP_GUI.java" />
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/database_driver.java" />
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_191/src.zip!/javax/swing/plaf/basic/BasicButtonListener.java" />
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/User.java" />
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/NICE_Results_GUI.java" />
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/NICE_GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="271" column="46" selection-start-line="271" selection-start-column="46" selection-end-line="271" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_191/src.zip!/java/sql/ResultSet.java" />
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/.project" />
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/.classpath" />
+    <entry file="file://$PROJECT_DIR$/.classpath" />
+    <entry file="file://$PROJECT_DIR$/.project" />
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/SC_GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1530">
+          <caret line="104" selection-start-line="104" selection-end-line="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11.0.2/lib/src.zip!/java.base/java/util/Calendar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="1783" column="22" selection-start-line="1783" selection-start-column="22" selection-end-line="1783" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11.0.2/lib/src.zip!/java.base/java/util/Properties.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="169" column="11" selection-start-line="169" selection-start-column="11" selection-end-line="169" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/src/Health_System_Monitoring/lib/jdatepicker-1.3.4.jar!/org/jdatepicker/impl/JDatePanelImpl.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="986">
-          <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
-          <folding>
-            <element signature="e#2092#2247#0" expanded="true" />
-            <element signature="e#2246#2247#0" expanded="true" />
-            <element signature="e#14843#14998#0" expanded="true" />
-            <element signature="e#14997#14998#0" expanded="true" />
-            <element signature="e#15728#15883#0" expanded="true" />
-            <element signature="e#15882#15883#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4437">
-          <caret line="274" lean-forward="true" selection-start-line="274" selection-end-line="274" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Email.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="16" column="43" lean-forward="true" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/database_driver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        <state relative-caret-position="425">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Health_System_Monitoring.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="9" selection-end-line="21" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1411">
+          <caret line="83" column="46" selection-start-line="83" selection-start-column="46" selection-end-line="83" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
+          <caret line="40" column="43" selection-start-line="40" selection-start-column="43" selection-end-line="40" selection-end-column="43" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Email.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="43" column="1" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
+        <state relative-caret-position="408">
+          <caret line="154" selection-start-line="154" selection-end-line="154" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#971#1113#0" expanded="true" />
+            <element signature="e#1112#1113#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="52" column="48" lean-forward="true" selection-start-line="52" selection-start-column="48" selection-end-line="52" selection-end-column="48" />
-          <folding>
-            <element signature="e#2092#2247#0" expanded="true" />
-            <element signature="e#2246#2247#0" expanded="true" />
-            <element signature="e#14843#14998#0" expanded="true" />
-            <element signature="e#14997#14998#0" expanded="true" />
-            <element signature="e#15728#15883#0" expanded="true" />
-            <element signature="e#15882#15883#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        <state relative-caret-position="354">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Email.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="43" column="1" selection-start-line="43" selection-start-column="1" selection-end-line="43" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/test/test/patientTest.java" />
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Email.java">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/d5d9c035-b4eb-4bbb-9834-d08c5b17dae5/console.sql" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
-          <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+          <caret line="16" column="7" lean-forward="true" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDaoInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/UserDaoInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="31" column="6" lean-forward="true" selection-start-line="31" selection-start-column="6" selection-end-line="31" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/UserDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="66" column="6" selection-start-line="66" selection-start-column="6" selection-end-line="66" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="27" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/patientDao.java" />
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Form_GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormJDBC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1312">
+          <caret line="438" column="42" selection-start-line="438" selection-start-column="42" selection-end-line="438" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/UserDao.java" />
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java" />
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/SC_GUI.java" />
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/FormType.java" />
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/FormElement.java" />
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/FormDao.java" />
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/FormJDBC.java" />
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/Main.java" />
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/Form_GUI.java" />
+    <entry file="file://P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/src/Health_System_Monitoring/Main_GUI.java" />
+    <entry file="uml://MAVEN/Health_System_Monitoring:Health_System_Monitoring:0.0.1-SNAPSHOT">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>MAVEN</ID>
+          <OriginalElement>Health_System_Monitoring:Health_System_Monitoring:0.0.1-SNAPSHOT</OriginalElement>
+          <nodes>
+            <node x="" y="">Health_System_Monitoring:Health_System_Monitoring:0.0.1-SNAPSHOT</node>
+            <node x="" y="">javax.validation:validation-api:jar:2.0.1.Final</node>
+            <node x="" y="">org.hibernate.validator:hibernate-validator:jar:6.0.2.Final</node>
+            <node x="" y="">org.hibernate.validator:hibernate-validator:jar:6.0.2.Final/javax.validation:validation-api:jar:2.0.0.Final</node>
+            <node x="" y="">org.hibernate.validator:hibernate-validator:jar:6.0.2.Final/org.jboss.logging:jboss-logging:jar:3.3.0.Final</node>
+            <node x="" y="">org.hibernate.validator:hibernate-validator:jar:6.0.2.Final/com.fasterxml:classmate:jar:1.3.1</node>
+            <node x="" y="">junit:junit:jar:4.13-beta-2</node>
+            <node x="" y="">junit:junit:jar:4.13-beta-2/org.hamcrest:hamcrest-core:jar:1.3</node>
+            <node x="" y="">javax.el:javax.el-api:jar:3.0.0</node>
+            <node x="" y="">org.glassfish.web:javax.el:jar:2.2.6</node>
+            <node x="" y="">org.glassfish.web:javax.el:jar:2.2.6/javax.el:javax.el-api:jar:2.2.5</node>
+            <node x="" y="">org.hibernate.validator:hibernate-validator-annotation-processor:jar:6.0.2.Final</node>
+            <node x="" y="">org.jdatepicker:jdatepicker:jar:1.3.4</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="517.0" y="100.0" />
+          <SelectedNodes />
+          <Categories />
+          <VISIBILITY>All</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="160" column="7" selection-start-line="160" selection-start-column="7" selection-end-line="160" selection-end-column="7" />
           <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/database_driver.java">
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormElement.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
-          <caret line="67" column="29" lean-forward="true" selection-start-line="67" selection-start-column="29" selection-end-line="67" selection-end-column="29" />
+        <state relative-caret-position="34">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/PatientDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2031">
-          <caret line="397" column="68" selection-start-line="397" selection-start-column="68" selection-end-line="397" selection-end-column="68" />
+        <state relative-caret-position="765">
+          <caret line="294" column="33" selection-start-line="294" selection-start-column="33" selection-end-line="294" selection-end-column="33" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_Register_GUI.java">
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/FormType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="51" column="33" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
+        <state relative-caret-position="391">
+          <caret line="35" column="6" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Email.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="11" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="11" />
           <folding>
-            <element signature="e#2092#2247#0" expanded="true" />
-            <element signature="e#2246#2247#0" expanded="true" />
-            <element signature="e#14843#14998#0" expanded="true" />
-            <element signature="e#14997#14998#0" expanded="true" />
-            <element signature="e#15728#15883#0" expanded="true" />
-            <element signature="e#15882#15883#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#917#1108#0" expanded="true" />
+            <element signature="e#1107#1108#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="64" column="67" lean-forward="true" selection-start-line="64" selection-start-column="67" selection-end-line="64" selection-end-column="67" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="298" lean-forward="true" selection-start-line="298" selection-end-line="298" />
+        <state relative-caret-position="331">
+          <caret line="147" column="40" lean-forward="true" selection-start-line="147" selection-start-column="40" selection-end-line="147" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="43" column="25" lean-forward="true" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -629,7 +873,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.4275862" />
               </list>
             </option>
           </splitter-proportions>
@@ -637,11 +881,11 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited>Detection</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.4275862" />
               </list>
             </option>
           </splitter-proportions>
@@ -652,7 +896,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.4275862" />
               </list>
             </option>
           </splitter-proportions>
@@ -664,7 +908,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.4275862" />
               </list>
             </option>
           </splitter-proportions>
@@ -676,7 +920,8 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.4275862" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -696,11 +941,11 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>lib</last-edited>
+          <last-edited>mysql-connector-java-8.0.15</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.4275862" />
               </list>
             </option>
           </splitter-proportions>
