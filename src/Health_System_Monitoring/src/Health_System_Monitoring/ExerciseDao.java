@@ -102,6 +102,7 @@ public class ExerciseDao implements ExerciseDaoInterface {
 
     public boolean removeRegime(ExerciseRegime regime)
     {
+
         return removeRegime(regime.regimeId);
     }
 
