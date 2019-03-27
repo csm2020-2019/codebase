@@ -44,7 +44,7 @@ public class Patient_GUI {
         AddNiceButton();
         PatientInfoPanel();
         PatientInfoDisplay();
-        //PatientReferPanel();
+        PatientReferPanel();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);
@@ -57,7 +57,7 @@ public class Patient_GUI {
         infoPanel = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
         infoPanel.setLayout(flowLayout);
-        infoPanel.setPreferredSize(new Dimension(300, 200));
+        infoPanel.setPreferredSize(new Dimension(400, 200));
         TitledBorder patientBorder = new TitledBorder("Patient Details");
         infoPanel.setBorder(patientBorder);
         controlPanel.add(infoPanel);

@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class RD_GUI {
     public static JFrame mainFrame;
@@ -21,9 +22,17 @@ public class RD_GUI {
     private JButton button = new JButton();
     private Object[][] patientReferals;
 
+    private int userId;
+
     public void prepareRDGUI() {
 
         Main_GUI.mainFrame.setVisible(false);
+
+        //userId = Main_GUI.getCurrentUser().getUserId();
+
+        if (userId == 0) {
+            userId = 3;
+        }
 
         mainFrame = new JFrame("RD application");
         mainFrame.setSize(500, 550);
@@ -109,12 +118,26 @@ public class RD_GUI {
     }
 
     private void PopulatePatients() {
-        int i = 30;
-        patientReferals = new Object[i][4];
-        for (i = 0; i < 30; i++) {
-            patientReferals[i][0] = i;
-            patientReferals[i][1] = "a";
-            patientReferals[i][2] = "b";
+
+        java.util.List<Integer> referrals = new ArrayList<>();
+        java.util.List<Patient> patients  = new ArrayList<>();
+        UserDao uDao = new UserDao();
+        PatientDao pDao = new PatientDao();
+
+        referrals = uDao.getReferralByRD(userId);
+
+        int patientsNum = referrals.size();
+
+        System.out.println(patientsNum);
+        System.out.println(uDao.getReferralByPatientId(1));
+
+        patientReferals = new Object[patientsNum][4];
+
+        for (int i = 0; i < patientsNum; i ++) {
+            System.out.println("Referral patient ID: " + referrals.get(i));
+            patientReferals[i][0] = referrals.get(i);
+            patientReferals[i][1] = "Lorem Ipsum";
+            patientReferals[i][2] = "Lorem Ipsum";
             patientReferals[i][3] = "--->";
         }
         //scrollPane.updateUI();

@@ -99,8 +99,16 @@ public class Main_GUI implements KeyListener, ActionListener {
             JOptionPane.showMessageDialog(null,"Incorrect username or password. Try again",
                     "Alert", JOptionPane.WARNING_MESSAGE);
         } else {
-            GP_GUI gp_GUI = new GP_GUI();
-            gp_GUI.prepareGPGUI();
+            if(user.getUserType().equals("gp")){
+                GP_GUI gp_GUI = new GP_GUI();
+                gp_GUI.prepareGPGUI();
+            } else if (user.getUserType().equals("rd")){
+                RD_GUI rd_gui = new RD_GUI();
+                rd_gui.prepareRDGUI();
+            } else if (user.getUserType().equals("sc")){
+                SC_GUI sc_gui = new SC_GUI();
+                sc_gui.prepareSCGUI();
+            }
         }
     }
 
