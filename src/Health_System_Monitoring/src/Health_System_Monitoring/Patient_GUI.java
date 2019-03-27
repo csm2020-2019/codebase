@@ -294,6 +294,7 @@ public class Patient_GUI {
         if (e.getStateChange() == ItemEvent.SELECTED) {
             PatientDao pDao = new PatientDao();
             patient.setPatient_email_prescription(true);
+            Email.sendEmail(patient.getPatient_email(),"from the app", "gz you have diabetes");
             pDao.setPatientThirdPartyPrescription(patient);
 
             System.out.println("Patient prescribed");
