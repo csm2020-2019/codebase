@@ -45,6 +45,7 @@ public class SportsCenterDao implements SportsCenterDaoInterface {
 
     }
 
+    
     @Override
     public boolean getSportsCenterAvailability(int sportsCenterId) {
 
