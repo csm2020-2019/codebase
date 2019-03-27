@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class GP_GUI {
@@ -19,7 +19,10 @@ public class GP_GUI {
     private JPanel controlPanel;
     private JPanel southPanel;
     private JTextField patientSearchField;
+    private JComboBox<String> formCreateComboBox;
     private SpringLayout layout = new SpringLayout();
+
+    private HashMap<String,Integer> editableFormLookup;
 
     public void prepareGPGUI() {
 
@@ -45,6 +48,7 @@ public class GP_GUI {
         SearchLabel();
         PatientSearchField();
         PatientSearchButton();
+        GPCreateFormButton();
         BackButton();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition().x -125, Main_GUI.GetWindowPosition().y -165);
@@ -65,7 +69,7 @@ public class GP_GUI {
 
         List<Patient> pat = Arrays.asList(new Patient[0]);
         PatientDao pDao = new PatientDao();
-        pat = (List<Patient>) pDao.searchPatient(searchField);
+        pat = (List<Patient>) pDao.searchPatientByLastName(searchField);
         if (!searchField.isEmpty()) {
             if (!pat.isEmpty()) {
                 System.out.println(pat);
@@ -78,6 +82,8 @@ public class GP_GUI {
             System.out.println("Search was Empty");
         }
     }
+
+
 
     public void GoBackToMainGUI() {
         mainFrame.setVisible(false);
@@ -108,6 +114,19 @@ public class GP_GUI {
         layout.putConstraint(SpringLayout.WEST, patientSearchField, 100, SpringLayout.WEST, controlPanel);
     }
 
+    private void UpdateFormsLookup()
+    {
+        FormDao dao = new FormJDBC();
+        editableFormLookup = (HashMap<String,Integer>)dao.getFormsForGP(Main_GUI.getCurrentUser().getUserId());
+    }
+
+    private void FormComboBox() {
+        UpdateFormsLookup();
+        String[] names = (String[])editableFormLookup.keySet().toArray();
+        formCreateComboBox = new JComboBox<String>(names);
+
+    }
+
     /**
      * Create GUI for back button
      */
@@ -129,6 +148,11 @@ public class GP_GUI {
 
         layout.putConstraint(SpringLayout.NORTH, PatientSearchButton, 50, SpringLayout.NORTH, controlPanel);
         layout.putConstraint(SpringLayout.WEST, PatientSearchButton, 205, SpringLayout.WEST, controlPanel);
+    }
+
+    public void GPCreateFormButton()
+    {
+
     }
 
     /**

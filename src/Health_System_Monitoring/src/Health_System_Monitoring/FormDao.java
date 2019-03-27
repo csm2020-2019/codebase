@@ -3,10 +3,14 @@
  */
 package Health_System_Monitoring;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * @author user
@@ -64,14 +68,27 @@ public interface FormDao {
 	public boolean removeQuestion(int questionId);
 	
 	// ----------------------------------------------------------------------
-	
+
 	/**
 	 * Add a submission to the DB
 	 * @param formId submission relates to
 	 * @param submitterId from user table
+	 * @param subjectId from patient table
+	 * @param currentDate the date of the update
 	 * @return id of the created submission
 	 */
-	public int addSubmission(int formId, int submitterId);
+	public int addSubmission(int formId, int submitterId, int subjectId, Date currentDate);
+
+	/**
+	 * Updates a submission in the DB
+	 * @param submissionId that we're changing
+	 * @param submitterId from user table
+	 * @param subjectId from patient table
+	 * @param currentDate the date of the update
+	 * @return success
+	 */
+	public boolean updateSubmission(int submissionId, int submitterId, int subjectId, Date currentDate);
+
 	/**
 	 * Remove a submission from the DB
 	 * @param submissionId to remove
@@ -109,13 +126,15 @@ public interface FormDao {
 	// ----------------------------------------------------------------------
 	
 	// utility functions
-	
+
+	public Map<String, Integer> getFormsForGP(int gp_id);
+
 	/**
 	 * Get structure of specified Form
 	 * @param formId to retrieve
-	 * @return List of FormElement objects
+	 * @return ArrayList of FormElement objects (without answers)
 	 */
-	public List<FormElement> getFormElements(int formId);
+	public Collection<FormElement> getFormElements(int formId);
 	
 	/**
 	 * Submit form answers for specified Form
@@ -124,5 +143,29 @@ public interface FormDao {
 	 * @param values list of values from the screen form, in same order as returned from getFormElements
 	 * @return submission id
 	 */
-	public int submitFormAnswers(int formId, int submitterId, List<Object> values);
+	public int submitFormAnswers(int formId, int submitterId, int subjectId, List<Object> values);
+
+	/**
+	 * Get form structure and answers for a given Submission
+	 * @param formId specific form to retrieve
+	 * @param submissionId specific submission to retrieve
+	 * @return ArrayList of FormElement objects (with answers folded in)
+	 */
+	public Collection<FormElement> getSubmission(int formId, int submissionId);
+
+	/**
+	 * Get list of submissions for the given patient and the given form
+	 * @param formID that we're looking for
+	 * @param patientID from the patient table
+	 * @return a Map of the data, with the SubmissionID as the key and the date as the value
+	 */
+	public Map<Integer,Date> getSubmissionsForPatient(int formID, int patientID);
+
+	/**
+	 * Get the complete list of answers for a given form and patient, arranged by date
+	 * @param formId we're looking for
+	 * @param patientID from the patient table
+	 * @return a Map of the data, with the Date as the key and the answers as the values
+	 */
+	public Map<Date, Collection<FormElement>> getSubmissionsByDate(int formId, int patientID);
 }

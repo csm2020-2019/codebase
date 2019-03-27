@@ -43,7 +43,7 @@ public class GP_Register_GUI {
             userId = 1;
         }
 
-        if (isNewRecord == true) {
+        if (isNewRecord) {
             GP_GUI.mainFrame.setVisible(false);
             mainFrame = new JFrame("Register new patient");
             ClearValuesInBoxes();
@@ -162,7 +162,7 @@ public class GP_Register_GUI {
 
     public void BackButtonFunction() {
         mainFrame.setVisible(false);
-        if (newRecord == true) {
+        if (newRecord) {
             GP_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
             GP_GUI.mainFrame.setVisible(true);
         } else {
@@ -173,7 +173,7 @@ public class GP_Register_GUI {
     }
 
     public void SubmitButtonFunction() throws SQLException {
-        boolean acceptedCheck;
+        boolean acceptedCheck = false;
         anyEmptyStrings = false;
 
         GrabValues();
@@ -188,15 +188,18 @@ public class GP_Register_GUI {
 
             PatientDao pDao = (PatientDao) new PatientDao();
 
-            if (newRecord == true) {
-                acceptedCheck = (boolean) pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
+            if (newRecord) {
+                int id = (Integer) pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
+                if (id > 0) {
+                    acceptedCheck = true;
+                }
             } else {
                 acceptedCheck = (boolean) pDao.updatePatientRecord(patient);
             }
 
-            if (acceptedCheck == true) {
+            if (acceptedCheck) {
                 mainFrame.setVisible(false);
-                if (newRecord == true) {
+                if (newRecord) {
                     GP_GUI.mainFrame.setVisible(true);
                     SubmitConfirmedWindow();
                 } else {
