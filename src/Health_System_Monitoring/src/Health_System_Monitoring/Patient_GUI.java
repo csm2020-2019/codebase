@@ -5,6 +5,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.ArrayList;
@@ -42,7 +43,6 @@ public class Patient_GUI {
         DeleteRecordButton();
         PatientBackButton();
         AddNiceButton();
-        PrescribeCheckBox();
         PatientInfoPanel();
         PatientInfoDisplay();
         PatientReferPanel();
@@ -58,16 +58,16 @@ public class Patient_GUI {
         infoPanel = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
         infoPanel.setLayout(flowLayout);
-        infoPanel.setPreferredSize(new Dimension(300, 200));
+        infoPanel.setPreferredSize(new Dimension(400, 200));
         TitledBorder patientBorder = new TitledBorder("Patient Details");
         infoPanel.setBorder(patientBorder);
         controlPanel.add(infoPanel);
     }
-    
+
     private void PatientReferPanel() {
-    	referPanel = new JPanel();
-    	FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
-    	referPanel.setLayout(flowLayout);
+        referPanel = new JPanel();
+        FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
+        referPanel.setLayout(flowLayout);
 
     	// first check to see if we're already referred
 
@@ -92,13 +92,13 @@ public class Patient_GUI {
             rd_list = userDao.getUserByType("rd");
             Vector<String> name_list = new Vector<String>(rd_list.size());
 
-            for (User user : rd_list) {
-                name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
-            }
+        for (User user : rd_list) {
+            name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+        }
 
-            referBox = new JComboBox<String>(name_list);
+        referBox = new JComboBox<String>(name_list);
 
-            // next up, the button to trigger referral
+        // next up, the button to trigger referral
 
             triggerButton = new JButton("Refer");
             triggerButton.setActionCommand("Refer_Patient");
@@ -134,13 +134,6 @@ public class Patient_GUI {
         infoPanel.add(PrescriptionLabel);
     }
 
-    private void PrescribeCheckBox() {
-        Boolean bool = Boolean.TRUE;
-        JCheckBox PrescribeCheckBox = new JCheckBox("Prescribe to third party material", bool);
-        PrescribeCheckBox.addItemListener(this::itemStateChanged);
-        controlPanel.add(PrescribeCheckBox);
-    }
-
     public void ReferPatient() {
         int selected = referBox.getSelectedIndex();
         // text box maps one-to-one with returned RD user list, which is stored in rd_list
@@ -152,8 +145,8 @@ public class Patient_GUI {
         int gp_id = gp.getUserId();
         int patient_id = patient.getPatientId();
 
-        UserDaoInterface userDao = new UserDao();
-        boolean reuslt = userDao.addReferral(patient_id, gp_id, rd_id);
+        UserDao userDao = new UserDao();
+        boolean result = userDao.addReferral(patient_id, gp_id, rd_id);
 
 
     	referBox.setEditable(false);
@@ -208,15 +201,13 @@ public class Patient_GUI {
     public void DeleteOkayButtonFunction() throws SQLException {
         boolean acceptedCheck;
 
-        PatientDao patientDao = new PatientDao();
-        acceptedCheck = patientDao.deletePatientRecord(patient.getPatientId());
-
+        PatientDao pDao = (PatientDao) new PatientDao();
+        acceptedCheck = pDao.deletePatientRecord(patient.getPatientId());
 
         if (acceptedCheck == true) {
             confirmFrame.setVisible(false);
             Patient_GUI patient_GUI = new Patient_GUI();
             patient_GUI.GoToGPGUI();
-
         }
     }
 
@@ -282,29 +273,6 @@ public class Patient_GUI {
         BackButton.setActionCommand("Patient_Delete_Cancel");
         BackButton.addActionListener(new Patient_GUI.ButtonClickListener());
         successSouthPanel.add(BackButton);
-    }
-
-    /*
-    check if check box is checked
-    Checkbox - PrescribeCheckBox
-    if checked, set patient to prescribe third party materials
-     */
-    public void itemStateChanged(ItemEvent e) {
-
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-            PatientDao pDao = new PatientDao();
-            patient.setPatient_email_prescription(true);
-            Email.sendEmail(patient.getPatient_email(),"from the app", "gz you have diabetes");
-            pDao.setPatientThirdPartyPrescription(patient);
-
-            System.out.println("Patient prescribed");
-        } else {
-            PatientDao pDao = new PatientDao();
-            patient.setPatient_email_prescription(false);
-            pDao.setPatientThirdPartyPrescription(patient);
-
-            System.out.println("Patient not prescribed");
-        }
     }
 
     /**
