@@ -47,6 +47,4 @@ public interface ExerciseDaoInterface {
     // Utility Functions
 
     public ExerciseRegime getAssignedRegimeForPatient(Patient patient);
-
-    //public void setTrialTime(int trialId, BigDecimal time);
 }
