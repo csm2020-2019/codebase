@@ -42,6 +42,7 @@ public class Patient_GUI {
         DeleteRecordButton();
         PatientBackButton();
         AddNiceButton();
+        ResultsButton();
         PrescribeCheckBox();
         PatientInfoPanel();
         PatientInfoDisplay();
@@ -255,6 +256,16 @@ public class Patient_GUI {
     }
 
     /**
+     * Create graph of test results
+     */
+    private void ResultsButton() {
+        JButton ResultsButton = new JButton ("Compare Results");
+        ResultsButton.setActionCommand("Results_Graph");
+        ResultsButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(ResultsButton);
+    }
+
+    /**
      * Create GUI for back button
      */
     private void PatientBackButton() {
@@ -306,6 +317,14 @@ public class Patient_GUI {
         }
     }
 
+    private void CompareResults() {
+        String[] values = {"Weight", "Blood Pressure", "Haemoglobin", "Urinary Albumin", "Serum Creatine", "eGFR", "Cholesterol"};
+
+        JOptionPane.showInputDialog(mainFrame, "Which results would you like to display?", "Selection", JOptionPane.DEFAULT_OPTION, null, values, "None");
+
+
+    }
+
     /**
      * Action Listener that looks out for button presses in Patient_GUI
      */
@@ -339,6 +358,8 @@ public class Patient_GUI {
                 nice_gui.prepareNiceGUI();
             } else if (command.equals("Refer_Patient")) {
                 ReferPatient();
+            } else if (command.equals("Results_Graph")) {
+                CompareResults();
             }
         }
     }
