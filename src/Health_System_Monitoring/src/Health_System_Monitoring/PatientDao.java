@@ -278,7 +278,6 @@ public class PatientDao implements PatientDaoInterface {
                     patientMatchList.add(patient);
                 }
 
-                return patientMatchList;
 
             } catch (SQLException e){
                 e.printStackTrace();
@@ -298,7 +297,8 @@ public class PatientDao implements PatientDaoInterface {
                 }
             }
         }
-        return null;
+        return patientMatchList;
+;
     }
 
 
