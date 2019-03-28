@@ -9,4 +9,5 @@ public class ExerciseTrial {
     int duration;
     int intensity_speed;
     BigDecimal intensity_slope;
+    BigDecimal completed_time;
 }
