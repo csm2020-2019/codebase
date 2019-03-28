@@ -124,7 +124,12 @@ public class RD_GUI {
         UserDao uDao = new UserDao();
         PatientDao pDao = new PatientDao();
 
-        referrals = uDao.getReferralByRD(userId);
+        //referrals = uDao.getReferralByRD(userId);
+        referrals.add(1);
+        referrals.add(4);
+        referrals.add(11);
+        referrals.add(14);
+        referrals.add(22);
 
         int patientsNum = referrals.size();
 
