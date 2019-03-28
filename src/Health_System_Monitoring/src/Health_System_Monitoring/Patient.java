@@ -15,7 +15,8 @@ public class Patient {
 	private String patient_address;
 	private String patient_medical_history;
 	private String patient_diagnosis;
-	private String patient_prescriptions;
+
+    private String patient_prescriptions;
 	private boolean patient_email_prescription;
 	
 	public Patient() {
@@ -75,13 +76,6 @@ public class Patient {
 	}
 
 	public boolean getPatientEmailPrescription() { return patient_email_prescription; }
-	
-//	public String toString() {
-//		return "Id: " + getPatientId() + " \nFirst name: " + getPatientFirstName() + " \nLast name: " + getPatientLastName() +
-//				" \nDOB: " + getPatientDob() + " \nAddress: " + getPatientAddress() + " \nMed history: " +
-//				getPatientMedicalHistory() +  " \nDiagnosis: " + getPatientDiagnosis() + " \nPrescriptions: " +
-//				getPatientPrescriptions();
-//	}
 
 	@Override
 	public String toString() {
@@ -160,4 +154,6 @@ public class Patient {
 	public void setPatient_email_prescription(boolean patient_email_prescription) {
 		this.patient_email_prescription = patient_email_prescription;
 	}
+
+
 }

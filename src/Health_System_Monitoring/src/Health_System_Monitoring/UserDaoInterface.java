@@ -69,7 +69,7 @@ public interface UserDaoInterface {
     
     /*
     method to add a referral to the referral table
-    @ param patient_id id of the patient in the user table
+    @ param patient_id id of the patient in the patient table
     @ param gp_id id of the GP in the user table
     @ param rd_id id of the RD in the user table
     @return true if successfully added and false if not
@@ -86,7 +86,7 @@ public interface UserDaoInterface {
     /*
      * Method to retrieve referral for a given Patient
      * @param rd_id
-     * @return list of user IDs for patients referred to given RD
+     * @return list of patient IDs for patients referred to given RD
      */
     List<Integer> getReferralByRD(int rd_id);
 }

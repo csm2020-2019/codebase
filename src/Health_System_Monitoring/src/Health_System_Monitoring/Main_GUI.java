@@ -50,6 +50,7 @@ public class Main_GUI implements KeyListener, ActionListener {
 
         LoginButton();
         BypassSCButton();
+        BypassRDButton();
         BypassGPButton();
         GetCenterPoint();
 
@@ -96,8 +97,16 @@ public class Main_GUI implements KeyListener, ActionListener {
             JOptionPane.showMessageDialog(null,"Incorrect username or password. Try again",
                     "Alert", JOptionPane.WARNING_MESSAGE);
         } else {
-            GP_GUI gp_GUI = new GP_GUI();
-            gp_GUI.prepareGPGUI();
+            if(user.getUserType().equals("gp")){
+                GP_GUI gp_GUI = new GP_GUI();
+                gp_GUI.prepareGPGUI();
+            } else if (user.getUserType().equals("rd")){
+                RD_GUI rd_gui = new RD_GUI();
+                rd_gui.prepareRDGUI();
+            } else if (user.getUserType().equals("sc")){
+                SC_GUI sc_gui = new SC_GUI();
+                sc_gui.prepareSCGUI();
+            }
         }
     }
 
@@ -117,6 +126,14 @@ public class Main_GUI implements KeyListener, ActionListener {
         SCButton.setActionCommand("SCBypass");
         SCButton.addActionListener(this);
         controlPanel.add(SCButton);
+    }
+
+    //Temporary button that will be removed later on in development
+    private void BypassRDButton() {
+        JButton RDButton = new JButton("Bypass RD");
+        RDButton.setActionCommand("RDBypass");
+        RDButton.addActionListener(this);
+        controlPanel.add(RDButton);
     }
 
     //Temporary button that will be removed later on in development
@@ -147,30 +164,33 @@ public class Main_GUI implements KeyListener, ActionListener {
     /**
      * Action Listener that looks out for button presses in Main_GUI
      */
-
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-        Patient_GUI patient_gui = new Patient_GUI();
-        GP_Register_GUI gp_register_gui = new GP_Register_GUI();
-        NICE_GUI nice_gui = new NICE_GUI();
+        public void actionPerformed(ActionEvent e) {
+            String command = e.getActionCommand();
+            Patient_GUI patient_gui = new Patient_GUI();
+            GP_Register_GUI gp_register_gui = new GP_Register_GUI();
+            NICE_GUI nice_gui = new NICE_GUI();
+            GP_GUI gp_gui = new GP_GUI();
+            RD_GUI rd_gui = new RD_GUI();
 
         //get the text value from the username and pwd text field
         //converted to string type
 
-        if (command.equals("Default")) {
-            //Do Something?
-        } else if (command.equals("Login")) {
-            this.LoginFunction();
-        } else if (command.equals("SCBypass")) {
-            SC_GUI.prepareSCGUI();
-        } else if (command.equals("GPBypass")) {
-            SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
-            GP_GUI gp_GUI = new GP_GUI();
-            gp_GUI.prepareGPGUI();
-        } else if (command.equals("Nice_Back")) {
-            nice_gui.GoToPatientGUI();
-        } else {
-            System.out.println("No Input for button");
+            if (command.equals("Default")) {
+                //Do Something?
+            } else if (command.equals("Login")) {
+                LoginFunction();
+            } else if (command.equals("SCBypass")) {
+                SC_GUI.prepareSCGUI();
+            } else if (command.equals("GPBypass")) {
+                SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
+                gp_gui.prepareGPGUI();
+            } else if (command.equals("RDBypass")) {
+                SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
+                rd_gui.prepareRDGUI();
+            } else if (command.equals("Nice_Back")) {
+                nice_gui.GoToPatientGUI();
+            } else {
+                System.out.println("No Input for button");
+            }
         }
     }
-}

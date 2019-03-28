@@ -69,7 +69,7 @@ public class GP_GUI {
 
         List<Patient> pat = Arrays.asList(new Patient[0]);
         PatientDao pDao = new PatientDao();
-        pat = (List<Patient>) pDao.searchPatient(searchField);
+        pat = (List<Patient>) pDao.searchPatientByLastName(searchField);
         if (!searchField.isEmpty()) {
             if (!pat.isEmpty()) {
                 System.out.println(pat);
