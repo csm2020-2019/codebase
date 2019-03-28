@@ -10,7 +10,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
         <configuration>
-          <release>11</release>
+          <source>11</source>
+			<target>11</target>
         </configuration>
       </plugin>
     </plugins>
@@ -89,8 +90,16 @@
     	<artifactId>hibernate-validator-annotation-processor</artifactId>
     	<version>6.0.2.Final</version>
 	</dependency>
-	
-	<dependency>
+
+	  <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	  <dependency>
+		  <groupId>mysql</groupId>
+		  <artifactId>mysql-connector-java</artifactId>
+		  <version>8.0.15</version>
+	  </dependency>
+
+
+	  <dependency>
     <groupId>javax.el</groupId>
     <artifactId>javax.el-api</artifactId>
     <version>3.0.0</version>

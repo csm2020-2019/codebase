@@ -265,11 +265,12 @@ public class PatientDao implements PatientDaoInterface {
             Connection databaseConnection = database_driver.getConnection();
             PreparedStatement sqlStatement = null;
 
-            List<Patient> patientMatchList = null;
+            List<Patient> patientMatchList = new ArrayList<>();
             ResultSet resultSet;
 
             try{
-                String query = "SELECT * FROM patient_records WHERE patient_id = ?";
+                String query = "SELECT userId, patient_dob, patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, "
+                + "patient_prescriptions, patient_email_prescription FROM patient_records WHERE patient_id = ?";
                 sqlStatement = databaseConnection.prepareStatement(query);
                 sqlStatement.setInt(1, patient_id);
                 resultSet = sqlStatement.executeQuery();
@@ -279,7 +280,6 @@ public class PatientDao implements PatientDaoInterface {
                     patientMatchList.add(patient);
                 }
 
-                return patientMatchList;
 
             } catch (SQLException e){
                 e.printStackTrace();
@@ -299,7 +299,8 @@ public class PatientDao implements PatientDaoInterface {
                 }
             }
         }
-        return null;
+        return patientMatchList;
+;
     }
 
 
