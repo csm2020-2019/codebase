@@ -1,5 +1,6 @@
 package Health_System_Monitoring;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Collection;
 
@@ -9,9 +10,8 @@ public interface ExerciseDaoInterface {
     These are a little more involved than the usual enter/retrieve form setup
     We have a Regimes table, which records which exercise regime is assigned to which patient and for how long,
     and a Trials table, which records the actual exercise regime itself.
-    Note that the relationship between Trials and Regimes is potentially many-to-one; the basic design only requires
-    one-to-one but there's no particular reason for it to stay that way. We can note this as a future expansion point
-    (eg - graded exercise programs)
+    Note that the relationship between Trials and Regimes is  many-to-one. We record the results for each Trial in the
+    completed_time field.
     */
 
     // Regime Table CRUD

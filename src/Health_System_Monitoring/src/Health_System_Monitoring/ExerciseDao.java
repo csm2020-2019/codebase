@@ -1,5 +1,6 @@
 package Health_System_Monitoring;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -354,11 +355,9 @@ public class ExerciseDao implements ExerciseDaoInterface {
 
         List<ExerciseTrial> trials = (List<ExerciseTrial>)getAllTrialsForRegime(output.regimeId);
 
-        if(trials.size() > 0)
-        {
-            output.trial = trials.get(0);
-        }
+        output.trials.addAll(trials);
 
         return output;
     }
+
 }
