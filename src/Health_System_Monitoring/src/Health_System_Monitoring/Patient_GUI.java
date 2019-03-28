@@ -42,10 +42,11 @@ public class Patient_GUI {
         ModifyRecordButton();
         DeleteRecordButton();
         PatientBackButton();
-        AddNiceButton();
+        //AddNiceButton();
         PatientInfoPanel();
         PatientInfoDisplay();
         PatientReferPanel();
+
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);
@@ -147,7 +148,6 @@ public class Patient_GUI {
 
         UserDao userDao = new UserDao();
         boolean result = userDao.addReferral(patient_id, gp_id, rd_id);
-
 
     	referBox.setEditable(false);
     	referBox.setEnabled(false);

@@ -48,6 +48,7 @@ public class GP_GUI {
         SearchLabel();
         PatientSearchField();
         PatientSearchButton();
+        FormComboBox();
         GPCreateFormButton();
         BackButton();
 
@@ -56,6 +57,12 @@ public class GP_GUI {
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
+
+        if(Form_GUI.mainFrame == null)
+        {
+            Form_GUI.prepareFormGUI();
+        }
+        Form_GUI.mainFrame.setVisible(false);
     }
 
     /**
@@ -124,7 +131,6 @@ public class GP_GUI {
         UpdateFormsLookup();
         String[] names = (String[])editableFormLookup.keySet().toArray();
         formCreateComboBox = new JComboBox<String>(names);
-
     }
 
     /**
@@ -152,6 +158,7 @@ public class GP_GUI {
 
     public void GPCreateFormButton()
     {
+        // this opens the currently selected entry
         
     }
 

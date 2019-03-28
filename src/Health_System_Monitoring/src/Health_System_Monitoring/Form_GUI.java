@@ -9,7 +9,7 @@ import java.math.BigInteger;
 import java.util.Vector;
 
 public class Form_GUI {
-    public static JFrame mainFrame;
+    public static JFrame mainFrame = null;
     private static JPanel titlepanel = new JPanel();
     private static JButton editbutton = new JButton("edit");
     private static JPanel editingpanel = new JPanel();
@@ -18,6 +18,8 @@ public class Form_GUI {
     private static Vector<JButton> editButtonz = new Vector<JButton>();
 
     private static Vector<FormElement> formElements = new Vector<FormElement>();
+
+    private static JTextField titleField = new JTextField();
 
     // convenience vectors to quickly access editable form elements
     private static Vector<JPanel> formPanels = new Vector<JPanel>();
@@ -28,14 +30,21 @@ public class Form_GUI {
 
     private static int formId; // form we're using
     private static int submissionId; // submission ID for the current answer set (outside Edit Mode)
-
     private static int patientID; // from the patient table
 
     private static FormDao dao;
 
     public static void prepareFormGUI() {
-        JLabel titlelabel = new JLabel("title ");
-        titlepanel.add(titlelabel);
+        mainFrame = new JFrame();
+        titleField = new JTextField("Form Name:");
+        titleField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String title = titleField.getText();
+                dao.updateForm(formId, Main_GUI.getCurrentUser(), title);
+            }
+        });
+        titlepanel.add(titleField);
         titlepanel.add(editbutton);
 
         for (FormType ft : FormType.values()) {
@@ -79,8 +88,27 @@ public class Form_GUI {
         dao = FormJDBC.getDAO();
     }
 
-    public static void toggleEditMode() {
-        editMode = !editMode;
+    private static void clearForm() {
+        formElements = new Vector<FormElement>();
+
+        contentpanel.removeAll();
+    }
+
+    public static void spawnEmptyForm() {
+        editMode = true;
+        updateEditMode();
+        clearForm();
+
+        formId = dao.addNewForm(Main_GUI.getCurrentUser(),"");
+
+        mainFrame.setVisible(true);
+
+    }
+
+    private static void updateEditMode() {
+
+        // change the edit mode of the title field
+        titleField.setEnabled(editMode);
 
         // flip the edit mode state of our panels
         for (int i = 0; i < formPanels.size(); i++) {
@@ -100,6 +128,18 @@ public class Form_GUI {
             button.setVisible(editMode);
             button.setEnabled(editMode);
         }
+    }
+
+    public static void setEditMode(boolean edit) {
+        editMode = edit;
+
+        updateEditMode();
+    }
+
+    public static void toggleEditMode() {
+        editMode = !editMode;
+
+        updateEditMode();
     }
 
 
