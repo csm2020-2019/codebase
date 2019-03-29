@@ -28,7 +28,19 @@ public class Main {
 
 
 		Main_GUI main = new Main_GUI();
-//		List<User> userRecord = null;
+// 		PatientDao patientDao = new PatientDao();
+// 		List<Patient> patientList = null;
+
+
+// 		patientList = patientDao.searchPatientById(1);
+
+
+// 		for(Patient patientRes : patientList){
+// 			System.out.println(patientRes.toString());
+// 		}
+
+
+		//		List<User> userRecord = null;
 //		User user = null;
 
 //		database_driver db = database_driver.getConnection();
