@@ -1,6 +1,8 @@
 package Health_System_Monitoring;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,16 +15,17 @@ import java.util.List;
 
 public class GP_GUI {
     public static JFrame mainFrame;
-    private JLabel headerLabel;
-    private JLabel searchLabel;
-    private JPanel northPanel;
-    private JPanel controlPanel;
-    private JPanel southPanel;
+    private JLabel headerLabel, searchLabel;
+    private JPanel northPanel, controlPanel, southPanel, searchPanel;
+    private JScrollPane scrollPane;
     private JTextField patientSearchField;
     private JComboBox<String> formCreateComboBox;
+    private JButton button = new JButton();
     private SpringLayout layout = new SpringLayout();
+    private Object[][] patientSearch;
+    private List<Patient> patients = Arrays.asList(new Patient[0]);
 
-    private HashMap<String,Integer> editableFormLookup;
+    private HashMap<String, Integer> editableFormLookup;
 
     public void prepareGPGUI() {
 
@@ -40,8 +43,12 @@ public class GP_GUI {
         northPanel = new JPanel();
         controlPanel = new JPanel();
         southPanel = new JPanel();
+        searchPanel = new JPanel();
 
         controlPanel.setLayout(layout);
+
+        PatientDao pDao = new PatientDao();
+        patients = pDao.getAllPatientRecords();
 
         HeaderLabel();
         RegisterPatientButton();
@@ -49,9 +56,14 @@ public class GP_GUI {
         PatientSearchField();
         PatientSearchButton();
         GPCreateFormButton();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                ReferalsWindow();
+            }
+        });
         BackButton();
 
-        mainFrame.setLocation(Main_GUI.GetWindowPosition().x -125, Main_GUI.GetWindowPosition().y -165);
+        mainFrame.setLocation(Main_GUI.GetWindowPosition().x - 125, Main_GUI.GetWindowPosition().y - 165);
         mainFrame.add(northPanel, BorderLayout.NORTH);
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
@@ -59,22 +71,21 @@ public class GP_GUI {
     }
 
     /**
-     *
      * @throws SQLException
      */
     public void PatientSearchButtonFunction() throws SQLException {
         String searchField = patientSearchField.getText();
-        //String searchField = "Jones";
         System.out.println("Print off of search bar input: " + searchField);
 
-        List<Patient> pat = Arrays.asList(new Patient[0]);
         PatientDao pDao = new PatientDao();
-        pat = (List<Patient>) pDao.searchPatientByLastName(searchField);
+        patients = (List<Patient>) pDao.searchPatientByLastName(searchField);
         if (!searchField.isEmpty()) {
-            if (!pat.isEmpty()) {
-                System.out.println(pat);
-                Patient_GUI patient_GUI = new Patient_GUI();
-                patient_GUI.preparePatientGUI(pat.get(0));
+            if (!patients.isEmpty()) {
+                System.out.println(patients);
+                //PopulatePatients();
+                searchPanel.removeAll();
+                ReferalsWindow();
+                searchPanel.updateUI();
             } else {
                 System.out.println("Patient list is Empty");
             }
@@ -83,7 +94,82 @@ public class GP_GUI {
         }
     }
 
+    /**
+     * @throws SQLException
+     */
+    public void PatientOpenButtonFunction(int patNum) throws SQLException {
 
+        Patient_GUI patient_GUI = new Patient_GUI();
+        patient_GUI.preparePatientGUI(patients.get(patNum));
+        System.out.println(patients.get(patNum).getPatientFirstName());
+    }
+
+    private void PopulatePatients() {
+
+        java.util.List<Integer> referrals = new ArrayList<>();
+        UserDao uDao = new UserDao();
+
+        //referrals = uDao.getReferralByRD(userId);
+
+        //System.out.println(patients);
+
+        for (int i = 0; i < patients.size(); i++) {
+            referrals.add(patients.get(i).getPatientId());
+        }
+
+        int patientsNum = referrals.size();
+
+        //System.out.println(patientsNum);
+        //System.out.println(uDao.getReferralByPatientId(1));
+
+        patientSearch = new Object[patientsNum][4];
+
+        for (int i = 0; i < patientsNum; i++) {
+            //System.out.println("Referral patient ID: " + referrals.get(i));
+            //patients = pDao.searchPatientById(referrals.get(i));
+            //System.out.println(patients.get(i));
+            patientSearch[i][0] = referrals.get(i);
+            patientSearch[i][1] = patients.get(i).getPatientFirstName();
+            patientSearch[i][2] = patients.get(i).getPatientLastName();
+            patientSearch[i][3] = "--->";
+        }
+    }
+
+    private void ReferalsWindow() {
+        PopulatePatients();
+        String[] columns = {"User ID", "Forename", "Surname", "Search"};
+        JTable populatePatients = new JTable();
+        populatePatients.setModel(new DefaultTableModel(patientSearch, columns) {
+            /*
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+            */
+        });
+        populatePatients.getColumn("Search").setCellRenderer(new GP_GUI.ButtonRenderer());
+        populatePatients.getColumn("Search").setCellEditor(new GP_GUI.ButtonEditor(new JCheckBox()));
+
+        scrollPane = new JScrollPane(populatePatients, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        searchPanel.add(scrollPane);
+        controlPanel.add(searchPanel);
+
+        layout.putConstraint(SpringLayout.NORTH, searchPanel, 75, SpringLayout.NORTH, controlPanel);
+
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                int i;
+                i = populatePatients.getSelectedRow();
+                //JOptionPane.showMessageDialog(null, "Patient ID is " + patientSearch[i][0]);
+                try {
+                    PatientOpenButtonFunction(i);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
     public void GoBackToMainGUI() {
         mainFrame.setVisible(false);
@@ -114,15 +200,14 @@ public class GP_GUI {
         layout.putConstraint(SpringLayout.WEST, patientSearchField, 100, SpringLayout.WEST, controlPanel);
     }
 
-    private void UpdateFormsLookup()
-    {
+    private void UpdateFormsLookup() {
         FormDao dao = new FormJDBC();
-        editableFormLookup = (HashMap<String,Integer>)dao.getFormsForGP(Main_GUI.getCurrentUser().getUserId());
+        editableFormLookup = (HashMap<String, Integer>) dao.getFormsForGP(Main_GUI.getCurrentUser().getUserId());
     }
 
     private void FormComboBox() {
         UpdateFormsLookup();
-        String[] names = (String[])editableFormLookup.keySet().toArray();
+        String[] names = (String[]) editableFormLookup.keySet().toArray();
         formCreateComboBox = new JComboBox<String>(names);
 
     }
@@ -150,8 +235,7 @@ public class GP_GUI {
         layout.putConstraint(SpringLayout.WEST, PatientSearchButton, 205, SpringLayout.WEST, controlPanel);
     }
 
-    public void GPCreateFormButton()
-    {
+    public void GPCreateFormButton() {
 
     }
 
@@ -166,6 +250,38 @@ public class GP_GUI {
 
         layout.putConstraint(SpringLayout.NORTH, RegisterPatientButton, 5, SpringLayout.NORTH, controlPanel);
         layout.putConstraint(SpringLayout.WEST, RegisterPatientButton, 25, SpringLayout.WEST, controlPanel);
+    }
+
+    class ButtonRenderer extends JButton implements TableCellRenderer {
+
+        public ButtonRenderer() {
+            setOpaque(true);
+        }
+
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText((value == null) ? "" : value.toString());
+            return this;
+        }
+    }
+
+    class ButtonEditor extends DefaultCellEditor {
+
+        private String label;
+
+        public ButtonEditor(JCheckBox checkBox) {
+
+            super(checkBox);
+
+        }
+
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+
+            label = (value == null) ? "" : value.toString();
+            button.setText(label);
+
+            return button;
+
+        }
     }
 
     /**
@@ -183,13 +299,13 @@ public class GP_GUI {
                 GoBackToMainGUI();
             } else if (command.equals("GP_Patient_Search")) {
                 try {
-                    Main_GUI.SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
+                    Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                     PatientSearchButtonFunction();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             } else if (command.equals("GP_Register")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
+                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 gp_register_gui.prepareGPGUI(true);
             }
         }
