@@ -43,11 +43,7 @@ public class Patient_GUI {
         DeleteRecordButton();
         PatientBackButton();
         AddNiceButton();
-<<<<<<< HEAD
         ResultsButton();
-        PrescribeCheckBox();
-=======
->>>>>>> master
         PatientInfoPanel();
         PatientInfoDisplay();
         PatientReferPanel();
@@ -290,39 +286,9 @@ public class Patient_GUI {
         successSouthPanel.add(BackButton);
     }
 
-<<<<<<< HEAD
-    /*
-    check if check box is checked
-    Checkbox - PrescribeCheckBox
-    if checked, set patient to prescribe third party materials
-     */
-    public void itemStateChanged(ItemEvent e) {
-
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-            PatientDao pDao = new PatientDao();
-            patient.setPatient_email_prescription(true);
-            pDao.setPatientThirdPartyPrescription(patient);
-
-            System.out.println("Patient prescribed");
-        } else {
-            PatientDao pDao = new PatientDao();
-            patient.setPatient_email_prescription(false);
-            pDao.setPatientThirdPartyPrescription(patient);
-
-            System.out.println("Patient not prescribed");
-        }
-    }
-
     private void CompareResults() {
-        String[] values = {"Weight", "Blood Pressure", "Haemoglobin", "Urinary Albumin", "Serum Creatine", "eGFR", "Cholesterol"};
-
-        JOptionPane.showInputDialog(mainFrame, "Which results would you like to display?", "Selection", JOptionPane.DEFAULT_OPTION, null, values, "None");
-
-
+        Compare_Results.DisplayPanel();
     }
-
-=======
->>>>>>> master
     /**
      * Action Listener that looks out for button presses in Patient_GUI
      */
