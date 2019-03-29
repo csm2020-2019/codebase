@@ -49,7 +49,7 @@ public class GP_GUI {
         PatientSearchField();
         PatientSearchButton();
         FormComboBox();
-        GPCreateFormButton();
+        GPFormButton();
         BackButton();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition().x -125, Main_GUI.GetWindowPosition().y -165);
@@ -129,8 +129,41 @@ public class GP_GUI {
 
     private void FormComboBox() {
         UpdateFormsLookup();
-        String[] names = (String[])editableFormLookup.keySet().toArray();
-        formCreateComboBox = new JComboBox<String>(names);
+        Set<String> names = editableFormLookup.keySet();
+        String[] nameArray = names.toArray(new String[names.size()+1]);
+        nameArray[names.size()] = "New Form...";
+        formCreateComboBox = new JComboBox<String>(nameArray);
+
+        formCreateComboBox.setVisible(true);
+        controlPanel.add(formCreateComboBox);
+    }
+
+    public void GPFormButton()
+    {
+        // button to launch the selected form
+        JButton gpButton = new JButton("Go");
+        gpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String key = (String)formCreateComboBox.getSelectedItem();
+                if(key == "New Form...")
+                {
+                    // generate a new empty form
+                    Form_GUI.spawnEmptyForm();
+                }
+                else {
+                    Integer value = editableFormLookup.getOrDefault(key, -1);
+                    if (value < 0) {
+                        // didn't find the form for some reason
+                    } else {
+                        // found the form ID we want to open, so open it
+                        Form_GUI.setEditMode(true);
+                        Form_GUI.openExistingForm(value);
+                    }
+                }
+            }
+        });
+
     }
 
     /**
@@ -156,11 +189,6 @@ public class GP_GUI {
         layout.putConstraint(SpringLayout.WEST, PatientSearchButton, 205, SpringLayout.WEST, controlPanel);
     }
 
-    public void GPCreateFormButton()
-    {
-        // this opens the currently selected entry
-        
-    }
 
     /**
      * Create GUI for register button

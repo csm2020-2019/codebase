@@ -30,7 +30,7 @@ public class database_driver {
              * *********** database connection info **********
              */
 
-            String jdbcUrl = "jdbc:mysql://db.dcs.aber.ac.uk:3306/csm2020_18_19";
+            String jdbcUrl = "jdbc:mysql://localhost:3306/csm2020_18_19";
             String databaseUser = "csm2020_admin";
             String databasePass = "wybRJB7Q";
 

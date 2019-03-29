@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Vector;
 
 public class Form_GUI {
@@ -92,6 +93,15 @@ public class Form_GUI {
         formElements = new Vector<FormElement>();
 
         contentpanel.removeAll();
+    }
+
+    public static void openExistingForm(int newFormId) {
+        clearForm();
+
+        formId = newFormId;
+        Collection<FormElement> elements = dao.getFormElements(formId);
+
+
     }
 
     public static void spawnEmptyForm() {
@@ -217,18 +227,22 @@ public class Form_GUI {
     }
 
     /**
-     * Create panel in form, initially in edit mode
+     * Create new panel in form
      * @param f FormType of the panel to create
      * @return the new JPanel
      */
-    private static JPanel createPanel(FormType f, int questionId)
+    private static JPanel createPanel(FormType f, int questionId) {
+        return buildPanel(f, questionId, "New Field", null);
+    }
+
+    private static JPanel buildPanel(FormType f, int questionId, String label, Object value)
     {
         JPanel newPanel = new JPanel();
         // set the name to the question id so we can retrieve it
         newPanel.setName(String.valueOf(questionId));
 
         // label is actually a text field; we turn off editable once we're done with Edit Mode
-        JTextField labelField = new JTextField("Name");
+        JTextField labelField = new JTextField(label);
         labelField.setEnabled(true);
         labelField.setVisible(true);
         int newIndex = formLabels.size();
@@ -262,11 +276,8 @@ public class Form_GUI {
                 buttonPanel.add(yesButton);
                 buttonPanel.add(noButton);
 
-                // buttons are visible but disabled in Edit Mode
-                yesButton.setEnabled(false);
-                noButton.setEnabled(false);
                 yesButton.setVisible(true);
-                noButton.setVisible(false);
+                noButton.setVisible(true);
 
                 yesButton.setActionCommand(String.valueOf(newIndex));
                 noButton.setActionCommand(String.valueOf(newIndex));
@@ -329,8 +340,6 @@ public class Form_GUI {
                 };
                 valueField.setInputVerifier(veri);
 
-                // starts out as disabled but visible
-                valueField.setEnabled(false);
                 valueField.setVisible(true);
 
                 valueField.setActionCommand(String.valueOf(newIndex));
@@ -374,8 +383,6 @@ public class Form_GUI {
                 };
                 valueField.setInputVerifier(veri);
 
-                // starts out as disabled but visible
-                valueField.setEnabled(false);
                 valueField.setVisible(true);
 
                 valueField.setActionCommand(String.valueOf(newIndex));
@@ -400,8 +407,6 @@ public class Form_GUI {
                 JTextField valueField = new JTextField();
                 // no input verifier
 
-                // starts out as disabled but visible
-                valueField.setEnabled(false);
                 valueField.setVisible(true);
 
                 valueField.setActionCommand(String.valueOf(newIndex));
