@@ -48,6 +48,11 @@ public class Form_GUI {
         titlepanel.add(titleField);
         titlepanel.add(editbutton);
 
+        titleField.setVisible(true);
+        editbutton.setVisible(true);
+
+        titlepanel.setVisible(true);
+
         for (FormType ft : FormType.values()) {
             if (ft != FormType.FT_ERROR) {
                 String var = ft.toString();
@@ -76,15 +81,18 @@ public class Form_GUI {
         });
         editingpanel.add(editModeButton);
 
+        contentpanel.setLayout(new FlowLayout());
+        contentpanel.setVisible(true);
+
         mainFrame.setLayout(new BorderLayout());
         mainFrame.add(titlepanel, BorderLayout.NORTH);
         mainFrame.add(editingpanel, BorderLayout.EAST);
-        mainFrame.add(scrollpanel, BorderLayout.CENTER);
+        mainFrame.add(contentpanel, BorderLayout.CENTER);
         mainFrame.setVisible(true);
 
-        contentpanel.setLayout(new FlowLayout());
 
-        scrollpanel.add(contentpanel);
+        //scrollpanel.add(contentpanel);
+        //scrollpanel.setVisible(true);
 
         dao = FormJDBC.getDAO();
     }
@@ -98,10 +106,17 @@ public class Form_GUI {
     public static void openExistingForm(int newFormId) {
         clearForm();
 
+
         formId = newFormId;
         Collection<FormElement> elements = dao.getFormElements(formId);
 
+        for(FormElement element : elements)
+        {
+            formElements.add(element);
+            contentpanel.add(buildPanel(element.type, element.question_id, element.label, element.value, element.default_value));
+        }
 
+        mainFrame.setVisible(true);
     }
 
     public static void spawnEmptyForm() {
@@ -159,6 +174,25 @@ public class Form_GUI {
         int newID = formElements.size();
         FormElement newElement = new FormElement();
         formElements.add(newElement);
+
+        newElement.type = f;
+        newElement.label = "New Question";
+        switch(f){
+            case FT_INT:
+            case FT_FLOAT: {
+                newElement.default_value = 0;
+            }
+            break;
+
+            case FT_STRING: {
+                newElement.default_value = "";
+            }
+            break;
+
+            case FT_BOOLEAN: {
+                newElement.default_value = false;
+            }
+        }
 
         addQuestionToFormDao(newID);
 
@@ -227,15 +261,15 @@ public class Form_GUI {
     }
 
     /**
-     * Create new panel in form
+     * Create new empty panel in form
      * @param f FormType of the panel to create
      * @return the new JPanel
      */
     private static JPanel createPanel(FormType f, int questionId) {
-        return buildPanel(f, questionId, "New Field", null);
+        return buildPanel(f, questionId, "New Field", null, null);
     }
 
-    private static JPanel buildPanel(FormType f, int questionId, String label, Object value)
+    private static JPanel buildPanel(FormType f, int questionId, String label, Object value, Object default_value)
     {
         JPanel newPanel = new JPanel();
         // set the name to the question id so we can retrieve it
@@ -278,6 +312,18 @@ public class Form_GUI {
 
                 yesButton.setVisible(true);
                 noButton.setVisible(true);
+
+                if(editMode)
+                {
+                        yesButton.setSelected((Boolean)default_value);
+                        noButton.setSelected(!(Boolean)default_value);
+                }
+                else
+                {
+                    yesButton.setSelected((Boolean)value);
+                    noButton.setSelected(!(Boolean)value);
+
+                }
 
                 yesButton.setActionCommand(String.valueOf(newIndex));
                 noButton.setActionCommand(String.valueOf(newIndex));
@@ -375,6 +421,15 @@ public class Form_GUI {
                     }
                 });
 
+                if(editMode)
+                {
+                    valueField.setText(((Integer)default_value).toString());
+                }
+                else
+                {
+                    valueField.setText(((Integer)value).toString());
+                }
+
                 newPanel.add(valueField);
                 formEntries.add(valueField);
             }
@@ -424,6 +479,15 @@ public class Form_GUI {
                     }
                 });
 
+                if(editMode)
+                {
+                    valueField.setText(((Float)default_value).toString());
+                }
+                else
+                {
+                    valueField.setText(((Float)value).toString());
+                }
+
                 newPanel.add(valueField);
                 formEntries.add(valueField);
             }
@@ -453,6 +517,15 @@ public class Form_GUI {
                         }
                     }
                 });
+
+                if(editMode)
+                {
+                    valueField.setText((String)default_value);
+                }
+                else
+                {
+                    valueField.setText((String)value);
+                }
 
                 newPanel.add(valueField);
                 formEntries.add(valueField);

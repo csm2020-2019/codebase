@@ -31,7 +31,7 @@ public class FormJDBC implements FormDao {
 			 sqlStatement.setString(1, form_name);
 			 sqlStatement.setInt(2, creator.getUserId());
 			 
-			 sqlStatement.executeQuery();
+			 sqlStatement.executeUpdate();
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 
 			 if (resultSet.next()) {
@@ -117,7 +117,7 @@ public class FormJDBC implements FormDao {
 			 sqlStatement.setString(2, type.toString());
 			 sqlStatement.setString(3, label);
 
-			 sqlStatement.executeQuery();
+			 sqlStatement.executeUpdate();
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 
 
@@ -247,7 +247,7 @@ public class FormJDBC implements FormDao {
 			 sqlStatement.setInt(3, subjectId);
 			 sqlStatement.setDate(4, currentDate);
 
-			 sqlStatement.executeQuery();
+			 sqlStatement.executeUpdate();
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 			
 			 if (resultSet.next()) {
@@ -349,7 +349,7 @@ public class FormJDBC implements FormDao {
 				 sqlStatement.setBoolean(3, (Boolean)value);
 			 }
 
-			 sqlStatement.executeQuery();
+			 sqlStatement.executeUpdate();
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 			
 			 if (resultSet.first()) {
@@ -521,7 +521,8 @@ public class FormJDBC implements FormDao {
 	                
 	                newElement.question_id = resultSet.getInt("question_id");
 	                newElement.label = resultSet.getString("label");
-	                newElement.type = FormType.fromString(resultSet.getString("q_type"));
+	                String type = resultSet.getString("q_type");
+	                newElement.type = FormType.fromString(type);
 
 	                // retrieve default value answer id (submission id -1)
 	                int default_answer_id = resultSet.getInt("default_answer_id");

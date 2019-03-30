@@ -49,7 +49,6 @@ public class GP_GUI {
         PatientSearchField();
         PatientSearchButton();
         FormComboBox();
-        GPFormButton();
         BackButton();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition().x -125, Main_GUI.GetWindowPosition().y -165);
@@ -136,10 +135,9 @@ public class GP_GUI {
 
         formCreateComboBox.setVisible(true);
         controlPanel.add(formCreateComboBox);
-    }
 
-    public void GPFormButton()
-    {
+        layout.putConstraint(SpringLayout.SOUTH, formCreateComboBox, 5, SpringLayout.SOUTH, controlPanel);
+
         // button to launch the selected form
         JButton gpButton = new JButton("Go");
         gpButton.addActionListener(new ActionListener() {
@@ -163,6 +161,10 @@ public class GP_GUI {
                 }
             }
         });
+
+        controlPanel.add(gpButton);
+        layout.putConstraint(SpringLayout.SOUTH, gpButton, 5, SpringLayout.SOUTH, controlPanel);
+        layout.putConstraint(SpringLayout.WEST, gpButton, 5, SpringLayout.EAST, formCreateComboBox);
 
     }
 
