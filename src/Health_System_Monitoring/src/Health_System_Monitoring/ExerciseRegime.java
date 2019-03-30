@@ -1,6 +1,7 @@
 package Health_System_Monitoring;
 
 import java.sql.Date;
+import java.util.Collection;
 
 public class ExerciseRegime {
     public int regimeId;
@@ -10,5 +11,5 @@ public class ExerciseRegime {
     public Date endDate;
     public int frequency;
 
-    public ExerciseTrial trial; // only one trial per regime in this version
+    public Collection<ExerciseTrial> trials;
 }

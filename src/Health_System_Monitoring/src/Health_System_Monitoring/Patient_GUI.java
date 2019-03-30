@@ -19,9 +19,14 @@ public class Patient_GUI {
     private JComboBox<String> referBox;
     private List<User> rd_list;
 
-    public void preparePatientGUI(Patient pat) {
-        Main_GUI.SetWindowPosition(GP_GUI.mainFrame.getLocation().x, GP_GUI.mainFrame.getLocation().y);
-        GP_GUI.mainFrame.setVisible(false);
+    public void preparePatientGUI(Patient pat, boolean isRD) {
+        if (isRD) {
+            Main_GUI.SetWindowPosition(RD_GUI.mainFrame.getLocation().x, RD_GUI.mainFrame.getLocation().y);
+            RD_GUI.mainFrame.setVisible(false);
+        } else {
+            Main_GUI.SetWindowPosition(GP_GUI.mainFrame.getLocation().x, GP_GUI.mainFrame.getLocation().y);
+            GP_GUI.mainFrame.setVisible(false);
+        }
 
         mainFrame = new JFrame("GP application");
         mainFrame.setSize(500, 500);
@@ -39,13 +44,17 @@ public class Patient_GUI {
         patient = pat;
 
         HeaderLabel();
-        ModifyRecordButton();
-        DeleteRecordButton();
-        PatientBackButton();
-        AddNiceButton();
+        if (!isRD) {
+            ModifyRecordButton();
+            DeleteRecordButton();
+            AddNiceButton();
+        }
+        PatientBackButton(isRD);
+
         PatientInfoPanel();
         PatientInfoDisplay();
         PatientReferPanel();
+        ViewNiceButton();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);
@@ -69,19 +78,18 @@ public class Patient_GUI {
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
         referPanel.setLayout(flowLayout);
 
-    	// first check to see if we're already referred
+        // first check to see if we're already referred
 
         UserDaoInterface userDao = UserDao.getDAO();
 
         int rd_id = userDao.getReferralByPatientId(patient.getPatientId());
-        if(rd_id !=-1) {
+        if (rd_id != -1) {
             // we have a referral, so show that
             User rd = userDao.getUserById(rd_id);
 
-            JLabel referred = new JLabel (rd.getUserFirstName() + " " + rd.getUserLastName());
+            JLabel referred = new JLabel(rd.getUserFirstName() + " " + rd.getUserLastName());
             referPanel.add(referred);
-        }
-        else {
+        } else {
             // first up, the combo box containing all RDs
 
             if (rd_list == null) {
@@ -92,13 +100,13 @@ public class Patient_GUI {
             rd_list = userDao.getUserByType("rd");
             Vector<String> name_list = new Vector<String>(rd_list.size());
 
-        for (User user : rd_list) {
-            name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
-        }
+            for (User user : rd_list) {
+                name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+            }
 
-        referBox = new JComboBox<String>(name_list);
+            referBox = new JComboBox<String>(name_list);
 
-        // next up, the button to trigger referral
+            // next up, the button to trigger referral
 
             triggerButton = new JButton("Refer");
             triggerButton.setActionCommand("Refer_Patient");
@@ -109,7 +117,7 @@ public class Patient_GUI {
         }
         TitledBorder referBorder = new TitledBorder("Referrals");
         referPanel.setBorder(referBorder);
-    	controlPanel.add(referPanel);
+        controlPanel.add(referPanel);
     }
 
     private void PatientInfoDisplay() {
@@ -149,8 +157,8 @@ public class Patient_GUI {
         boolean result = userDao.addReferral(patient_id, gp_id, rd_id);
 
 
-    	referBox.setEditable(false);
-    	referBox.setEnabled(false);
+        referBox.setEditable(false);
+        referBox.setEnabled(false);
         triggerButton.setEnabled(false);
         triggerButton.setText("Referred");
     }
@@ -170,6 +178,12 @@ public class Patient_GUI {
         mainFrame.setVisible(false);
         GP_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
         GP_GUI.mainFrame.setVisible(true);
+    }
+
+    public void GoToRDGUI() {
+        mainFrame.setVisible(false);
+        RD_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
+        RD_GUI.mainFrame.setVisible(true);
     }
 
     public void DeleteConfirmWindow() {
@@ -246,11 +260,26 @@ public class Patient_GUI {
     }
 
     /**
+     * Create GUI for add NICE test button
+     */
+    private void ViewNiceButton() {
+        JButton NiceButton = new JButton("View Nice Tests");
+        NiceButton.setActionCommand("Patient_Nice_View");
+        NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(NiceButton);
+    }
+
+    /**
      * Create GUI for back button
      */
-    private void PatientBackButton() {
+    private void PatientBackButton(boolean isRD) {
         JButton BackButton = new JButton("Back");
-        BackButton.setActionCommand("Patient_Back");
+        if (!isRD) {
+            BackButton.setActionCommand("Patient_Back");
+        } else {
+            BackButton.setActionCommand("Patient_RD_Back");
+        }
+
         BackButton.addActionListener(new Patient_GUI.ButtonClickListener());
         southPanel.add(BackButton);
     }
@@ -291,6 +320,9 @@ public class Patient_GUI {
             } else if (command.equals("Patient_Back")) {
                 Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 GoToGPGUI();
+            } else if (command.equals("Patient_RD_Back")) {
+                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                GoToRDGUI();
             } else if (command.equals("Patient_Delete_Cancel")) {
                 DeleteCancelButtonFunction();
             } else if (command.equals("Patient_Delete_Okay")) {
@@ -306,6 +338,8 @@ public class Patient_GUI {
                 ModifyRecordButtonFunction();
             } else if (command.equals("Patient_Nice")) {
                 nice_gui.prepareNiceGUI();
+            } else if (command.equals("Patient_Nice_View")) {
+
             } else if (command.equals("Refer_Patient")) {
                 ReferPatient();
             }

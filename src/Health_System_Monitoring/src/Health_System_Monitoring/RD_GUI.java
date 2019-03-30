@@ -9,7 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class RD_GUI {
     public static JFrame mainFrame;
@@ -21,6 +24,7 @@ public class RD_GUI {
     private SpringLayout layout = new SpringLayout();
     private JButton button = new JButton();
     private Object[][] patientReferals;
+    private List<Patient> patients  = new ArrayList<>();
 
     private int userId;
 
@@ -35,7 +39,7 @@ public class RD_GUI {
         }
 
         mainFrame = new JFrame("RD application");
-        mainFrame.setSize(500, 550);
+        mainFrame.setSize(500, 500);
         mainFrame.setLayout(new BorderLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -89,6 +93,14 @@ public class RD_GUI {
         southPanel.add(BackButton);
     }
 
+    /**
+     * @throws SQLException
+     */
+    public void PatientOpenButtonFunction(int patNum) throws SQLException {
+        Patient_GUI patient_GUI = new Patient_GUI();
+        patient_GUI.preparePatientGUI(patients.get(patNum), true);
+    }
+
     private void ReferalsWindow() {
         PopulatePatients();
         String[] columns = {"User ID", "Forename", "Surname", "Search"};
@@ -105,6 +117,9 @@ public class RD_GUI {
         populatePatients.getColumn("Search").setCellEditor(new ButtonEditor(new JCheckBox()));
 
         scrollPane = new JScrollPane(populatePatients, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        Dimension d = scrollPane.getPreferredSize();
+        d.setSize(d.width, d.height * 0.95);
+        scrollPane.setPreferredSize(d);
 
         controlPanel.add(scrollPane);
 
@@ -112,7 +127,11 @@ public class RD_GUI {
             public void actionPerformed(ActionEvent event) {
                 int i;
                 i = populatePatients.getSelectedRow();
-                JOptionPane.showMessageDialog(null, "Patient ID is " + patientReferals[i][0]);
+                try {
+                    PatientOpenButtonFunction(i);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -120,53 +139,27 @@ public class RD_GUI {
     private void PopulatePatients() {
 
         java.util.List<Integer> referrals = new ArrayList<>();
-        java.util.List<Patient> patients  = new ArrayList<>();
+        //java.util.List<Patient> patients = new ArrayList<>();
         UserDao uDao = new UserDao();
         PatientDao pDao = new PatientDao();
 
-        //referrals = uDao.getReferralByRD(userId);
-        referrals.add(1);
-        referrals.add(4);
-        referrals.add(11);
-        referrals.add(14);
-        referrals.add(22);
+        referrals = uDao.getReferralByRD(userId);
 
         int patientsNum = referrals.size();
 
-        System.out.println(patientsNum);
-        System.out.println(uDao.getReferralByPatientId(1));
+        //System.out.println("Patient nums: " + patientsNum);
 
         patientReferals = new Object[patientsNum][4];
 
-        for (int i = 0; i < patientsNum; i ++) {
-            System.out.println("Referral patient ID: " + referrals.get(i));
-            //patients.add((Patient) pDao.searchPatientById(referrals.get(i)));
-            //System.out.println(pDao.searchPatientById(referrals.get(1)));
+        for (int i = 0; i < patientsNum; i++) {
+            List<Patient> temp = pDao.searchPatientById(referrals.get(i));
+            patients.add(temp.get(i));
+
             patientReferals[i][0] = referrals.get(i);
-            patientReferals[i][1] = "Lorem Ipsum";
-            patientReferals[i][2] = "Lorem Ipsum";
+            patientReferals[i][1] = patients.get(i).getPatientFirstName();
+            patientReferals[i][2] = patients.get(i).getPatientLastName();
             patientReferals[i][3] = "--->";
         }
-        //scrollPane.updateUI();
-    }
-
-    private void ReferalsWindow2() {
-        final JFrame frame = new JFrame("Scroll Pane Example");
-
-        // Display the window.
-        frame.setSize(500, 500);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.getContentPane().setLayout(new FlowLayout());
-
-        JTextArea textArea = new JTextArea(20, 20);
-        JScrollPane scrollableTextArea = new JScrollPane(textArea);
-
-        scrollableTextArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        frame.getContentPane().add(scrollableTextArea);
     }
 
     class ButtonRenderer extends JButton implements TableCellRenderer {

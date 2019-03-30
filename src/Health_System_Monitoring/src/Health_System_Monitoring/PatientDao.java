@@ -260,28 +260,34 @@ public class PatientDao implements PatientDaoInterface {
         return null;
     }
 
-    public List<Patient> searchPatientById(int patient_id){
-        if(patient_id > 0){
+    public List<Patient> searchPatientById(int patient_id) {
+        List<Patient> patientMatchList = null;
+
+        if (patient_id > 0) {
             Connection databaseConnection = database_driver.getConnection();
             PreparedStatement sqlStatement = null;
 
-            List<Patient> patientMatchList = null;
+            patientMatchList = new ArrayList<>();
             ResultSet resultSet;
 
-            try{
-                String query = "SELECT * FROM patient_records WHERE patient_id = ?";
+            try {
+//                String query = "SELECT patient_first_name FROM patient_records WHERE patient_id = ?";
+
+                String query = "SELECT patient_id, userId, patient_dob, patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, "
+                        + "patient_prescriptions, patient_email_prescription FROM patient_records WHERE patient_id = ?";
+
                 sqlStatement = databaseConnection.prepareStatement(query);
                 sqlStatement.setInt(1, patient_id);
                 resultSet = sqlStatement.executeQuery();
 
-                while(resultSet.next()){
+                while (resultSet.next()) {
                     Patient patient = convertToPatient(resultSet);
+
                     patientMatchList.add(patient);
                 }
 
-                return patientMatchList;
 
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
 
             } finally {
@@ -299,7 +305,7 @@ public class PatientDao implements PatientDaoInterface {
                 }
             }
         }
-        return null;
+        return patientMatchList;
     }
 
 

@@ -75,22 +75,15 @@ public class GP_GUI {
      */
     public void PatientSearchButtonFunction() throws SQLException {
         String searchField = patientSearchField.getText();
-        System.out.println("Print off of search bar input: " + searchField);
 
         PatientDao pDao = new PatientDao();
         patients = (List<Patient>) pDao.searchPatientByLastName(searchField);
         if (!searchField.isEmpty()) {
             if (!patients.isEmpty()) {
-                System.out.println(patients);
-                //PopulatePatients();
                 searchPanel.removeAll();
                 ReferalsWindow();
                 searchPanel.updateUI();
-            } else {
-                System.out.println("Patient list is Empty");
             }
-        } else {
-            System.out.println("Search was Empty");
         }
     }
 
@@ -100,8 +93,8 @@ public class GP_GUI {
     public void PatientOpenButtonFunction(int patNum) throws SQLException {
 
         Patient_GUI patient_GUI = new Patient_GUI();
-        patient_GUI.preparePatientGUI(patients.get(patNum));
-        System.out.println(patients.get(patNum).getPatientFirstName());
+        patient_GUI.preparePatientGUI(patients.get(patNum), false);
+        //System.out.println(patients.get(patNum).getPatientFirstName());
     }
 
     private void PopulatePatients() {
@@ -109,25 +102,15 @@ public class GP_GUI {
         java.util.List<Integer> referrals = new ArrayList<>();
         UserDao uDao = new UserDao();
 
-        //referrals = uDao.getReferralByRD(userId);
-
-        //System.out.println(patients);
-
         for (int i = 0; i < patients.size(); i++) {
             referrals.add(patients.get(i).getPatientId());
         }
 
         int patientsNum = referrals.size();
 
-        //System.out.println(patientsNum);
-        //System.out.println(uDao.getReferralByPatientId(1));
-
         patientSearch = new Object[patientsNum][4];
 
         for (int i = 0; i < patientsNum; i++) {
-            //System.out.println("Referral patient ID: " + referrals.get(i));
-            //patients = pDao.searchPatientById(referrals.get(i));
-            //System.out.println(patients.get(i));
             patientSearch[i][0] = referrals.get(i);
             patientSearch[i][1] = patients.get(i).getPatientFirstName();
             patientSearch[i][2] = patients.get(i).getPatientLastName();
@@ -150,11 +133,14 @@ public class GP_GUI {
         populatePatients.getColumn("Search").setCellEditor(new GP_GUI.ButtonEditor(new JCheckBox()));
 
         scrollPane = new JScrollPane(populatePatients, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        Dimension d = scrollPane.getPreferredSize();
+        d.setSize(d.width, d.height * 0.75);
+        scrollPane.setPreferredSize(d);
 
         searchPanel.add(scrollPane);
         controlPanel.add(searchPanel);
 
-        layout.putConstraint(SpringLayout.NORTH, searchPanel, 75, SpringLayout.NORTH, controlPanel);
+        layout.putConstraint(SpringLayout.NORTH, searchPanel, 80, SpringLayout.NORTH, controlPanel);
 
 
         button.addActionListener(new ActionListener() {
