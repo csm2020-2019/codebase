@@ -56,6 +56,7 @@ public class Form_GUI {
         titlepanel.setVisible(true);
 
         editingpanel.setLayout(new BoxLayout(editingpanel, BoxLayout.Y_AXIS));
+        editingpanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         for (FormType ft : FormType.values()) {
             if (ft != FormType.FT_ERROR) {
@@ -108,6 +109,7 @@ public class Form_GUI {
     }
 
     public static void openExistingForm(int newFormId) {
+
         clearForm();
 
 
@@ -118,7 +120,7 @@ public class Form_GUI {
         {
             formElements.add(element);
             contentpanel.add(buildPanel(element.type, element.question_id, element.label, element.value, element.default_value));
-        }
+}
 
         mainFrame.setVisible(true);
     }
@@ -204,8 +206,11 @@ public class Form_GUI {
         addQuestionToFormDao(newID);
 
         JPanel newPanel = buildPanel(newElement.type, newElement.question_id, newElement.label, newElement.value, newElement.default_value);
+
         newPanel.setVisible(true);
+
         contentpanel.add(newPanel);
+        contentpanel.updateUI();
     }
 
     /// ---------------------------------------------------------------------------------
