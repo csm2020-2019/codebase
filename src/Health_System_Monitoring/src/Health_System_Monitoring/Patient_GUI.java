@@ -5,19 +5,25 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Vector;
-import java.util.ArrayList;
 
 public class Patient_GUI {
     public static JFrame mainFrame, confirmFrame;
     private JLabel headerLabel;
-    private JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel;
+    private JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel,formsPanel;
     private JButton triggerButton;
     private Patient patient;
     private JComboBox<String> referBox;
     private List<User> rd_list;
+
+    private JComboBox<String> formCreateComboBox;
+    private HashMap<String,Integer> editableFormLookup;
+
+    private JComboBox<String> submissionSelectComboBox;
+    private HashMap<String,Integer> submissionSelectLookup;
+
+    private JButton gpButton = new JButton("Go");
 
     public void preparePatientGUI(Patient pat) {
         Main_GUI.SetWindowPosition(GP_GUI.mainFrame.getLocation().x, GP_GUI.mainFrame.getLocation().y);
@@ -46,7 +52,7 @@ public class Patient_GUI {
         PatientInfoPanel();
         PatientInfoDisplay();
         PatientReferPanel();
-
+        FormComboBox();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);
@@ -93,13 +99,13 @@ public class Patient_GUI {
             rd_list = userDao.getUserByType("rd");
             Vector<String> name_list = new Vector<String>(rd_list.size());
 
-        for (User user : rd_list) {
-            name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
-        }
+            for (User user : rd_list) {
+                name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+            }
 
-        referBox = new JComboBox<String>(name_list);
+            referBox = new JComboBox<String>(name_list);
 
-        // next up, the button to trigger referral
+            // next up, the button to trigger referral
 
             triggerButton = new JButton("Refer");
             triggerButton.setActionCommand("Refer_Patient");
@@ -133,6 +139,127 @@ public class Patient_GUI {
         infoPanel.add(HistoryLabel);
         infoPanel.add(DiagnosisLabel);
         infoPanel.add(PrescriptionLabel);
+    }
+
+    private void UpdateFormsLookup()
+    {
+        FormDao dao = new FormJDBC();
+        editableFormLookup = (HashMap<String,Integer>)dao.getFormsForGP(Main_GUI.getCurrentUser().getUserId());
+    }
+
+    private void UpdateSubmissionLookupForForm(int form_id)
+    {
+        FormDao dao = new FormJDBC();
+        if(submissionSelectLookup == null)
+        {
+            submissionSelectLookup = new HashMap<String,Integer>();
+        }
+        submissionSelectLookup.clear();
+        HashMap<java.sql.Date, Integer> map = (HashMap<java.sql.Date, Integer>)dao.getSubmissionsForPatient(form_id,patient.getPatientId());
+        for(Map.Entry<java.sql.Date, Integer> entry : map.entrySet())
+        {
+            String displayDate = entry.getKey().toLocalDate().toString();
+            submissionSelectLookup.put(displayDate, entry.getValue());
+        }
+    }
+
+    private void FormComboBox() {
+        FormDao dao = new FormJDBC();
+        formsPanel = new JPanel();
+
+        TitledBorder referBorder = new TitledBorder("Forms");
+        formsPanel.setBorder(referBorder);
+
+        formsPanel.setLayout(new FlowLayout());
+
+        UpdateFormsLookup();
+        Set<String> names = editableFormLookup.keySet();
+        String[] nameArray = names.toArray(new String[names.size()]);
+        formCreateComboBox = new JComboBox<String>(nameArray);
+
+        formCreateComboBox.setVisible(true);
+        formsPanel.add(formCreateComboBox);
+
+
+        submissionSelectComboBox = new JComboBox<String>();
+        submissionSelectComboBox.setEnabled(false);
+        submissionSelectComboBox.setVisible(true);
+        formsPanel.add(submissionSelectComboBox);
+
+        formCreateComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange()==ItemEvent.DESELECTED) return; // skip the deselection events
+                String key = (String)e.getItem();
+                Integer value = editableFormLookup.getOrDefault(key, -1);
+                if (value < 0) {
+                    // didn't find the form for some reason
+                    submissionSelectComboBox.setEnabled(false);
+                    gpButton.setEnabled(false);
+
+                } else {
+                    // found the form ID we want to open, so retrieve the dated records for it
+                    UpdateSubmissionLookupForForm(value);
+                    // and fill up the combo box
+                    submissionSelectComboBox.removeAllItems();
+                    submissionSelectComboBox.addItem("Add New...");
+                    for(String date : submissionSelectLookup.keySet()) {
+                        submissionSelectComboBox.addItem(date);
+                    }
+
+                    submissionSelectComboBox.setEnabled(true);
+                    gpButton.setEnabled(true);
+                }
+            }
+        });
+
+        submissionSelectComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                String key = (String)e.getItem();
+
+                    Integer value = submissionSelectLookup.getOrDefault(key, -1);
+                    if (value < 0) {
+                        // didn't find the submission for some reason
+                        gpButton.setEnabled(false);
+                    } else {
+                        gpButton.setEnabled(true);
+                    }
+                }
+        });
+
+        // button to launch the selected form
+        gpButton = new JButton("Go");
+        formsPanel.add(gpButton);
+        gpButton.setEnabled(false);
+        gpButton.setVisible(true);
+
+        gpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String formKey = (String) formCreateComboBox.getSelectedItem();
+                String submissionKey = (String) submissionSelectComboBox.getSelectedItem();
+                Integer formValue = editableFormLookup.getOrDefault(formKey,-1);
+                if (submissionKey == "Add New...") {
+                    // new submission!
+                    int newSubmissionId = dao.addSubmission(formValue,Main_GUI.getCurrentUser().getUserId(), patient.getPatientId(), new java.sql.Date(System.currentTimeMillis()));
+                    Form_GUI.getPatientForm(formValue, patient.getPatientId(),newSubmissionId);
+                }
+                else
+                {
+                    Integer submissionValue = submissionSelectLookup.getOrDefault(submissionKey, -1);
+                    if (submissionValue < 0) {
+                    // didn't find the form for some reason
+                    } else
+                    {
+                        // found the form ID we want to open, so open it
+                        Form_GUI.getPatientForm(formValue, patient.getPatientId(), submissionValue);
+                    }
+                }
+            }
+        });
+
+        controlPanel.add(formsPanel);
     }
 
     public void ReferPatient() {

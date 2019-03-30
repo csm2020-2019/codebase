@@ -579,12 +579,12 @@ public class FormJDBC implements FormDao {
 	{
 		HashMap<Date, Collection<FormElement>> output = new HashMap<Date, Collection<FormElement>>();
 
-		Map<Integer, Date> submissions = getSubmissionsForPatient(formId, patientID);
+		Map<Date,Integer> submissions = getSubmissionsForPatient(formId, patientID);
 
-		for(Map.Entry<Integer,Date> entry : submissions.entrySet())
+		for(Map.Entry<Date,Integer> entry : submissions.entrySet())
 		{
-			Date entryDate = entry.getValue();
-			Integer submissionId = entry.getKey();
+			Date entryDate = entry.getKey();
+			Integer submissionId = entry.getValue();
 
 			Collection<FormElement> submission = getSubmission(formId, submissionId);
 
@@ -664,13 +664,13 @@ public class FormJDBC implements FormDao {
 	}
 
 
-	public Map<Integer,Date> getSubmissionsForPatient(int formID, int patientID)
+	public Map<Date,Integer> getSubmissionsForPatient(int formID, int patientID)
 	{
-		HashMap<Integer,Date> output = new HashMap<Integer,Date>();
+		HashMap<Date,Integer> output = new HashMap<Date,Integer>();
 
 		PreparedStatement sqlStatement = null;
 
-		String query = "SELECT submission_id,date FROM submissions WHERE patient_id = ? AND form_id = ? ORDER BY date DESC";
+		String query = "SELECT submission_id,date FROM submissions WHERE subject_id = ? AND form_id = ? ORDER BY date DESC";
 
 		try {
 			sqlStatement = database_connection.prepareStatement(query);
@@ -681,7 +681,7 @@ public class FormJDBC implements FormDao {
 			ResultSet resultSet = sqlStatement.executeQuery();
 
 			while(resultSet.next()) {
-				output.put(resultSet.getInt("submission_id"), resultSet.getDate("date"));
+				output.put(resultSet.getDate("date"), resultSet.getInt("submission_id"));
 			}
 		}
 		catch (SQLException e)

@@ -159,9 +159,9 @@ public interface FormDao {
 	 * Get list of submissions for the given patient and the given form
 	 * @param formID that we're looking for
 	 * @param patientID from the patient table
-	 * @return a Map of the data, with the SubmissionID as the key and the date as the value
+	 * @return a Map of the data, with the date as the key and the submission ID as the value
 	 */
-	public Map<Integer,Date> getSubmissionsForPatient(int formID, int patientID);
+	public Map<Date,Integer> getSubmissionsForPatient(int formID, int patientID);
 
 	/**
 	 * Get the complete list of answers for a given form and patient, arranged by date

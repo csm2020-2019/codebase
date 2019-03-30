@@ -17,7 +17,6 @@ public class Form_GUI {
     private static JScrollPane scrollpanel = new JScrollPane();
     private static JPanel contentpanel = new JPanel();
     private static Vector<JButton> editButtonz = new Vector<JButton>();
-
     private static Vector<FormElement> formElements = new Vector<FormElement>();
 
     private static JTextField titleField = new JTextField();
@@ -25,6 +24,7 @@ public class Form_GUI {
     // convenience vectors to quickly access editable form elements
     private static Vector<JPanel> formPanels = new Vector<JPanel>();
     private static Vector<JTextField> formLabels = new Vector<JTextField>();
+    private static Vector<JButton> formCloseButtons = new Vector<>();
     private static Vector<JComponent> formEntries = new Vector<JComponent>();
 
     private static boolean editMode = false;
@@ -77,15 +77,6 @@ public class Form_GUI {
             }
         }
 
-        JToggleButton editModeButton = new JToggleButton("Edit Mode", false);
-        editModeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toggleEditMode();
-            }
-        });
-        editingpanel.add(editModeButton);
-
         contentpanel.setLayout(new FlowLayout());
         contentpanel.setVisible(true);
 
@@ -102,8 +93,22 @@ public class Form_GUI {
         dao = FormJDBC.getDAO();
     }
 
+    public static void getPatientForm(int form_id, int patient_id, int submission_id)
+    {
+        patientID = patient_id;
+        submissionId = submission_id;
+
+        setEditMode(false);
+        openExistingForm(form_id);
+    }
+
     private static void clearForm() {
         formElements = new Vector<FormElement>();
+
+        formPanels.clear();
+        formLabels.clear();
+        formCloseButtons.clear();
+        formEntries.clear();
 
         contentpanel.removeAll();
     }
@@ -112,7 +117,6 @@ public class Form_GUI {
 
         clearForm();
 
-
         formId = newFormId;
         Collection<FormElement> elements = dao.getFormElements(formId);
 
@@ -120,9 +124,11 @@ public class Form_GUI {
         {
             formElements.add(element);
             contentpanel.add(buildPanel(element.type, element.question_id, element.label, element.value, element.default_value));
-}
+        }
 
         mainFrame.setVisible(true);
+
+        updateEditMode();
     }
 
     public static void spawnEmptyForm() {
@@ -141,17 +147,22 @@ public class Form_GUI {
         // change the edit mode of the title field
         titleField.setEnabled(editMode);
 
+        editbutton.setVisible(editMode);
+
         // flip the edit mode state of our panels
         for (int i = 0; i < formPanels.size(); i++) {
             // if we're not in edit mode, the label is read-only
-            formLabels.get(i).setEnabled(editMode);
+            formLabels.get(i).setEditable(editMode);
             // if the entryElement is a single thing (like a text box) then if we're not in edit mode it's editable
             JComponent entryElement = formEntries.get(i);
-            entryElement.setEnabled(!editMode);
+            //entryElement.setEnabled(!editMode);
             // now check for children (eg, radio buttons)
-            for (Component c : entryElement.getComponents()) {
-                c.setEnabled(!editMode);
-            }
+            //for (Component c : entryElement.getComponents()) {
+            //    c.setEnabled(!editMode);
+            //}
+            JButton button = formCloseButtons.get(i);
+            button.setEnabled(editMode);
+            button.setVisible(editMode);
         }
 
         // and make the edit buttonz materialise
@@ -163,12 +174,6 @@ public class Form_GUI {
 
     public static void setEditMode(boolean edit) {
         editMode = edit;
-
-        updateEditMode();
-    }
-
-    public static void toggleEditMode() {
-        editMode = !editMode;
 
         updateEditMode();
     }
@@ -202,6 +207,8 @@ public class Form_GUI {
                 newElement.default_value = false;
             }
         }
+
+        newElement.value = newElement.default_value;
 
         addQuestionToFormDao(newID);
 
@@ -307,6 +314,11 @@ public class Form_GUI {
 
         formLabels.add(labelField);
 
+        if(!editMode && value == null)
+        {
+            value = default_value;
+        }
+
         // now add the appropriate value control
         switch (f)
         {
@@ -328,14 +340,13 @@ public class Form_GUI {
 
                 if(editMode)
                 {
-                        yesButton.setSelected((Boolean)default_value);
-                        noButton.setSelected(!(Boolean)default_value);
+                    yesButton.setSelected((Boolean)default_value);
+                    noButton.setSelected(!(Boolean)default_value);
                 }
                 else
                 {
                     yesButton.setSelected((Boolean)value);
                     noButton.setSelected(!(Boolean)value);
-
                 }
 
                 yesButton.setActionCommand(String.valueOf(newIndex));
@@ -440,7 +451,7 @@ public class Form_GUI {
                 }
                 else
                 {
-                    valueField.setText(((Integer)value).toString());
+                    valueField.setText(((Integer) value).toString());
                 }
 
                 newPanel.add(valueField);
@@ -555,9 +566,12 @@ public class Form_GUI {
                 dao.removeQuestion(questionId);
             }
         });
+        formCloseButtons.add(closeButton);
         newPanel.add(closeButton);
 
         newPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        formPanels.add(newPanel);
         return newPanel;
     }
 }
