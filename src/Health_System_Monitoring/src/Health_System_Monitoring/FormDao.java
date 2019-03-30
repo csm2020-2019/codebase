@@ -124,6 +124,15 @@ public interface FormDao {
 	 * @return success
 	 */
 	public boolean removeAnswer(int questionId, int submissionId, FormType type);
+
+	/**
+	 * Get a specific answer from the answer tables
+	 * @param type type of answer
+	 * @param questionId id of the question this is an answer to
+	 * @param submissionId id of the submission this is
+	 * @return Object of the answer
+	 */
+	public Object getAnswer(FormType type, int questionId, int submissionId);
 	
 	// ----------------------------------------------------------------------
 	

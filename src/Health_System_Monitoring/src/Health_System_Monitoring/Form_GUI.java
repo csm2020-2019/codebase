@@ -118,7 +118,7 @@ public class Form_GUI {
         clearForm();
 
         formId = newFormId;
-        Collection<FormElement> elements = dao.getFormElements(formId);
+        Collection<FormElement> elements = dao.getSubmission(formId,submissionId);
 
         for(FormElement element : elements)
         {
@@ -365,7 +365,13 @@ public class Form_GUI {
                         }
                         else {
                             fe.value = true;
-                            dao.updateAnswer(fe.question_id, submissionId, true);
+                            if(dao.getAnswer(fe.type, fe.question_id, submissionId)==null)
+                            {
+                                dao.addAnswer(fe.question_id,submissionId, fe.value);
+                            }
+                            else {
+                                dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                            }
                         }
                     }
                 });
@@ -383,7 +389,13 @@ public class Form_GUI {
                         }
                         else {
                             fe.value = false;
-                            dao.updateAnswer(fe.question_id, submissionId, false);
+                            if(dao.getAnswer(fe.type, fe.question_id, submissionId)==null)
+                            {
+                                dao.addAnswer(fe.question_id,submissionId, fe.value);
+                            }
+                            else {
+                                dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                            }
                         }
                     }
                 });
@@ -440,7 +452,13 @@ public class Form_GUI {
                             dao.updateAnswer(fe.question_id, -1, fe.default_value);
                         } else {
                             fe.value = new BigDecimal(tf.getText()).intValue();
-                            dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                            if(dao.getAnswer(fe.type, fe.question_id, submissionId)==null)
+                            {
+                                dao.addAnswer(fe.question_id,submissionId, fe.value);
+                            }
+                            else {
+                                dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                            }
                         }
                     }
                 });
@@ -498,7 +516,13 @@ public class Form_GUI {
                             dao.updateAnswer(fe.question_id, -1, fe.default_value);
                         } else {
                             fe.value = new BigDecimal(tf.getText()).floatValue();
-                            dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                            if(dao.getAnswer(fe.type, fe.question_id, submissionId)==null)
+                            {
+                                dao.addAnswer(fe.question_id,submissionId, fe.value);
+                            }
+                            else {
+                                dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                            }
                         }
                     }
                 });
@@ -537,7 +561,13 @@ public class Form_GUI {
                             dao.updateAnswer(fe.question_id, -1, fe.default_value);
                         } else {
                             fe.value = tf.getText();
-                            dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                            if(dao.getAnswer(fe.type, fe.question_id, submissionId)==null)
+                            {
+                                dao.addAnswer(fe.question_id,submissionId, fe.value);
+                            }
+                            else {
+                                dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                            }
                         }
                     }
                 });

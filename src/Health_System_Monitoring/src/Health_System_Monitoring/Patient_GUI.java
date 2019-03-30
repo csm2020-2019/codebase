@@ -217,13 +217,18 @@ public class Patient_GUI {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 String key = (String)e.getItem();
-
-                    Integer value = submissionSelectLookup.getOrDefault(key, -1);
-                    if (value < 0) {
-                        // didn't find the submission for some reason
-                        gpButton.setEnabled(false);
-                    } else {
+                    if(key == "Add New...")
+                    {
                         gpButton.setEnabled(true);
+                    }
+                    else {
+                        Integer value = submissionSelectLookup.getOrDefault(key, -1);
+                        if (value < 0) {
+                            // didn't find the submission for some reason
+                            gpButton.setEnabled(false);
+                        } else {
+                            gpButton.setEnabled(true);
+                        }
                     }
                 }
         });
