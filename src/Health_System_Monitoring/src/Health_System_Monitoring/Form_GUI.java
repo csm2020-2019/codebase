@@ -172,14 +172,14 @@ public class Form_GUI {
     {
         // we just updated an Question element, so we need to update the corresponding part of the Question table
         FormElement fe = formElements.get(elementId);
-        dao.updateQuestion(fe.question_id, fe.type, fe.label);
+        dao.updateQuestion(fe.question_id, fe.type, fe.label,fe.default_value);
     }
 
     private static void addQuestionToFormDao(int elementId)
     {
         // we just added the question, so it needs to be added to the DAO
         FormElement fe = formElements.get(elementId);
-        int id = dao.addQuestion(formId, fe.type, fe.label);
+        int id = dao.addQuestion(formId, fe.type, fe.label,fe.default_value);
         fe.question_id = id;
     }
 
@@ -288,8 +288,15 @@ public class Form_GUI {
                         BigInteger indexB = new BigInteger(e.getActionCommand());
                         int index = indexB.intValue();
                         FormElement fe = formElements.get(index);
-                        fe.value = true;
-                        dao.updateAnswer(fe.question_id,submissionId,true);
+                        if(editMode)
+                        {
+                            fe.default_value = true;
+                            dao.updateAnswer(fe.question_id, -1, true);
+                        }
+                        else {
+                            fe.value = true;
+                            dao.updateAnswer(fe.question_id, submissionId, true);
+                        }
                     }
                 });
 
@@ -299,8 +306,15 @@ public class Form_GUI {
                         BigInteger indexB = new BigInteger(e.getActionCommand());
                         int index = indexB.intValue();
                         FormElement fe = formElements.get(index);
-                        fe.value = false;
-                        dao.updateAnswer(fe.question_id,submissionId,false);
+                        if(editMode)
+                        {
+                            fe.default_value = false;
+                            dao.updateAnswer(fe.question_id, -1, false);
+                        }
+                        else {
+                            fe.value = false;
+                            dao.updateAnswer(fe.question_id, submissionId, false);
+                        }
                     }
                 });
 
@@ -350,8 +364,14 @@ public class Form_GUI {
                         int index = indexB.intValue();
                         FormElement fe = formElements.get(index);
                         JTextField tf = (JTextField)formEntries.get(index);
-                        fe.value = new BigDecimal(tf.getText()).intValue();
-                        dao.updateAnswer(fe.question_id,submissionId,fe.value);
+                        if(editMode)
+                        {
+                            fe.default_value = new BigDecimal(tf.getText()).intValue();
+                            dao.updateAnswer(fe.question_id, -1, fe.default_value);
+                        } else {
+                            fe.value = new BigDecimal(tf.getText()).intValue();
+                            dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                        }
                     }
                 });
 
@@ -393,8 +413,14 @@ public class Form_GUI {
                         int index = indexB.intValue();
                         FormElement fe = formElements.get(index);
                         JTextField tf = (JTextField)formEntries.get(index);
-                        fe.value = new BigDecimal(tf.getText()).floatValue();
-                        dao.updateAnswer(fe.question_id,submissionId,fe.value);
+                        if(editMode)
+                        {
+                            fe.default_value = new BigDecimal(tf.getText()).floatValue();
+                            dao.updateAnswer(fe.question_id, -1, fe.default_value);
+                        } else {
+                            fe.value = new BigDecimal(tf.getText()).floatValue();
+                            dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                        }
                     }
                 });
 
@@ -417,8 +443,14 @@ public class Form_GUI {
                         int index = indexB.intValue();
                         FormElement fe = formElements.get(index);
                         JTextField tf = (JTextField)formEntries.get(index);
-                        fe.value = tf.getText();
-                        dao.updateAnswer(fe.question_id,submissionId,fe.value);
+                        if(editMode)
+                        {
+                            fe.default_value = tf.getText();
+                            dao.updateAnswer(fe.question_id, -1, fe.default_value);
+                        } else {
+                            fe.value = tf.getText();
+                            dao.updateAnswer(fe.question_id, submissionId, fe.value);
+                        }
                     }
                 });
 

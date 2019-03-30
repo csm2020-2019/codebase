@@ -49,17 +49,19 @@ public interface FormDao {
 	 * @param formId to add question to
 	 * @param type of the question
 	 * @param label the question text
+	 * @param default_value the default value
 	 * @return id of the created question
 	 */
-	public int addQuestion(int formId, FormType type, String label);
+	public int addQuestion(int formId, FormType type, String label, Object default_value);
 	/**
 	 * Update question in form
 	 * @param questionId to update
-	 * @param type value
-	 * @param label value
+	 * @param type of the question
+	 * @param label the question text
+	 * @param default_value the default value to add
 	 * @return success
 	 */
-	public boolean updateQuestion(int questionId, FormType type, String label);
+	public boolean updateQuestion(int questionId, FormType type, String label, Object default_value);
 	/**
 	 * Remove question from form
 	 * @param questionId to remove
