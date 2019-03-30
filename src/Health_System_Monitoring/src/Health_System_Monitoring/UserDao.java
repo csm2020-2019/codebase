@@ -446,7 +446,7 @@ public class UserDao implements UserDaoInterface{
 
             ResultSet resultSet = sqlStatement.executeQuery();
 
-            if(resultSet.next()) {
+            while(resultSet.next()) {
                 output.add(resultSet.getInt("patient_id"));
             }
         }
