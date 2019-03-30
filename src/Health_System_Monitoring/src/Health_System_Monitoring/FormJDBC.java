@@ -35,7 +35,7 @@ public class FormJDBC implements FormDao {
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 
 			 if (resultSet.next()) {
-				 return resultSet.getInt(0);
+				 return resultSet.getInt(1);
 			 }
 			 if (sqlStatement != null) {
                  sqlStatement.close();
@@ -109,7 +109,7 @@ public class FormJDBC implements FormDao {
 		 try {
 		 	 // add the default answer. It doesn't have a submission attached, so it's -1
 
-			 String query = "INSERT INTO questions (form_id,q_type,label) VALUES (?,?,?)";
+			 String query = "INSERT INTO questions (form_id,q_type,label,default_answer_id) VALUES (?,?,?,-1)";
 
 			 sqlStatement = database_connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
@@ -123,14 +123,14 @@ public class FormJDBC implements FormDao {
 
 			 if (resultSet.next()) {
 			 	 // we've added the new question. Get the id of the question
-				 int question_id = resultSet.getInt(0);
+				 int question_id = resultSet.getInt(1);
 				 // set the new default answer in our answer set
 				 int default_answer_id = addAnswer(question_id, -1, default_value );
 
 				 // update our newly set question line with our default answer id
 				 String query2 = "UPDATE questions SET default_answer_id = ? WHERE question_id=?";
 
-				 sqlStatement = database_connection.prepareStatement(query);
+				 sqlStatement = database_connection.prepareStatement(query2);
 
 				 sqlStatement.setInt(1, default_answer_id);
 				 sqlStatement.setInt(2, question_id);
@@ -251,7 +251,7 @@ public class FormJDBC implements FormDao {
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 			
 			 if (resultSet.next()) {
-				 return resultSet.getInt(0);
+				 return resultSet.getInt(1);
 			 }
 			 if (sqlStatement != null) {
                sqlStatement.close();
@@ -325,7 +325,7 @@ public class FormJDBC implements FormDao {
 	
 	public int addAnswer(int questionId, int submissionId, Object value)
 	{
-		String valueType = value.getClass().getTypeName();
+		String valueType = value.getClass().getSimpleName();
 		String destination_table = "answer_" + valueType.toLowerCase();
 		
 		PreparedStatement sqlStatement = null;
@@ -339,21 +339,29 @@ public class FormJDBC implements FormDao {
 
 			 switch(valueType)
 			 {
-			 case "String":
-				 sqlStatement.setString(3, (String)value);
-			 case "Integer":
+			 case "String": {
+				 sqlStatement.setString(3, (String) value);
+			 }
+			 break;
+			 case "Integer": {
 				 sqlStatement.setInt(3, (Integer)value);
-			 case "Float":
+			 }
+			 break;
+			 case "Float": {
 				 sqlStatement.setFloat(3, (Float)value);
-			 case "Boolean":
+			 }
+			 break;
+			 case "Boolean": {
 				 sqlStatement.setBoolean(3, (Boolean)value);
+			 }
+			 break;
 			 }
 
 			 sqlStatement.executeUpdate();
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 			
 			 if (resultSet.first()) {
-				 return resultSet.getInt(0);
+				 return resultSet.getInt(1);
 			 }
 			 if (sqlStatement != null) {
               sqlStatement.close();
@@ -369,7 +377,7 @@ public class FormJDBC implements FormDao {
 
 	public boolean updateAnswer(int questionId, int submissionId, Object value)
 	{
-		String valueType = value.getClass().getTypeName();
+		String valueType = value.getClass().getSimpleName();
 		String destination_table = "answer_" + valueType.toLowerCase();
 		
 		PreparedStatement sqlStatement = null;
@@ -380,14 +388,22 @@ public class FormJDBC implements FormDao {
 
             switch(valueType)
 			 {
-			 case "String":
-				 sqlStatement.setString(1, (String)value);
-			 case "Integer":
+			 case "String": {
+				 sqlStatement.setString(1, (String) value);
+			 }
+			 break;
+			 case "Integer": {
 				 sqlStatement.setInt(1, (Integer)value);
-			 case "Float":
+			 }
+			 break;
+			 case "Float": {
 				 sqlStatement.setFloat(1, (Float)value);
-			 case "Boolean":
+			 }
+			 break;
+			 case "Boolean": {
 				 sqlStatement.setBoolean(1, (Boolean)value);
+			 }
+			 break;
 			 }
             sqlStatement.setInt(2, questionId);
             sqlStatement.setInt(3, submissionId);

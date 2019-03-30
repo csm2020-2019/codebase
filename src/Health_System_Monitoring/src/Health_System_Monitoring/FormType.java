@@ -11,7 +11,7 @@ public enum FormType {
 
 		FT_INT {
 	        public String toString() {
-	            return "Int";
+	            return "Integer";
 	        }
 		},
 		FT_FLOAT {
@@ -43,10 +43,10 @@ public enum FormType {
 					return FT_STRING;
 
 				case("integer"):
-					return FT_FLOAT;
+					return FT_INT;
 
 				case("float"):
-					return FT_INT;
+					return FT_FLOAT;
 
 				case("boolean"):
 					return FT_BOOLEAN;

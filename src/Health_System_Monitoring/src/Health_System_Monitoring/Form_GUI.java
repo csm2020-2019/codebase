@@ -37,6 +37,8 @@ public class Form_GUI {
 
     public static void prepareFormGUI() {
         mainFrame = new JFrame();
+        mainFrame.setSize(500, 500);
+        mainFrame.setLocation(Main_GUI.GetWindowPosition().x -125, Main_GUI.GetWindowPosition().y -165);
         titleField = new JTextField("Form Name:");
         titleField.addActionListener(new ActionListener() {
             @Override
@@ -52,6 +54,8 @@ public class Form_GUI {
         editbutton.setVisible(true);
 
         titlepanel.setVisible(true);
+
+        editingpanel.setLayout(new BoxLayout(editingpanel, BoxLayout.Y_AXIS));
 
         for (FormType ft : FormType.values()) {
             if (ft != FormType.FT_ERROR) {
@@ -178,9 +182,12 @@ public class Form_GUI {
         newElement.type = f;
         newElement.label = "New Question";
         switch(f){
-            case FT_INT:
-            case FT_FLOAT: {
+            case FT_INT: {
                 newElement.default_value = 0;
+            }
+            break;
+            case FT_FLOAT: {
+                newElement.default_value = 0.0f;
             }
             break;
 
@@ -196,7 +203,8 @@ public class Form_GUI {
 
         addQuestionToFormDao(newID);
 
-        JPanel newPanel = createPanel(f,newID);
+        JPanel newPanel = buildPanel(newElement.type, newElement.question_id, newElement.label, newElement.value, newElement.default_value);
+        newPanel.setVisible(true);
         contentpanel.add(newPanel);
     }
 
