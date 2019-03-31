@@ -205,7 +205,7 @@ public class GP_Register_GUI {
                 } else {
                     //Patient_GUI.mainFrame.setVisible(true);
                     Patient_GUI patient_gui = new Patient_GUI();
-                    patient_gui.preparePatientGUI(patient);
+                    patient_gui.preparePatientGUI(patient, false);
                     SubmitModifyConfirmedWindow();
                 }
             } else {
