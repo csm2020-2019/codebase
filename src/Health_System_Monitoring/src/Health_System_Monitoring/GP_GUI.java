@@ -68,6 +68,12 @@ public class GP_GUI {
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
+
+        if(Form_GUI.mainFrame == null)
+        {
+            Form_GUI.prepareFormGUI();
+        }
+        Form_GUI.mainFrame.setVisible(false);
     }
 
     /**
@@ -193,8 +199,48 @@ public class GP_GUI {
 
     private void FormComboBox() {
         UpdateFormsLookup();
-        String[] names = (String[]) editableFormLookup.keySet().toArray();
-        formCreateComboBox = new JComboBox<String>(names);
+        Set<String> names = editableFormLookup.keySet();
+        String[] nameArray = names.toArray(new String[names.size()+1]);
+        nameArray[names.size()] = "New Form...";
+        formCreateComboBox = new JComboBox<String>(nameArray);
+
+        JPanel container = new JPanel();
+        container.setBorder(BorderFactory.createTitledBorder("Form Creator"));
+        container.setLayout(new FlowLayout());
+        controlPanel.add(container);
+
+        layout.putConstraint(SpringLayout.WEST, container, 10, SpringLayout.WEST, controlPanel);
+        layout.putConstraint(SpringLayout.SOUTH, container, 0, SpringLayout.SOUTH, controlPanel);
+
+        formCreateComboBox.setVisible(true);
+        container.add(formCreateComboBox);
+
+
+        // button to launch the selected form
+        JButton gpButton = new JButton("Go");
+        gpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String key = (String)formCreateComboBox.getSelectedItem();
+                if(key == "New Form...")
+                {
+                    // generate a new empty form
+                    Form_GUI.spawnEmptyForm();
+                }
+                else {
+                    Integer value = editableFormLookup.getOrDefault(key, -1);
+                    if (value < 0) {
+                        // didn't find the form for some reason
+                    } else {
+                        // found the form ID we want to open, so open it
+                        Form_GUI.setEditMode(true);
+                        Form_GUI.openExistingForm(value);
+                    }
+                }
+            }
+        });
+
+        container.add(gpButton);
 
     }
 
@@ -221,9 +267,6 @@ public class GP_GUI {
         layout.putConstraint(SpringLayout.WEST, PatientSearchButton, 205, SpringLayout.WEST, controlPanel);
     }
 
-    public void GPCreateFormButton() {
-
-    }
 
     /**
      * Create GUI for register button

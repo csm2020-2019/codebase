@@ -31,11 +31,11 @@ public class FormJDBC implements FormDao {
 			 sqlStatement.setString(1, form_name);
 			 sqlStatement.setInt(2, creator.getUserId());
 			 
-			 sqlStatement.executeQuery();
+			 sqlStatement.executeUpdate();
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 
 			 if (resultSet.next()) {
-				 return resultSet.getInt(0);
+				 return resultSet.getInt(1);
 			 }
 			 if (sqlStatement != null) {
                  sqlStatement.close();
@@ -103,25 +103,44 @@ public class FormJDBC implements FormDao {
 	
 	// ----------------------------------------------------------------------
 
-	public int addQuestion(int formId, FormType type, String label)
+	public int addQuestion(int formId, FormType type, String label, Object default_value)
 	{
 		PreparedStatement sqlStatement = null;
 		 try {
-			 String query = "INSERT INTO questions (form_id,q_type,label) VALUES (?,?,?)";
+		 	 // add the default answer. It doesn't have a submission attached, so it's -1
+
+			 String query = "INSERT INTO questions (form_id,q_type,label,default_answer_id) VALUES (?,?,?,-1)";
 
 			 sqlStatement = database_connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
 			 sqlStatement.setInt(1, formId);
 			 sqlStatement.setString(2, type.toString());
 			 sqlStatement.setString(3, label);
-			
 
-			 sqlStatement.executeQuery();
+			 sqlStatement.executeUpdate();
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 
 
 			 if (resultSet.next()) {
-				 return resultSet.getInt(0);
+			 	 // we've added the new question. Get the id of the question
+				 int question_id = resultSet.getInt(1);
+				 // set the new default answer in our answer set
+				 int default_answer_id = addAnswer(question_id, -1, default_value );
+
+				 // update our newly set question line with our default answer id
+				 String query2 = "UPDATE questions SET default_answer_id = ? WHERE question_id=?";
+
+				 sqlStatement = database_connection.prepareStatement(query2);
+
+				 sqlStatement.setInt(1, default_answer_id);
+				 sqlStatement.setInt(2, question_id);
+
+				 sqlStatement.executeUpdate();
+
+				 sqlStatement.close();
+
+				 // and finally return the question id
+				 return question_id;
 			 }
 			 if (sqlStatement != null) {
                 sqlStatement.close();
@@ -135,17 +154,43 @@ public class FormJDBC implements FormDao {
         return -1;
 	}
 
-	public boolean updateQuestion(int questionId, FormType type, String label)
+
+
+	public boolean updateQuestion(int questionId, FormType type, String label, Object default_value)
 	{
+		// this is a little more complicated. We need to compare the new default value to the old one to determine if we need to add it
+
 		PreparedStatement sqlStatement = null;
+
         try {
-            String query = "UPDATE questions SET q_type = ?, label = ? WHERE question_id=?";
+        	// first retrieve the existing default
+			Object current_default = getAnswer(type,questionId,-1);
+			String query;
+			if(!current_default.equals(default_value))
+			{
+				// we've changed the default, so remove the old one and add the new one
+				removeAnswer(questionId,-1,type);
+				int answer_id = addAnswer(questionId,-1,default_value);
 
-            sqlStatement = database_connection.prepareStatement(query);
+				query = "UPDATE questions SET q_type = ?, label = ?, default_answer_id = ? WHERE question_id=?";
 
-            sqlStatement.setString(1, type.toString());
-            sqlStatement.setString(2, label);
-            sqlStatement.setInt(3, questionId);
+				sqlStatement = database_connection.prepareStatement(query);
+
+				sqlStatement.setString(1, type.toString());
+				sqlStatement.setString(2, label);
+				sqlStatement.setInt(3, answer_id);
+				sqlStatement.setInt(4, questionId);
+			}
+			else {
+				// we haven't changed the default so we don't need to set it
+				query = "UPDATE questions SET q_type = ?, label = ? WHERE question_id=?";
+
+				sqlStatement = database_connection.prepareStatement(query);
+
+				sqlStatement.setString(1, type.toString());
+				sqlStatement.setString(2, label);
+				sqlStatement.setInt(3, questionId);
+			}
 
             sqlStatement.executeUpdate();
             System.out.println("Question updated");
@@ -202,11 +247,11 @@ public class FormJDBC implements FormDao {
 			 sqlStatement.setInt(3, subjectId);
 			 sqlStatement.setDate(4, currentDate);
 
-			 sqlStatement.executeQuery();
+			 sqlStatement.executeUpdate();
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 			
 			 if (resultSet.next()) {
-				 return resultSet.getInt(0);
+				 return resultSet.getInt(1);
 			 }
 			 if (sqlStatement != null) {
                sqlStatement.close();
@@ -280,7 +325,7 @@ public class FormJDBC implements FormDao {
 	
 	public int addAnswer(int questionId, int submissionId, Object value)
 	{
-		String valueType = value.getClass().getTypeName();
+		String valueType = value.getClass().getSimpleName();
 		String destination_table = "answer_" + valueType.toLowerCase();
 		
 		PreparedStatement sqlStatement = null;
@@ -294,21 +339,29 @@ public class FormJDBC implements FormDao {
 
 			 switch(valueType)
 			 {
-			 case "String":
-				 sqlStatement.setString(3, (String)value);
-			 case "Integer":
+			 case "String": {
+				 sqlStatement.setString(3, (String) value);
+			 }
+			 break;
+			 case "Integer": {
 				 sqlStatement.setInt(3, (Integer)value);
-			 case "Float":
+			 }
+			 break;
+			 case "Float": {
 				 sqlStatement.setFloat(3, (Float)value);
-			 case "Boolean":
+			 }
+			 break;
+			 case "Boolean": {
 				 sqlStatement.setBoolean(3, (Boolean)value);
 			 }
+			 break;
+			 }
 
-			 sqlStatement.executeQuery();
+			 sqlStatement.executeUpdate();
 			 ResultSet resultSet = sqlStatement.getGeneratedKeys();
 			
 			 if (resultSet.first()) {
-				 return resultSet.getInt(0);
+				 return resultSet.getInt(1);
 			 }
 			 if (sqlStatement != null) {
               sqlStatement.close();
@@ -324,7 +377,7 @@ public class FormJDBC implements FormDao {
 
 	public boolean updateAnswer(int questionId, int submissionId, Object value)
 	{
-		String valueType = value.getClass().getTypeName();
+		String valueType = value.getClass().getSimpleName();
 		String destination_table = "answer_" + valueType.toLowerCase();
 		
 		PreparedStatement sqlStatement = null;
@@ -335,14 +388,22 @@ public class FormJDBC implements FormDao {
 
             switch(valueType)
 			 {
-			 case "String":
-				 sqlStatement.setString(1, (String)value);
-			 case "Integer":
+			 case "String": {
+				 sqlStatement.setString(1, (String) value);
+			 }
+			 break;
+			 case "Integer": {
 				 sqlStatement.setInt(1, (Integer)value);
-			 case "Float":
+			 }
+			 break;
+			 case "Float": {
 				 sqlStatement.setFloat(1, (Float)value);
-			 case "Boolean":
+			 }
+			 break;
+			 case "Boolean": {
 				 sqlStatement.setBoolean(1, (Boolean)value);
+			 }
+			 break;
 			 }
             sqlStatement.setInt(2, questionId);
             sqlStatement.setInt(3, submissionId);
@@ -390,6 +451,69 @@ public class FormJDBC implements FormDao {
         }
         return false;
 	}
+
+	public Object getAnswer(FormType type, int questionId, int submissionId)
+	{
+		// simple retrieval method
+		PreparedStatement sqlStatement = null;
+
+		Object value = null;
+		String typeString = type.toString().toLowerCase();
+		String query = "SELECT * FROM answer_" + typeString + " WHERE question_id = ? AND submission_id = ?";
+
+		try {
+			sqlStatement = database_connection.prepareStatement(query);
+
+			sqlStatement.setInt(1, questionId);
+			sqlStatement.setInt(2, submissionId);
+
+			ResultSet resultSet = sqlStatement.executeQuery();
+
+			if(resultSet.next()) {
+				switch(type) {
+					case FT_STRING:
+					{
+						value = resultSet.getString("value");
+					}
+					break;
+
+					case FT_INT:
+					{
+						value = resultSet.getInt("value");
+					}
+					break;
+
+					case FT_FLOAT:
+					{
+						value = resultSet.getFloat("value");
+					}
+					break;
+
+					case FT_BOOLEAN:
+					{
+						value = resultSet.getBoolean("value");
+					}
+					break;
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		finally {
+			if (sqlStatement != null) {
+				try {
+					sqlStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return value;
+	}
 	
 	// ----------------------------------------------------------------------
 	
@@ -413,7 +537,12 @@ public class FormJDBC implements FormDao {
 	                
 	                newElement.question_id = resultSet.getInt("question_id");
 	                newElement.label = resultSet.getString("label");
-	                newElement.type = FormType.fromString(resultSet.getString("q_type"));
+	                String type = resultSet.getString("q_type");
+	                newElement.type = FormType.fromString(type);
+
+	                // retrieve default value answer id (submission id -1)
+	                int default_answer_id = resultSet.getInt("default_answer_id");
+	                newElement.default_value = getAnswer(newElement.type,newElement.question_id,-1);
 
 	                outputList.add(newElement);
 	            }
@@ -450,12 +579,12 @@ public class FormJDBC implements FormDao {
 	{
 		HashMap<Date, Collection<FormElement>> output = new HashMap<Date, Collection<FormElement>>();
 
-		Map<Integer, Date> submissions = getSubmissionsForPatient(formId, patientID);
+		Map<Date,Integer> submissions = getSubmissionsForPatient(formId, patientID);
 
-		for(Map.Entry<Integer,Date> entry : submissions.entrySet())
+		for(Map.Entry<Date,Integer> entry : submissions.entrySet())
 		{
-			Date entryDate = entry.getValue();
-			Integer submissionId = entry.getKey();
+			Date entryDate = entry.getKey();
+			Integer submissionId = entry.getValue();
 
 			Collection<FormElement> submission = getSubmission(formId, submissionId);
 
@@ -535,13 +664,13 @@ public class FormJDBC implements FormDao {
 	}
 
 
-	public Map<Integer,Date> getSubmissionsForPatient(int formID, int patientID)
+	public Map<Date,Integer> getSubmissionsForPatient(int formID, int patientID)
 	{
-		HashMap<Integer,Date> output = new HashMap<Integer,Date>();
+		HashMap<Date,Integer> output = new HashMap<Date,Integer>();
 
 		PreparedStatement sqlStatement = null;
 
-		String query = "SELECT submission_id,date FROM submissions WHERE patient_id = ? AND form_id = ? ORDER BY date DESC";
+		String query = "SELECT submission_id,date FROM submissions WHERE subject_id = ? AND form_id = ? ORDER BY date DESC";
 
 		try {
 			sqlStatement = database_connection.prepareStatement(query);
@@ -552,7 +681,7 @@ public class FormJDBC implements FormDao {
 			ResultSet resultSet = sqlStatement.executeQuery();
 
 			while(resultSet.next()) {
-				output.put(resultSet.getInt("submission_id"), resultSet.getDate("date"));
+				output.put(resultSet.getDate("date"), resultSet.getInt("submission_id"));
 			}
 		}
 		catch (SQLException e)
