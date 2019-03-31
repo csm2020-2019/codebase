@@ -210,7 +210,7 @@ public class Form_GUI {
             break;
 
             case FT_STRING: {
-                newElement.default_value = "";
+                newElement.default_value = "input here";
             }
             break;
 
@@ -484,6 +484,7 @@ public class Form_GUI {
                 {
                     valueField.setText(((Integer) value).toString());
                 }
+
 
                 newPanel.add(valueField);
                 formEntries.add(valueField);
