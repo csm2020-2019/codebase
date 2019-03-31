@@ -58,8 +58,6 @@ public class Form_GUI {
         editingpanel.setLayout(new BoxLayout(editingpanel, BoxLayout.Y_AXIS));
         editingpanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-
-
         for (FormType ft : FormType.values()) {
             if (ft != FormType.FT_ERROR) {
                 String var = ft.toString();
@@ -82,32 +80,26 @@ public class Form_GUI {
         contentpanel.setLayout(new FlowLayout());
         contentpanel.setVisible(true);
 
-        contentpanel.setPreferredSize(new Dimension(400,700));
-        //scrollpanel = new JScrollPane(editingpanel);
-        scrollpanel.setViewportView(contentpanel);
-        contentpanel.setAutoscrolls(true);
-        scrollpanel.setPreferredSize(new Dimension(400,500));
-
-        scrollpanel.setVisible(true);
-
-
-
         mainFrame.setLayout(new BorderLayout());
         mainFrame.add(titlepanel, BorderLayout.NORTH);
         mainFrame.add(editingpanel, BorderLayout.EAST);
-        mainFrame.add(scrollpanel, BorderLayout.CENTER);
+        mainFrame.add(contentpanel, BorderLayout.CENTER);
         mainFrame.setVisible(true);
+
+
+        //scrollpanel.add(contentpanel);
+        //scrollpanel.setVisible(true);
 
         dao = FormJDBC.getDAO();
     }
 
-    public static void getPatientForm(int form_id, int patient_id, int submission_id, boolean readOnly)
+    public static void getPatientForm(int form_id, int patient_id, int submission_id)
     {
         patientID = patient_id;
         submissionId = submission_id;
 
         setEditMode(false);
-        openExistingForm(form_id,readOnly);
+        openExistingForm(form_id);
     }
 
     private static void clearForm() {
@@ -121,7 +113,7 @@ public class Form_GUI {
         contentpanel.removeAll();
     }
 
-    public static void openExistingForm(int newFormId, boolean readOnly) {
+    public static void openExistingForm(int newFormId) {
 
         clearForm();
 
@@ -131,11 +123,8 @@ public class Form_GUI {
         for(FormElement element : elements)
         {
             formElements.add(element);
-            contentpanel.add(buildPanel(element.type, element.question_id, element.label, element.value, element.default_value, readOnly));
+            contentpanel.add(buildPanel(element.type, element.question_id, element.label, element.value, element.default_value));
         }
-
-        contentpanel.revalidate();
-        scrollpanel.revalidate();
 
         mainFrame.setVisible(true);
 
@@ -210,7 +199,7 @@ public class Form_GUI {
             break;
 
             case FT_STRING: {
-                newElement.default_value = "input here";
+                newElement.default_value = "";
             }
             break;
 
@@ -223,14 +212,12 @@ public class Form_GUI {
 
         addQuestionToFormDao(newID);
 
-        JPanel newPanel = buildPanel(newElement.type, newElement.question_id, newElement.label, newElement.value, newElement.default_value,false);
+        JPanel newPanel = buildPanel(newElement.type, newElement.question_id, newElement.label, newElement.value, newElement.default_value);
 
         newPanel.setVisible(true);
 
         contentpanel.add(newPanel);
         contentpanel.updateUI();
-        contentpanel.revalidate();
-        scrollpanel.revalidate();
     }
 
     /// ---------------------------------------------------------------------------------
@@ -299,10 +286,10 @@ public class Form_GUI {
      * @return the new JPanel
      */
     private static JPanel createPanel(FormType f, int questionId) {
-        return buildPanel(f, questionId, "New Field", null, null, false);
+        return buildPanel(f, questionId, "New Field", null, null);
     }
 
-    private static JPanel buildPanel(FormType f, int questionId, String label, Object value, Object default_value, boolean readOnly)
+    private static JPanel buildPanel(FormType f, int questionId, String label, Object value, Object default_value)
     {
         JPanel newPanel = new JPanel();
         // set the name to the question id so we can retrieve it
@@ -310,7 +297,7 @@ public class Form_GUI {
 
         // label is actually a text field; we turn off editable once we're done with Edit Mode
         JTextField labelField = new JTextField(label);
-        labelField.setEnabled(!readOnly);
+        labelField.setEnabled(true);
         labelField.setVisible(true);
         int newIndex = formLabels.size();
         labelField.setActionCommand(String.valueOf(newIndex));
@@ -350,9 +337,6 @@ public class Form_GUI {
 
                 yesButton.setVisible(true);
                 noButton.setVisible(true);
-
-                yesButton.setEnabled(!readOnly);
-                yesButton.setEnabled(!readOnly);
 
                 if(editMode)
                 {
@@ -454,8 +438,6 @@ public class Form_GUI {
 
                 valueField.setVisible(true);
 
-                valueField.setEnabled(!readOnly);
-
                 valueField.setActionCommand(String.valueOf(newIndex));
                 valueField.addActionListener(new ActionListener() {
                     @Override
@@ -490,7 +472,6 @@ public class Form_GUI {
                     valueField.setText(((Integer) value).toString());
                 }
 
-
                 newPanel.add(valueField);
                 formEntries.add(valueField);
             }
@@ -520,7 +501,6 @@ public class Form_GUI {
                 valueField.setInputVerifier(veri);
 
                 valueField.setVisible(true);
-                valueField.setEnabled(!readOnly);
 
                 valueField.setActionCommand(String.valueOf(newIndex));
                 valueField.addActionListener(new ActionListener() {
@@ -566,7 +546,6 @@ public class Form_GUI {
                 // no input verifier
 
                 valueField.setVisible(true);
-                valueField.setEnabled(!readOnly);
 
                 valueField.setActionCommand(String.valueOf(newIndex));
                 valueField.addActionListener(new ActionListener() {
@@ -609,26 +588,12 @@ public class Form_GUI {
         }
 
         JButton closeButton = new JButton("\u274c");
-        closeButton.setActionCommand(String.valueOf(newIndex));
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BigInteger id_b = new BigInteger(e.getActionCommand());
-                int id = id_b.intValue();
-                contentpanel.remove(formPanels.get(id));
-
-                formPanels.remove(id);
-                formLabels.remove(id);
-                formCloseButtons.remove(id);
-                formEntries.remove(id);
-
-                dao.removeQuestion(formElements.get(id).question_id);
-
-                formElements.remove(id);
-                contentpanel.revalidate();
-                scrollpanel.revalidate();
-                contentpanel.repaint();
-                scrollpanel.repaint();
+                //int question_id = Integer.getInteger(newPanel.getName());
+                contentpanel.remove(newPanel);
+                dao.removeQuestion(questionId);
             }
         });
         formCloseButtons.add(closeButton);
