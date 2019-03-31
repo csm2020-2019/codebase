@@ -9,8 +9,10 @@ public class SportsCenter {
     String sportsCenterAddress;
     boolean sportsCenterAvailability;
 
-    public SportsCenter(int sportsCenterId, String sportsCenterName, boolean sportsCenterAvailability){
+    public SportsCenter(int sportsCenterId, String sportsCenterName, String sportsCenterAddress, boolean sportsCenterAvailability){
+        this.sportsCenterId = sportsCenterId;
         this.sportsCenterName = sportsCenterName;
+        this.sportsCenterAddress = sportsCenterAddress;
         this.sportsCenterAvailability = sportsCenterAvailability;
     }
 

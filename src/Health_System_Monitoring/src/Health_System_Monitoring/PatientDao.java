@@ -581,6 +581,46 @@ public class PatientDao implements PatientDaoInterface {
         return false;
     }
 
+    public List<Patient> getPatientsBySC(int sc_id)
+    {
+        Connection databaseConnection = database_driver.getConnection();
 
+        PreparedStatement sqlStatement = null;
+
+        List<Patient> output = new ArrayList<Patient>();
+
+        try {
+            String query = "SELECT patient_id FROM sc_appointments WHERE sc_id=?";
+
+            sqlStatement = databaseConnection.prepareStatement(query);
+            sqlStatement.setInt(1,sc_id);
+
+            ResultSet resultSet = sqlStatement.executeQuery();
+
+            while(resultSet.next()) {
+                int patient_id = resultSet.getInt("patient_id");
+                output.addAll(searchPatientById(patient_id));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        } finally {
+            if (sqlStatement != null) {
+                try
+                {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+
+                }
+            }
+        }
+
+        return output;
+    }
 
 }

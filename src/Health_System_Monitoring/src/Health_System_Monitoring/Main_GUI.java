@@ -169,6 +169,7 @@ public class Main_GUI implements KeyListener, ActionListener {
             Patient_GUI patient_gui = new Patient_GUI();
             GP_Register_GUI gp_register_gui = new GP_Register_GUI();
             NICE_GUI nice_gui = new NICE_GUI();
+            SC_GUI sc_gui = new SC_GUI();
             GP_GUI gp_gui = new GP_GUI();
             RD_GUI rd_gui = new RD_GUI();
 
@@ -180,7 +181,7 @@ public class Main_GUI implements KeyListener, ActionListener {
             } else if (command.equals("Login")) {
                 LoginFunction();
             } else if (command.equals("SCBypass")) {
-                SC_GUI.prepareSCGUI();
+                sc_gui.prepareSCGUI();
             } else if (command.equals("GPBypass")) {
                 SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
                 gp_gui.prepareGPGUI();

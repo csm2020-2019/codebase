@@ -63,7 +63,6 @@ public class Patient_GUI {
         {
             PatientReferPanel();
         }
-        //ViewNiceButton();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);
