@@ -164,64 +164,73 @@ public class Patient_GUI {
     }
 
     private void FormComboBox() {
-        FormDao dao = new FormJDBC();
-        formsPanel = new JPanel();
-
-        TitledBorder referBorder = new TitledBorder("Forms");
-        formsPanel.setBorder(referBorder);
-
-        formsPanel.setLayout(new FlowLayout());
 
         UpdateFormsLookup();
-        Set<String> names = editableFormLookup.keySet();
-        String[] nameArray = names.toArray(new String[names.size()]);
-        formCreateComboBox = new JComboBox<String>(nameArray);
+        if(editableFormLookup.size() == 0)
+        {
+            // we currently have no forms! So remove this from our patient page entirely
 
-        formCreateComboBox.setVisible(true);
-        formsPanel.add(formCreateComboBox);
-
-
-        submissionSelectComboBox = new JComboBox<String>();
-        submissionSelectComboBox.setEnabled(false);
-        submissionSelectComboBox.setVisible(true);
-        formsPanel.add(submissionSelectComboBox);
-
-        formCreateComboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if(e.getStateChange()==ItemEvent.DESELECTED) return; // skip the deselection events
-                String key = (String)e.getItem();
-                Integer value = editableFormLookup.getOrDefault(key, -1);
-                if (value < 0) {
-                    // didn't find the form for some reason
-                    submissionSelectComboBox.setEnabled(false);
-                    gpButton.setEnabled(false);
-
-                } else {
-                    // found the form ID we want to open, so retrieve the dated records for it
-                    UpdateSubmissionLookupForForm(value);
-                    // and fill up the combo box
-                    submissionSelectComboBox.removeAllItems();
-                    submissionSelectComboBox.addItem("Add New...");
-                    for(String date : submissionSelectLookup.keySet()) {
-                        submissionSelectComboBox.addItem(date);
-                    }
-
-                    submissionSelectComboBox.setEnabled(true);
-                    gpButton.setEnabled(true);
-                }
+            if(formsPanel != null)
+            {
+                formsPanel.setVisible(false);
             }
-        });
+        }
+        else {
+            FormDao dao = new FormJDBC();
+            formsPanel = new JPanel();
 
-        submissionSelectComboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                String key = (String)e.getItem();
-                    if(key == "Add New...")
-                    {
+            TitledBorder referBorder = new TitledBorder("Forms");
+            formsPanel.setBorder(referBorder);
+
+            formsPanel.setLayout(new FlowLayout());
+            Set<String> names = editableFormLookup.keySet();
+            String[] nameArray = names.toArray(new String[names.size()]);
+            formCreateComboBox = new JComboBox<String>(nameArray);
+
+            formCreateComboBox.setVisible(true);
+            formsPanel.add(formCreateComboBox);
+
+            String initial_set = formCreateComboBox.getItemAt(0);
+
+            submissionSelectComboBox = new JComboBox<String>();
+            submissionSelectComboBox.setEnabled(false);
+            submissionSelectComboBox.setVisible(true);
+            formsPanel.add(submissionSelectComboBox);
+
+            formCreateComboBox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if (e.getStateChange() == ItemEvent.DESELECTED) return; // skip the deselection events
+                    String key = (String) e.getItem();
+                    Integer value = editableFormLookup.getOrDefault(key, -1);
+                    if (value < 0) {
+                        // didn't find the form for some reason
+                        submissionSelectComboBox.setEnabled(false);
+                        gpButton.setEnabled(false);
+
+                    } else {
+                        // found the form ID we want to open, so retrieve the dated records for it
+                        UpdateSubmissionLookupForForm(value);
+                        // and fill up the combo box
+                        submissionSelectComboBox.removeAllItems();
+                        submissionSelectComboBox.addItem("Add New...");
+                        for (String date : submissionSelectLookup.keySet()) {
+                            submissionSelectComboBox.addItem(date);
+                        }
+
+                        submissionSelectComboBox.setEnabled(true);
                         gpButton.setEnabled(true);
                     }
-                    else {
+                }
+            });
+
+            submissionSelectComboBox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    String key = (String) e.getItem();
+                    if (key == "Add New...") {
+                        gpButton.setEnabled(true);
+                    } else {
                         Integer value = submissionSelectLookup.getOrDefault(key, -1);
                         if (value < 0) {
                             // didn't find the submission for some reason
@@ -231,40 +240,38 @@ public class Patient_GUI {
                         }
                     }
                 }
-        });
+            });
 
-        // button to launch the selected form
-        gpButton = new JButton("Go");
-        formsPanel.add(gpButton);
-        gpButton.setEnabled(false);
-        gpButton.setVisible(true);
+            // button to launch the selected form
+            gpButton = new JButton("Go");
+            formsPanel.add(gpButton);
+            gpButton.setEnabled(false);
+            gpButton.setVisible(true);
 
-        gpButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                String formKey = (String) formCreateComboBox.getSelectedItem();
-                String submissionKey = (String) submissionSelectComboBox.getSelectedItem();
-                Integer formValue = editableFormLookup.getOrDefault(formKey,-1);
-                if (submissionKey == "Add New...") {
-                    // new submission!
-                    int newSubmissionId = dao.addSubmission(formValue,Main_GUI.getCurrentUser().getUserId(), patient.getPatientId(), new java.sql.Date(System.currentTimeMillis()));
-                    Form_GUI.getPatientForm(formValue, patient.getPatientId(),newSubmissionId);
-                }
-                else
-                {
-                    Integer submissionValue = submissionSelectLookup.getOrDefault(submissionKey, -1);
-                    if (submissionValue < 0) {
-                    // didn't find the form for some reason
-                    } else
-                    {
-                        // found the form ID we want to open, so open it
-                        Form_GUI.getPatientForm(formValue, patient.getPatientId(), submissionValue);
+            gpButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String formKey = (String) formCreateComboBox.getSelectedItem();
+                    String submissionKey = (String) submissionSelectComboBox.getSelectedItem();
+                    Integer formValue = editableFormLookup.getOrDefault(formKey, -1);
+                    if (submissionKey == "Add New...") {
+                        // new submission!
+                        int newSubmissionId = dao.addSubmission(formValue, Main_GUI.getCurrentUser().getUserId(), patient.getPatientId(), new java.sql.Date(System.currentTimeMillis()));
+                        Form_GUI.getPatientForm(formValue, patient.getPatientId(), newSubmissionId);
+                    } else {
+                        Integer submissionValue = submissionSelectLookup.getOrDefault(submissionKey, -1);
+                        if (submissionValue < 0) {
+                            // didn't find the form for some reason
+                        } else {
+                            // found the form ID we want to open, so open it
+                            Form_GUI.getPatientForm(formValue, patient.getPatientId(), submissionValue);
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        controlPanel.add(formsPanel);
+            controlPanel.add(formsPanel);
+        }
     }
 
     public void ReferPatient() {
