@@ -287,8 +287,7 @@ public class Patient_GUI {
     }
 
     private void CompareResults() {
-        Compare_Results.DisplayPanel();
-        Compare_Results.DisplayPanel();
+        Compare_Results.DisplayPanel(patient.getPatientId());
     }
     /**
      * Action Listener that looks out for button presses in Patient_GUI

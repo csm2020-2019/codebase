@@ -63,24 +63,6 @@ public class result_graph extends JFrame {
      * @return dataset
      */
     public DefaultCategoryDataset createDataset() {
-//        Map<Integer, Date>
-//        if(frameTitle.equals("Weight Chart")){
-//
-//            FormDao form = FormJDBC.getDAO();
-//            form.getSubmission();
-//          dataset.addValue(value, rowKey, columnKey);
-//        } else if(frameTitle.equals("Blood Pressure Chart")){
-//
-//        } else if(frameTitle.equals("Haemoglobin Chart")){
-//
-//        } else if(frameTitle.equals("Urinary Albumin Chart")){
-//
-//        } else if(frameTitle.equals("Serum Creatine Chart")){
-//
-//        } else if(frameTitle.equals("Cholesterol Chart")){
-//
-//        }
-
         dataset.addValue(value, rowKey, columnKey);
 
         return dataset;

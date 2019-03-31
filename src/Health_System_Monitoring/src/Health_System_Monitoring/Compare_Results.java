@@ -4,6 +4,7 @@ import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class Compare_Results {
     private static JRadioButton weightBtn, bpBtn, haemoglobinBtn, urinaryBtn, serumBtn, cholesterolBtn;
     private static JPanel panel, north, center;
 
-    public static void DisplayPanel() {
+    public static void DisplayPanel(int patientId) {
         JLabel message = new JLabel("Select which graph to display:");
 
         weightBtn = new JRadioButton("Weight");
@@ -57,6 +58,30 @@ public class Compare_Results {
 //            graph.pack();
 //            RefineryUtilities.centerFrameOnScreen(graph);
 //            graph.setVisible(true);
+
+            Map<java.sql.Date, Collection<FormElement>> map = formDao.getSubmissionsByDate(3, patientId);
+
+            for(Map.Entry<java.sql.Date, Collection<FormElement>> entry : map.entrySet())
+            {
+                java.sql.Date date = entry.getKey();
+
+                String dateString = date.toString();
+
+                Collection<FormElement> coll = entry.getValue();
+
+                for(FormElement fe : coll)
+                {
+                    switch(fe.type)
+                    {
+                        case FT_INT:
+                        {
+                            Integer p  = (Integer)fe.value;
+                            System.out.println(p);
+                        }
+                        break;
+                    }
+                }
+            }
 
             System.out.println(formDao.getSubmissionsByDate(3, 1));
 
