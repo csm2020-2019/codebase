@@ -4,6 +4,8 @@ import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
+import java.util.Map;
 
 public class Compare_Results {
 
@@ -47,12 +49,17 @@ public class Compare_Results {
 
         JOptionPane.showMessageDialog(null, panel);
 
+        FormDao formDao = FormJDBC.getDAO();
+
         if (weightBtn.isSelected()) {
             System.out.println("weight");
-            result_graph graph = new result_graph("Weight Chart", "Patients Weight Over Time", "Date", "kg");
-            graph.pack();
-            RefineryUtilities.centerFrameOnScreen(graph);
-            graph.setVisible(true);
+//            result_graph graph = new result_graph("Weight Chart", "Patients Weight Over Time", "Date", "kg");
+//            graph.pack();
+//            RefineryUtilities.centerFrameOnScreen(graph);
+//            graph.setVisible(true);
+
+            System.out.println(formDao.getSubmissionsByDate(3, 1));
+
         } else if (bpBtn.isSelected()){
             System.out.println("blood pressure");
             result_graph graph = new result_graph("Blood Pressure Chart", "Patients Blood Pressure Over Time", "Date", "mmHg");
