@@ -133,10 +133,17 @@ public class GP_GUI {
         nameArray[names.size()] = "New Form...";
         formCreateComboBox = new JComboBox<String>(nameArray);
 
-        formCreateComboBox.setVisible(true);
-        controlPanel.add(formCreateComboBox);
+        JPanel container = new JPanel();
+        container.setBorder(BorderFactory.createTitledBorder("Form Creator"));
+        container.setLayout(new FlowLayout());
+        controlPanel.add(container);
 
-        layout.putConstraint(SpringLayout.SOUTH, formCreateComboBox, 5, SpringLayout.SOUTH, controlPanel);
+        layout.putConstraint(SpringLayout.WEST, container, 10, SpringLayout.WEST, controlPanel);
+        layout.putConstraint(SpringLayout.SOUTH, container, 0, SpringLayout.SOUTH, controlPanel);
+
+        formCreateComboBox.setVisible(true);
+        container.add(formCreateComboBox);
+
 
         // button to launch the selected form
         JButton gpButton = new JButton("Go");
@@ -162,9 +169,7 @@ public class GP_GUI {
             }
         });
 
-        controlPanel.add(gpButton);
-        layout.putConstraint(SpringLayout.SOUTH, gpButton, 5, SpringLayout.SOUTH, controlPanel);
-        layout.putConstraint(SpringLayout.WEST, gpButton, 5, SpringLayout.EAST, formCreateComboBox);
+        container.add(gpButton);
 
     }
 
