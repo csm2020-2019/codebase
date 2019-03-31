@@ -214,8 +214,8 @@ public class GP_GUI {
         container.setLayout(new FlowLayout());
         controlPanel.add(container);
 
-        layout.putConstraint(SpringLayout.WEST, container, 10, SpringLayout.WEST, controlPanel);
-        layout.putConstraint(SpringLayout.SOUTH, container, 0, SpringLayout.SOUTH, controlPanel);
+        layout.putConstraint(SpringLayout.EAST, container, 0, SpringLayout.EAST, controlPanel);
+        layout.putConstraint(SpringLayout.NORTH, container, 0, SpringLayout.NORTH, controlPanel);
 
         formCreateComboBox.setVisible(true);
         container.add(formCreateComboBox);
