@@ -239,7 +239,7 @@ public class GP_GUI {
                     } else {
                         // found the form ID we want to open, so open it
                         Form_GUI.setEditMode(true);
-                        Form_GUI.openExistingForm(value);
+                        Form_GUI.openExistingForm(value,false);
                     }
                 }
             }
