@@ -3,8 +3,12 @@ package Health_System_Monitoring;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.print.*;
+import java.util.ArrayList;
 
 public class Printer implements Printable {
+
+    private ArrayList<String> printList = new ArrayList<String>();
+    private int y;
 
     public int print(Graphics g, PageFormat pf, int page) throws PrinterException {
         if (page > 0) {
@@ -14,21 +18,16 @@ public class Printer implements Printable {
         Graphics2D g2d = (Graphics2D)g;
         g2d.translate(pf.getImageableX(), pf.getImageableY());
 
-        g.drawString("Hello World", 100, 100);
+        y = 50;
+
+        for (int i = 0; i < printList.size(); i++){
+            g.drawString(printList.get(i), 100, y += 15);
+        }
 
         return PAGE_EXISTS;
     }
 
-    public void actionPerformed(ActionEvent e) {
-        PrinterJob job = PrinterJob.getPrinterJob();
-        job.setPrintable(this);
-        boolean ok = job.printDialog();
-        if(ok) {
-            try {
-                job.print();
-            } catch (PrinterException ex){
-                System.out.println(ex);
-            }
-        }
+    public void setString(String print){
+       this.printList.add(print);
     }
 }

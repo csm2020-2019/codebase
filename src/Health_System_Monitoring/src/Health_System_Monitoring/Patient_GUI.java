@@ -19,6 +19,10 @@ public class Patient_GUI {
     private JComboBox<String> referBox;
     private List<User> rd_list;
 
+    private Printer print = new Printer();
+    private ArrayList<String> printList = new ArrayList<String>();
+    private String printTxt;
+
     private JComboBox<String> formCreateComboBox;
     private HashMap<String,Integer> editableFormLookup;
 
@@ -146,6 +150,13 @@ public class Patient_GUI {
         DiagnosisLabel.setText("Diagnosis: " + patient.getPatientDiagnosis());
         JLabel PrescriptionLabel = new JLabel("", JLabel.CENTER);
         PrescriptionLabel.setText("Prescription: " + patient.getPatientPrescriptions());
+
+        print.setString(NameLabel.getText());
+        print.setString(DoBLabel.getText());
+        print.setString(AddressLabel.getText());
+        print.setString(HistoryLabel.getText());
+        print.setString(DiagnosisLabel.getText());
+        print.setString(PrescriptionLabel.getText());
 
         infoPanel.add(NameLabel);
         infoPanel.add(DoBLabel);
@@ -422,10 +433,11 @@ public class Patient_GUI {
     }
 
     private void PrinterJob() {
-        Printer printer = new Printer();
+
+        //printer.setString(printTxt);
 
         PrinterJob job = PrinterJob.getPrinterJob();
-        job.setPrintable(printer);
+        job.setPrintable(print);
         boolean ok = job.printDialog();
         if (ok) {
             try {
