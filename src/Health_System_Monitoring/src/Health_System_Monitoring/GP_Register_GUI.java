@@ -19,8 +19,8 @@ public class GP_Register_GUI {
     public static JFrame mainFrame;
     private JPanel controlPanel, southPanel, patientPanel, medicationPanel, infoPanel;
 
-    private JLabel firstNameLabel, lastNameLabel, addressLabel, dateOfBirthLabel, medicalHistoryLabel, patientDiagnosisLabel, patientPrescriptionsLabel;
-    private JTextField firstNameTextField, lastNameTextField, patientDiagnosisTextField;
+    private JLabel firstNameLabel, lastNameLabel, addressLabel, dateOfBirthLabel, emailLabel, medicalHistoryLabel, patientDiagnosisLabel, patientPrescriptionsLabel;
+    private JTextField firstNameTextField, lastNameTextField, emailTextField, patientDiagnosisTextField;
     private JTextArea addressTextArea, medicalHistoryTextArea, patientPrescriptionsTextArea;
     private UtilDateModel dateOfBirthModel;
     private JDatePanelImpl datePanel;
@@ -28,7 +28,7 @@ public class GP_Register_GUI {
 
     private Patient patient;
 
-    private String patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, patient_prescriptions;
+    private String patient_first_name, patient_last_name, patient_address, patient_email, patient_medical_history, patient_diagnosis, patient_prescriptions;
     private java.sql.Date patient_dob;
     private int patient_ID, userId;
     private Boolean newRecord, patient_email_prescription, anyEmptyStrings;
@@ -74,6 +74,8 @@ public class GP_Register_GUI {
         AddressTextArea();
         DateOfBirthLabel();
         DateOfBirthField();
+        EmailLabel();
+        EmailTextField();
         PatientMedicalHistoryLabel();
         PatientMedicalHistoryTextArea();
         PatientDiagnosisLabel();
@@ -104,6 +106,7 @@ public class GP_Register_GUI {
         patient_last_name = null;
         patient_dob = null;
         patient_address = null;
+        patient_email = null;
         patient_medical_history = null;
         patient_diagnosis = null;
         patient_prescriptions = null;
@@ -114,6 +117,7 @@ public class GP_Register_GUI {
         patient_last_name = patient.getPatientLastName();
         patient_dob = patient.getPatientDob();
         patient_address = patient.getPatientAddress();
+        patient_email = patient.getPatient_email();
         patient_medical_history = patient.getPatientMedicalHistory();
         patient_diagnosis = patient.getPatientDiagnosis();
         patient_prescriptions = patient.getPatientPrescriptions();
@@ -178,12 +182,14 @@ public class GP_Register_GUI {
 
         GrabValues();
         if(anyEmptyStrings){
-            JOptionPane.showMessageDialog(null, "One of the fields weren't filled in");
+            JOptionPane.showMessageDialog(null, "please fill in all fields");
         }else {
 
-
+            if(patient_email_prescription){
+                Email.sendEmail(patient_email,"subject","message");
+            }
             System.out.println("Submitting - First name: " + patient_first_name + ", Last name: " +
-                    patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
+                    patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Email: " + patient_email + ", Medical History: "
                     + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient_ID);
 
             PatientDao pDao = new PatientDao();
@@ -215,7 +221,7 @@ public class GP_Register_GUI {
             infoPanel.removeAll();
             infoPanel.add(errorLabel);
             infoPanel.updateUI();*/
-                JOptionPane.showMessageDialog(null, "Something was wrong with the submission");
+                JOptionPane.showMessageDialog(null, "Something went wrong with the submission");
             }
         }
     }
@@ -256,6 +262,18 @@ public class GP_Register_GUI {
         JScrollPane scrollPane = new JScrollPane(addressTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         addressTextArea.setLineWrap(true);
         patientPanel.add(scrollPane);
+    }
+
+    private void EmailLabel() {
+        emailLabel = new JLabel();
+        emailLabel.setText("Email address: ");
+        patientPanel.add(emailLabel);
+    }
+
+    private void EmailTextField() {
+        emailTextField = new JTextField(patient_email);
+        emailTextField.setPreferredSize(new Dimension(150, 25));
+        patientPanel.add(emailTextField);
     }
 
     private void PatientMedicalHistoryLabel() {
@@ -356,6 +374,7 @@ public class GP_Register_GUI {
         patient.setPatient_last_name(patient_last_name);
         patient.setPatient_address(patient_address);
         patient.setPatient_dob(patient_dob);
+        patient.setPatient_email(patient_email);
         patient.setPatient_medical_history(patient_medical_history);
         patient.setPatient_diagnosis(patient_diagnosis);
         patient.setPatient_prescriptions(patient_prescriptions);
@@ -373,6 +392,7 @@ public class GP_Register_GUI {
         patient_first_name = CheckStringEmpty(patient_first_name, firstNameTextField.getText());
         patient_last_name = CheckStringEmpty(patient_last_name, lastNameTextField.getText());
         patient_address = CheckStringEmpty(patient_address, addressTextArea.getText());
+        patient_email = CheckStringEmpty(patient_email, emailTextField.getText());
         patient_medical_history = CheckStringEmpty(patient_medical_history, medicalHistoryTextArea.getText());
         patient_diagnosis = CheckStringEmpty(patient_diagnosis, patientDiagnosisTextField.getText());
         patient_prescriptions = CheckStringEmpty(patient_prescriptions, patientPrescriptionsTextArea.getText());
@@ -451,10 +471,10 @@ public class GP_Register_GUI {
      * Create GUI for
      */
     private void SubmitButton() {
-        JButton BackButton = new JButton("Submit");
-        BackButton.setActionCommand("GP_Register_Submit");
-        BackButton.addActionListener(new GP_Register_GUI.ButtonClickListener());
-        southPanel.add(BackButton);
+        JButton SubmitButton = new JButton("Submit");
+        SubmitButton.setActionCommand("GP_Register_Submit");
+        SubmitButton.addActionListener(new GP_Register_GUI.ButtonClickListener());
+        southPanel.add(SubmitButton);
     }
 
     public void itemStateChanged(ItemEvent e) {

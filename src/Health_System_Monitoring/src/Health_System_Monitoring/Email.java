@@ -15,8 +15,8 @@ public class Email {
 
     public static void sendEmail(String to, String subject, String msg) {
         String from = "els41csm@gmail.com";
-        final String username = "els41csm@gmail.com";
-        final String password = "els41csm2020";
+        String username = "els41csm@gmail.com";
+        String password = "els41csm2020";
 
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
