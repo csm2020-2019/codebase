@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
@@ -16,6 +18,10 @@ public class Patient_GUI {
     private Patient patient;
     private JComboBox<String> referBox;
     private List<User> rd_list;
+
+    private Printer print = new Printer();
+    private ArrayList<String> printList = new ArrayList<String>();
+    private String printTxt;
 
     private JComboBox<String> formCreateComboBox;
     private HashMap<String,Integer> editableFormLookup;
@@ -58,6 +64,7 @@ public class Patient_GUI {
             ModifyRecordButton();
             DeleteRecordButton();
             AddNiceButton();
+            PrintButton();
         }
         PatientBackButton(isRD);
 
@@ -143,6 +150,13 @@ public class Patient_GUI {
         DiagnosisLabel.setText("Diagnosis: " + patient.getPatientDiagnosis());
         JLabel PrescriptionLabel = new JLabel("", JLabel.CENTER);
         PrescriptionLabel.setText("Prescription: " + patient.getPatientPrescriptions());
+
+        print.setString(NameLabel.getText());
+        print.setString(DoBLabel.getText());
+        print.setString(AddressLabel.getText());
+        print.setString(HistoryLabel.getText());
+        print.setString(DiagnosisLabel.getText());
+        print.setString(PrescriptionLabel.getText());
 
         infoPanel.add(NameLabel);
         infoPanel.add(DoBLabel);
@@ -411,6 +425,29 @@ public class Patient_GUI {
         controlPanel.add(NiceButton);
     }
 
+    private void PrintButton() {
+        JButton PrintButton = new JButton("Print");
+        PrintButton.setActionCommand("Print");
+        PrintButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(PrintButton);
+    }
+
+    private void PrinterJob() {
+
+        //printer.setString(printTxt);
+
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(print);
+        boolean ok = job.printDialog();
+        if (ok) {
+            try {
+                job.print();
+            } catch(PrinterException e){
+                System.out.println(e);
+            }
+        }
+    }
+
     /**
      * Create GUI for back button
      */
@@ -484,6 +521,8 @@ public class Patient_GUI {
 
             } else if (command.equals("Refer_Patient")) {
                 ReferPatient();
+            } else if (command.equals("Print")){
+                PrinterJob();
             }
         }
     }
