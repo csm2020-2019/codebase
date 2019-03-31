@@ -428,6 +428,9 @@ public class Patient_GUI {
         controlPanel.add(NiceButton);
     }
 
+    /**
+     * Creates compare results button
+     */
     private void CompareResultsButton() {
         JButton ResultsButton = new JButton("Compare Results");
         ResultsButton.setActionCommand("Compare_Results");
@@ -435,16 +438,11 @@ public class Patient_GUI {
         controlPanel.add(ResultsButton);
     }
 
+    /**
+     * Creates new window to select which chart to show, for selected patient
+     */
     private void CompareResults() {
-        Results_Graph graph = new Results_Graph(
-                "Weight",
-                "Dummy Weight Chart",
-                "Date",
-                "kg");
-
-        graph.pack();
-        RefineryUtilities.centerFrameOnScreen(graph);
-        graph.setVisible(true);
+        Compare_Results.DisplayPanel(patient.getPatientId());
     }
 
     /**

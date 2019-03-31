@@ -50,64 +50,68 @@ public class Compare_Results {
 
         JOptionPane.showMessageDialog(null, panel);
 
-        FormDao formDao = FormJDBC.getDAO();
+//        FormDao formDao = FormJDBC.getDAO();
 
         if (weightBtn.isSelected()) {
             System.out.println("weight");
+            Results_Graph graph = new Results_Graph("Weight", "Dummy Weight Chart", "Date", "kg");
+            graph.pack();
+            RefineryUtilities.centerFrameOnScreen(graph);
+            graph.setVisible(true);
 
-            Map<java.sql.Date, Collection<FormElement>> map = formDao.getSubmissionsByDate(3, patientId);
-
-            for(Map.Entry<java.sql.Date, Collection<FormElement>> entry : map.entrySet())
-            {
-                java.sql.Date date = entry.getKey();
-
-                String dateString = date.toString();
-
-                Collection<FormElement> coll = entry.getValue();
-
-                for(FormElement fe : coll)
-                {
-                    switch(fe.type)
-                    {
-                        case FT_INT:
-                        {
-                            Integer p  = (Integer)fe.value;
-                            System.out.println(p);
-                        }
-                        break;
-                    }
-                }
-            }
-
-            System.out.println(formDao.getSubmissionsByDate(3, 1));
+//            Map<java.sql.Date, Collection<FormElement>> map = formDao.getSubmissionsByDate(3, patientId);
+//
+//            for(Map.Entry<java.sql.Date, Collection<FormElement>> entry : map.entrySet())
+//            {
+//                java.sql.Date date = entry.getKey();
+//
+//                String dateString = date.toString();
+//
+//                Collection<FormElement> coll = entry.getValue();
+//
+//                for(FormElement fe : coll)
+//                {
+//                    switch(fe.type)
+//                    {
+//                        case FT_INT:
+//                        {
+//                            Integer p  = (Integer)fe.value;
+//                            System.out.println(p);
+//                        }
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            System.out.println(formDao.getSubmissionsByDate(3, 1));
 
         } else if (bpBtn.isSelected()){
             System.out.println("blood pressure");
-            result_graph graph = new result_graph("Blood Pressure Chart", "Patients Blood Pressure Over Time", "Date", "mmHg");
+            Results_Graph graph = new Results_Graph("Blood Pressure Chart", "Patients Blood Pressure Over Time", "Date", "mmHg");
             graph.pack();
             RefineryUtilities.centerFrameOnScreen(graph);
             graph.setVisible(true);
         } else if (haemoglobinBtn.isSelected()) {
             System.out.println("haemoglobin");
-            result_graph graph = new result_graph("Haemoglobin Chart", "Patients Haemoglobin Count Over Time", "Date", "% HbA1c");
+            Results_Graph graph = new Results_Graph("Haemoglobin Chart", "Patients Haemoglobin Count Over Time", "Date", "% HbA1c");
             graph.pack();
             RefineryUtilities.centerFrameOnScreen(graph);
             graph.setVisible(true);
         } else if (urinaryBtn.isSelected()) {
             System.out.println("urinary");
-            result_graph graph = new result_graph("Urinary Albumin Chart", "Patients Urinary Albumin Over Time", "Date", "mg/mmol");
+            Results_Graph graph = new Results_Graph("Urinary Albumin Chart", "Patients Urinary Albumin Over Time", "Date", "mg/mmol");
             graph.pack();
             RefineryUtilities.centerFrameOnScreen(graph);
             graph.setVisible(true);
         } else if (serumBtn.isSelected()) {
             System.out.println("serum creatine");
-            result_graph graph = new result_graph("Serum Creatine Chart", "Patients Serum Creatine Over Time", "Date", "micromol/L");
+            Results_Graph graph = new Results_Graph("Serum Creatine Chart", "Patients Serum Creatine Over Time", "Date", "micromol/L");
             graph.pack();
             RefineryUtilities.centerFrameOnScreen(graph);
             graph.setVisible(true);
         } else if (cholesterolBtn.isSelected()){
             System.out.println("cholesterol");
-            result_graph graph = new result_graph("Cholesterol Chart", "Patients Cholesterol Over Time", "Date", "Total Cholesterol");
+            Results_Graph graph = new Results_Graph("Cholesterol Chart", "Patients Cholesterol Over Time", "Date", "Total Cholesterol");
             graph.pack();
             RefineryUtilities.centerFrameOnScreen(graph);
             graph.setVisible(true);

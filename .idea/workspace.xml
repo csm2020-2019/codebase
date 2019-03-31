@@ -5,10 +5,7 @@
     <bookmark url="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/database_driver.java" line="34" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="56044113-7bea-4abe-b359-43325a50716c" name="Default Changelist" comment="RD_GUI shows patients referred and GP_GUI can search for specific patient by last name and select one">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Compare_Results.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Compare_Results.java" afterDir="false" />
-    </list>
+    <list default="true" id="56044113-7bea-4abe-b359-43325a50716c" name="Default Changelist" comment="RD_GUI shows patients referred and GP_GUI can search for specific patient by last name and select one" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="C:\Users\Lucas\OneDrive\IdeaProjects\Health_System_Monitoring\.idea\shelf/" />
     <ignored path="P:/IMPACSProfile/IdeaProjects/codebase/src/Health_System_Monitoring/target/" />
@@ -73,18 +70,9 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/result_graph.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" selection-end-line="76" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Results_Graph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
+            <state relative-caret-position="476">
               <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -93,11 +81,15 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="441" column="23" lean-forward="true" selection-start-line="441" selection-start-column="23" selection-end-line="441" selection-end-column="23" />
+            <state relative-caret-position="406">
+              <caret line="441" column="77" selection-start-line="441" selection-start-column="77" selection-end-line="441" selection-end-column="77" />
+              <folding>
+                <element signature="e#16527#16528#0" expanded="true" />
+                <element signature="e#16573#16574#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -105,11 +97,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Compare_Results.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="55" column="41" selection-start-line="55" selection-start-column="41" selection-end-line="55" selection-end-column="41" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="-121">
+              <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -169,11 +158,11 @@
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/GP_GUI.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/RD_GUI.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Form_GUI.java" />
-        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Compare_Results.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/result_graph.java" />
-        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java" />
-        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java" />
         <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Results_Graph.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Compare_Results.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java" />
+        <option value="$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java" />
       </list>
     </option>
   </component>
@@ -445,12 +434,12 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="0" sideWeight="0.49880525" weight="0.32166302" />
-      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.49943376" weight="0.3329753" />
+      <window_info active="true" anchor="bottom" id="Run" order="1" sideWeight="0.49943376" visible="true" weight="0.3329753" />
       <window_info anchor="bottom" id="TODO" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" />
       <window_info anchor="bottom" id="Terminal" order="4" />
       <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.50056624" side_tool="true" weight="0.3329753" />
-      <window_info active="true" anchor="bottom" id="Messages" order="6" visible="true" weight="0.32975295" />
+      <window_info anchor="bottom" id="Messages" order="6" weight="0.32975295" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="0" weight="0.25" />
       <window_info anchor="right" id="Palette" order="1" />
       <window_info anchor="right" id="Theme Preview" order="2" />
@@ -462,33 +451,29 @@
       <window_info anchor="right" id="Ant Build" order="8" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.34792122" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Project" order="0" weight="0.30690828" />
+      <window_info id="Structure" order="1" side_tool="true" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49641576" visible="true" weight="0.23632385" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3998429" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32914376" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3298611" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5035842" side_tool="true" weight="0.23644933" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49880525" weight="0.32166302" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32822758" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info anchor="right" id="Maven Projects" order="7" />
-      <window_info anchor="right" id="Maven" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="0" sideWeight="0.49880525" weight="0.32166302" />
+      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.49943376" weight="0.3329753" />
+      <window_info anchor="bottom" id="TODO" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" />
+      <window_info anchor="bottom" id="Terminal" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.50056624" side_tool="true" weight="0.3329753" />
+      <window_info anchor="bottom" id="Messages" order="6" visible="true" weight="0.32975295" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="0" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="1" />
+      <window_info anchor="right" id="Theme Preview" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Maven Projects" order="5" weight="0.22222222" />
+      <window_info anchor="right" id="Bean Validation" order="6" />
+      <window_info anchor="right" id="Maven" order="7" weight="0.32985386" />
+      <window_info anchor="right" id="Ant Build" order="8" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -787,16 +772,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Compare_Results.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="55" column="41" selection-start-line="55" selection-start-column="41" selection-end-line="55" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk-11.0.2/lib/src.zip!/java.desktop/java/awt/Container.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -811,19 +786,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java">
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Compare_Results.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="441" column="23" lean-forward="true" selection-start-line="441" selection-start-column="23" selection-end-line="441" selection-end-column="23" />
+        <state relative-caret-position="-121">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Results_Graph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
+        <state relative-caret-position="476">
           <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Health_System_Monitoring/src/Health_System_Monitoring/Patient_GUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="441" column="77" selection-start-line="441" selection-start-column="77" selection-end-line="441" selection-end-column="77" />
+          <folding>
+            <element signature="e#16527#16528#0" expanded="true" />
+            <element signature="e#16573#16574#0" expanded="true" />
           </folding>
         </state>
       </provider>
