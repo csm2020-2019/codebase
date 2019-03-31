@@ -101,13 +101,13 @@ public class Form_GUI {
         dao = FormJDBC.getDAO();
     }
 
-    public static void getPatientForm(int form_id, int patient_id, int submission_id)
+    public static void getPatientForm(int form_id, int patient_id, int submission_id, boolean readOnly)
     {
         patientID = patient_id;
         submissionId = submission_id;
 
         setEditMode(false);
-        openExistingForm(form_id);
+        openExistingForm(form_id,readOnly);
     }
 
     private static void clearForm() {
@@ -121,7 +121,7 @@ public class Form_GUI {
         contentpanel.removeAll();
     }
 
-    public static void openExistingForm(int newFormId) {
+    public static void openExistingForm(int newFormId, boolean readOnly) {
 
         clearForm();
 
@@ -131,7 +131,7 @@ public class Form_GUI {
         for(FormElement element : elements)
         {
             formElements.add(element);
-            contentpanel.add(buildPanel(element.type, element.question_id, element.label, element.value, element.default_value));
+            contentpanel.add(buildPanel(element.type, element.question_id, element.label, element.value, element.default_value, readOnly));
         }
 
         contentpanel.revalidate();
@@ -223,7 +223,7 @@ public class Form_GUI {
 
         addQuestionToFormDao(newID);
 
-        JPanel newPanel = buildPanel(newElement.type, newElement.question_id, newElement.label, newElement.value, newElement.default_value);
+        JPanel newPanel = buildPanel(newElement.type, newElement.question_id, newElement.label, newElement.value, newElement.default_value,false);
 
         newPanel.setVisible(true);
 
@@ -299,10 +299,10 @@ public class Form_GUI {
      * @return the new JPanel
      */
     private static JPanel createPanel(FormType f, int questionId) {
-        return buildPanel(f, questionId, "New Field", null, null);
+        return buildPanel(f, questionId, "New Field", null, null, false);
     }
 
-    private static JPanel buildPanel(FormType f, int questionId, String label, Object value, Object default_value)
+    private static JPanel buildPanel(FormType f, int questionId, String label, Object value, Object default_value, boolean readOnly)
     {
         JPanel newPanel = new JPanel();
         // set the name to the question id so we can retrieve it
@@ -310,7 +310,7 @@ public class Form_GUI {
 
         // label is actually a text field; we turn off editable once we're done with Edit Mode
         JTextField labelField = new JTextField(label);
-        labelField.setEnabled(true);
+        labelField.setEnabled(!readOnly);
         labelField.setVisible(true);
         int newIndex = formLabels.size();
         labelField.setActionCommand(String.valueOf(newIndex));
@@ -350,6 +350,9 @@ public class Form_GUI {
 
                 yesButton.setVisible(true);
                 noButton.setVisible(true);
+
+                yesButton.setEnabled(!readOnly);
+                yesButton.setEnabled(!readOnly);
 
                 if(editMode)
                 {
@@ -451,6 +454,8 @@ public class Form_GUI {
 
                 valueField.setVisible(true);
 
+                valueField.setEnabled(!readOnly);
+
                 valueField.setActionCommand(String.valueOf(newIndex));
                 valueField.addActionListener(new ActionListener() {
                     @Override
@@ -515,6 +520,7 @@ public class Form_GUI {
                 valueField.setInputVerifier(veri);
 
                 valueField.setVisible(true);
+                valueField.setEnabled(!readOnly);
 
                 valueField.setActionCommand(String.valueOf(newIndex));
                 valueField.addActionListener(new ActionListener() {
@@ -560,6 +566,7 @@ public class Form_GUI {
                 // no input verifier
 
                 valueField.setVisible(true);
+                valueField.setEnabled(!readOnly);
 
                 valueField.setActionCommand(String.valueOf(newIndex));
                 valueField.addActionListener(new ActionListener() {
