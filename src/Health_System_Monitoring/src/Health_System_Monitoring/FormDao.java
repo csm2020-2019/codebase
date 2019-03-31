@@ -49,17 +49,19 @@ public interface FormDao {
 	 * @param formId to add question to
 	 * @param type of the question
 	 * @param label the question text
+	 * @param default_value the default value
 	 * @return id of the created question
 	 */
-	public int addQuestion(int formId, FormType type, String label);
+	public int addQuestion(int formId, FormType type, String label, Object default_value);
 	/**
 	 * Update question in form
 	 * @param questionId to update
-	 * @param type value
-	 * @param label value
+	 * @param type of the question
+	 * @param label the question text
+	 * @param default_value the default value to add
 	 * @return success
 	 */
-	public boolean updateQuestion(int questionId, FormType type, String label);
+	public boolean updateQuestion(int questionId, FormType type, String label, Object default_value);
 	/**
 	 * Remove question from form
 	 * @param questionId to remove
@@ -122,6 +124,15 @@ public interface FormDao {
 	 * @return success
 	 */
 	public boolean removeAnswer(int questionId, int submissionId, FormType type);
+
+	/**
+	 * Get a specific answer from the answer tables
+	 * @param type type of answer
+	 * @param questionId id of the question this is an answer to
+	 * @param submissionId id of the submission this is
+	 * @return Object of the answer
+	 */
+	public Object getAnswer(FormType type, int questionId, int submissionId);
 	
 	// ----------------------------------------------------------------------
 	
@@ -157,9 +168,9 @@ public interface FormDao {
 	 * Get list of submissions for the given patient and the given form
 	 * @param formID that we're looking for
 	 * @param patientID from the patient table
-	 * @return a Map of the data, with the SubmissionID as the key and the date as the value
+	 * @return a Map of the data, with the date as the key and the submission ID as the value
 	 */
-	public Map<Integer,Date> getSubmissionsForPatient(int formID, int patientID);
+	public Map<Date,Integer> getSubmissionsForPatient(int formID, int patientID);
 
 	/**
 	 * Get the complete list of answers for a given form and patient, arranged by date

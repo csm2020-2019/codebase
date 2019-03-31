@@ -1,11 +1,11 @@
 package Health_System_Monitoring;
 //singleton class to get database connection
 
-import java.math.BigDecimal;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+
+import java.util.Properties;
 
 
 /*
@@ -25,19 +25,19 @@ public class database_driver {
 
     private database_driver() {
         try {
+            Properties dbProps = new Properties();
+            FileInputStream fileInputStream = new FileInputStream("db.properties");
 
-            /*
-             * *********** database connection info **********
-             */
+            //load the info from the input stream
+            dbProps.load(fileInputStream);
 
-            String jdbcUrl = "jdbc:mysql://db.dcs.aber.ac.uk:3306/csm2020_18_19";
-            String databaseUser = "csm2020_admin";
-            String databasePass = "wybRJB7Q";
+            String url = dbProps.getProperty("jdbcUrl");
+            String user = dbProps.getProperty("databaseUser");
+            String pass = dbProps.getProperty("databasePass");
 
-            databaseConnection = DriverManager.getConnection(jdbcUrl, databaseUser, databasePass);
-            System.out.println("Connected to database");
+            databaseConnection = DriverManager.getConnection(url,user, pass);
 
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
@@ -47,9 +47,9 @@ public class database_driver {
      * @return mysql database connection object
      */
     public static Connection getConnection() {
-        if(database_driver == null) {
+        //if(database_driver == null) {
             database_driver = new database_driver();
-        }
+        //}
         return databaseConnection;
     }
 }
