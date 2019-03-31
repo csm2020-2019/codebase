@@ -55,7 +55,7 @@ public class GP_GUI {
         SearchLabel();
         PatientSearchField();
         PatientSearchButton();
-        GPCreateFormButton();
+        FormComboBox();
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 ReferalsWindow();

@@ -31,8 +31,11 @@ public class database_driver {
             //load the info from the input stream
             dbProps.load(fileInputStream);
 
-            databaseConnection = DriverManager.getConnection(dbProps.getProperty("jdbcUrl"),
-                    dbProps.getProperty("databaseUser"), dbProps.getProperty("databasePass"));
+            String url = dbProps.getProperty("jdbcUrl");
+            String user = dbProps.getProperty("databaseUser");
+            String pass = dbProps.getProperty("databasePass");
+
+            databaseConnection = DriverManager.getConnection(url,user, pass);
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
