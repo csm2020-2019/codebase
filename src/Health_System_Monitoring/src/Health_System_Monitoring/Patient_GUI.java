@@ -4,41 +4,24 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
+import java.util.ArrayList;
 
 public class Patient_GUI {
     public static JFrame mainFrame, confirmFrame;
     private JLabel headerLabel;
-    private JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel,formsPanel;
+    private JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel;
     private JButton triggerButton;
     private Patient patient;
     private JComboBox<String> referBox;
     private List<User> rd_list;
 
-    private Printer print = new Printer();
-    private ArrayList<String> printList = new ArrayList<String>();
-    private String printTxt;
-
-    private JComboBox<String> formCreateComboBox;
-    private HashMap<String,Integer> editableFormLookup;
-
-    private JComboBox<String> submissionSelectComboBox;
-    private HashMap<String,Integer> submissionSelectLookup;
-
-    private JButton gpButton = new JButton("Go");
-
-    public void preparePatientGUI(Patient pat, boolean isRD) {
-        if (isRD) {
-            Main_GUI.SetWindowPosition(RD_GUI.mainFrame.getLocation().x, RD_GUI.mainFrame.getLocation().y);
-            RD_GUI.mainFrame.setVisible(false);
-        } else {
-            Main_GUI.SetWindowPosition(GP_GUI.mainFrame.getLocation().x, GP_GUI.mainFrame.getLocation().y);
-            GP_GUI.mainFrame.setVisible(false);
-        }
+    public void preparePatientGUI(Patient pat) {
+        Main_GUI.SetWindowPosition(GP_GUI.mainFrame.getLocation().x, GP_GUI.mainFrame.getLocation().y);
+        GP_GUI.mainFrame.setVisible(false);
 
         mainFrame = new JFrame("GP application");
         mainFrame.setSize(500, 500);
@@ -56,21 +39,14 @@ public class Patient_GUI {
         patient = pat;
 
         HeaderLabel();
-        FormComboBox(isRD);
-        if (!isRD) {
-            ModifyRecordButton();
-            DeleteRecordButton();
-            AddNiceButton();
-            PrintButton();
-        }
-        PatientBackButton(isRD);
+        ModifyRecordButton();
+        DeleteRecordButton();
+        PatientBackButton();
+        AddNiceButton();
+        ResultsButton();
         PatientInfoPanel();
         PatientInfoDisplay();
-        if(!isRD)
-        {
-            PatientReferPanel();
-        }
-        //ViewNiceButton();
+        PatientReferPanel();
 
         mainFrame.setLocation(Main_GUI.GetWindowPosition());
         mainFrame.add(northPanel, BorderLayout.NORTH);
@@ -94,18 +70,19 @@ public class Patient_GUI {
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
         referPanel.setLayout(flowLayout);
 
-        // first check to see if we're already referred
+    	// first check to see if we're already referred
 
         UserDaoInterface userDao = UserDao.getDAO();
 
         int rd_id = userDao.getReferralByPatientId(patient.getPatientId());
-        if (rd_id != -1) {
+        if(rd_id !=-1) {
             // we have a referral, so show that
             User rd = userDao.getUserById(rd_id);
 
-            JLabel referred = new JLabel(rd.getUserFirstName() + " " + rd.getUserLastName());
+            JLabel referred = new JLabel (rd.getUserFirstName() + " " + rd.getUserLastName());
             referPanel.add(referred);
-        } else {
+        }
+        else {
             // first up, the combo box containing all RDs
 
             if (rd_list == null) {
@@ -116,13 +93,13 @@ public class Patient_GUI {
             rd_list = userDao.getUserByType("rd");
             Vector<String> name_list = new Vector<String>(rd_list.size());
 
-            for (User user : rd_list) {
-                name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
-            }
+        for (User user : rd_list) {
+            name_list.add(user.getUserFirstName() + " " + user.getUserLastName());
+        }
 
-            referBox = new JComboBox<String>(name_list);
+        referBox = new JComboBox<String>(name_list);
 
-            // next up, the button to trigger referral
+        // next up, the button to trigger referral
 
             triggerButton = new JButton("Refer");
             triggerButton.setActionCommand("Refer_Patient");
@@ -133,7 +110,7 @@ public class Patient_GUI {
         }
         TitledBorder referBorder = new TitledBorder("Referrals");
         referPanel.setBorder(referBorder);
-        controlPanel.add(referPanel);
+    	controlPanel.add(referPanel);
     }
 
     private void PatientInfoDisplay() {
@@ -150,172 +127,12 @@ public class Patient_GUI {
         JLabel PrescriptionLabel = new JLabel("", JLabel.CENTER);
         PrescriptionLabel.setText("Prescription: " + patient.getPatientPrescriptions());
 
-        print.setString(NameLabel.getText());
-        print.setString(DoBLabel.getText());
-        print.setString(AddressLabel.getText());
-        print.setString(HistoryLabel.getText());
-        print.setString(DiagnosisLabel.getText());
-        print.setString(PrescriptionLabel.getText());
-
         infoPanel.add(NameLabel);
         infoPanel.add(DoBLabel);
         infoPanel.add(AddressLabel);
         infoPanel.add(HistoryLabel);
         infoPanel.add(DiagnosisLabel);
         infoPanel.add(PrescriptionLabel);
-    }
-
-    private void UpdateFormsLookup()
-    {
-        FormDao dao = new FormJDBC();
-        editableFormLookup = (HashMap<String,Integer>)dao.getFormsForGP(Main_GUI.getCurrentUser().getUserId());
-    }
-
-    private void UpdateSubmissionLookupForForm(int form_id)
-    {
-        FormDao dao = new FormJDBC();
-        if(submissionSelectLookup == null)
-        {
-            submissionSelectLookup = new HashMap<String,Integer>();
-        }
-        submissionSelectLookup.clear();
-        HashMap<java.sql.Date, Integer> map = (HashMap<java.sql.Date, Integer>)dao.getSubmissionsForPatient(form_id,patient.getPatientId());
-        for(Map.Entry<java.sql.Date, Integer> entry : map.entrySet())
-        {
-            String displayDate = entry.getKey().toLocalDate().toString();
-            submissionSelectLookup.put(displayDate, entry.getValue());
-        }
-    }
-
-    private void FormComboBox(boolean rd) {
-
-        UpdateFormsLookup();
-        if(!rd && editableFormLookup.size() == 0)
-        {
-            // we currently have no forms! So remove this from our patient page entirely
-
-            if(formsPanel != null)
-            {
-                formsPanel.setVisible(false);
-            }
-        }
-        else {
-            FormDao dao = new FormJDBC();
-            formsPanel = new JPanel();
-
-            TitledBorder referBorder = new TitledBorder("Forms");
-            formsPanel.setBorder(referBorder);
-
-            formsPanel.setLayout(new FlowLayout());
-            Set<String> names = editableFormLookup.keySet();
-            if(rd) {
-                String[] nameArray = new String[1];
-                nameArray[0] = "Nice Test";
-                formCreateComboBox = new JComboBox<String>(nameArray);
-                formCreateComboBox.setEnabled(false);
-            }
-            else {
-                String[] nameArray = names.toArray(new String[names.size()]);
-                formCreateComboBox = new JComboBox<String>(nameArray);
-            }
-            formCreateComboBox.setVisible(true);
-            formsPanel.add(formCreateComboBox);
-
-
-            String initial_set = formCreateComboBox.getItemAt(0);
-
-            submissionSelectComboBox = new JComboBox<String>();
-            submissionSelectComboBox.setEnabled(false);
-            submissionSelectComboBox.setVisible(true);
-            formsPanel.add(submissionSelectComboBox);
-
-            if(rd)
-            {
-                UpdateSubmissionLookupForForm(editableFormLookup.getOrDefault("Nice Test",-1));
-                for (String date : submissionSelectLookup.keySet()) {
-                    submissionSelectComboBox.addItem(date);
-                }
-
-                submissionSelectComboBox.setEnabled(true);
-                gpButton.setEnabled(true);
-            }
-            else {
-                formCreateComboBox.addItemListener(new ItemListener() {
-                    @Override
-                    public void itemStateChanged(ItemEvent e) {
-                        if (e.getStateChange() == ItemEvent.DESELECTED) return; // skip the deselection events
-                        String key = (String) e.getItem();
-                        Integer value = editableFormLookup.getOrDefault(key, -1);
-                        if (value < 0) {
-                            // didn't find the form for some reason
-                            submissionSelectComboBox.setEnabled(false);
-                            gpButton.setEnabled(false);
-
-                        } else {
-                            // found the form ID we want to open, so retrieve the dated records for it
-                            UpdateSubmissionLookupForForm(value);
-                            // and fill up the combo box
-                            submissionSelectComboBox.removeAllItems();
-                            submissionSelectComboBox.addItem("Add New...");
-                            for (String date : submissionSelectLookup.keySet()) {
-                                submissionSelectComboBox.addItem(date);
-                            }
-
-                            submissionSelectComboBox.setEnabled(true);
-                            gpButton.setEnabled(true);
-                        }
-                    }
-                });
-            }
-
-            submissionSelectComboBox.addItemListener(new ItemListener() {
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    String key = (String) e.getItem();
-                    if (key == "Add New...") {
-                        gpButton.setEnabled(true);
-                    } else {
-                        Integer value = submissionSelectLookup.getOrDefault(key, -1);
-                        if (value < 0) {
-                            // didn't find the submission for some reason
-                            gpButton.setEnabled(false);
-                        } else {
-                            gpButton.setEnabled(true);
-                        }
-                    }
-                }
-            });
-
-            // button to launch the selected form
-            gpButton = new JButton("Go");
-            formsPanel.add(gpButton);
-            gpButton.setEnabled(false);
-            gpButton.setVisible(true);
-
-            gpButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String formKey = (String) formCreateComboBox.getSelectedItem();
-                    String submissionKey = (String) submissionSelectComboBox.getSelectedItem();
-                    Integer formValue = editableFormLookup.getOrDefault(formKey, -1);
-                    if (submissionKey == "Add New...") {
-                        // new submission!
-                        int newSubmissionId = dao.addSubmission(formValue, Main_GUI.getCurrentUser().getUserId(), patient.getPatientId(), new java.sql.Date(System.currentTimeMillis()));
-                        Form_GUI.getPatientForm(formValue, patient.getPatientId(), newSubmissionId, rd);
-                    } else {
-                        Integer submissionValue = submissionSelectLookup.getOrDefault(submissionKey, -1);
-                        if (submissionValue < 0) {
-                            // didn't find the form for some reason
-                        } else {
-                            // found the form ID we want to open, so open it
-                            Form_GUI.getPatientForm(formValue, patient.getPatientId(), submissionValue,rd);
-                        }
-                    }
-                }
-            });
-
-            controlPanel.add(formsPanel);
-        }
     }
 
     public void ReferPatient() {
@@ -332,8 +149,9 @@ public class Patient_GUI {
         UserDao userDao = new UserDao();
         boolean result = userDao.addReferral(patient_id, gp_id, rd_id);
 
-        referBox.setEditable(false);
-        referBox.setEnabled(false);
+
+    	referBox.setEditable(false);
+    	referBox.setEnabled(false);
         triggerButton.setEnabled(false);
         triggerButton.setText("Referred");
     }
@@ -353,12 +171,6 @@ public class Patient_GUI {
         mainFrame.setVisible(false);
         GP_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
         GP_GUI.mainFrame.setVisible(true);
-    }
-
-    public void GoToRDGUI() {
-        mainFrame.setVisible(false);
-        RD_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
-        RD_GUI.mainFrame.setVisible(true);
     }
 
     public void DeleteConfirmWindow() {
@@ -435,49 +247,21 @@ public class Patient_GUI {
     }
 
     /**
-     * Create GUI for add NICE test button
+     * Create graph of test results
      */
-    private void ViewNiceButton() {
-        JButton NiceButton = new JButton("View Nice Tests");
-        NiceButton.setActionCommand("Patient_Nice_View");
-        NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
-        controlPanel.add(NiceButton);
-    }
-
-    private void PrintButton() {
-        JButton PrintButton = new JButton("Print");
-        PrintButton.setActionCommand("Print");
-        PrintButton.addActionListener(new Patient_GUI.ButtonClickListener());
-        controlPanel.add(PrintButton);
-    }
-
-    private void PrinterJob() {
-
-        //printer.setString(printTxt);
-
-        PrinterJob job = PrinterJob.getPrinterJob();
-        job.setPrintable(print);
-        boolean ok = job.printDialog();
-        if (ok) {
-            try {
-                job.print();
-            } catch(PrinterException e){
-                System.out.println(e);
-            }
-        }
+    private void ResultsButton() {
+        JButton ResultsButton = new JButton ("Compare Results");
+        ResultsButton.setActionCommand("Results_Graph");
+        ResultsButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(ResultsButton);
     }
 
     /**
      * Create GUI for back button
      */
-    private void PatientBackButton(boolean isRD) {
+    private void PatientBackButton() {
         JButton BackButton = new JButton("Back");
-        if (!isRD) {
-            BackButton.setActionCommand("Patient_Back");
-        } else {
-            BackButton.setActionCommand("Patient_RD_Back");
-        }
-
+        BackButton.setActionCommand("Patient_Back");
         BackButton.addActionListener(new Patient_GUI.ButtonClickListener());
         southPanel.add(BackButton);
     }
@@ -502,6 +286,9 @@ public class Patient_GUI {
         successSouthPanel.add(BackButton);
     }
 
+    private void CompareResults() {
+        Compare_Results.DisplayPanel(patient.getPatientId());
+    }
     /**
      * Action Listener that looks out for button presses in Patient_GUI
      */
@@ -518,9 +305,6 @@ public class Patient_GUI {
             } else if (command.equals("Patient_Back")) {
                 Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 GoToGPGUI();
-            } else if (command.equals("Patient_RD_Back")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
-                GoToRDGUI();
             } else if (command.equals("Patient_Delete_Cancel")) {
                 DeleteCancelButtonFunction();
             } else if (command.equals("Patient_Delete_Okay")) {
@@ -536,12 +320,10 @@ public class Patient_GUI {
                 ModifyRecordButtonFunction();
             } else if (command.equals("Patient_Nice")) {
                 nice_gui.prepareNiceGUI();
-            } else if (command.equals("Patient_Nice_View")) {
-
             } else if (command.equals("Refer_Patient")) {
                 ReferPatient();
-            } else if (command.equals("Print")){
-                PrinterJob();
+            } else if (command.equals("Results_Graph")) {
+                CompareResults();
             }
         }
     }
