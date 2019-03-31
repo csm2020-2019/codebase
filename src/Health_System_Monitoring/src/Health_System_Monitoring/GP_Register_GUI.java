@@ -186,15 +186,15 @@ public class GP_Register_GUI {
                     patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Medical History: "
                     + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient_ID);
 
-            PatientDao pDao = (PatientDao) new PatientDao();
+            PatientDao pDao = new PatientDao();
 
             if (newRecord) {
-                int id = (Integer) pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
+                int id = pDao.addPatientToDatabase(patient, Main_GUI.getCurrentUser());
                 if (id > 0) {
                     acceptedCheck = true;
                 }
             } else {
-                acceptedCheck = (boolean) pDao.updatePatientRecord(patient);
+                acceptedCheck = pDao.updatePatientRecord(patient);
             }
 
             if (acceptedCheck) {
@@ -205,7 +205,7 @@ public class GP_Register_GUI {
                 } else {
                     //Patient_GUI.mainFrame.setVisible(true);
                     Patient_GUI patient_gui = new Patient_GUI();
-                    patient_gui.preparePatientGUI(patient);
+//                    patient_gui.preparePatientGUI(patient);
                     SubmitModifyConfirmedWindow();
                 }
             } else {
@@ -339,7 +339,7 @@ public class GP_Register_GUI {
         }
 
         @Override
-        public String valueToString(Object value) throws ParseException {
+        public String valueToString(Object value) {
             if (value != null) {
                 Calendar cal = (Calendar) value;
                 return dateFormatter.format(cal.getTime());
@@ -471,9 +471,6 @@ public class GP_Register_GUI {
     class ButtonClickListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
-            GP_GUI gp_gui = new GP_GUI();
-            //GP_Register_GUI gp_register_gui = new GP_Register_GUI();
-            Patient_GUI patient_gui = new Patient_GUI();
 
             if (command.equals("Default")) {
                 //Do nothing
