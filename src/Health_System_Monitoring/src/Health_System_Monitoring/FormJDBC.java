@@ -154,8 +154,6 @@ public class FormJDBC implements FormDao {
         return -1;
 	}
 
-
-
 	public boolean updateQuestion(int questionId, FormType type, String label, Object default_value)
 	{
 		// this is a little more complicated. We need to compare the new default value to the old one to determine if we need to add it
