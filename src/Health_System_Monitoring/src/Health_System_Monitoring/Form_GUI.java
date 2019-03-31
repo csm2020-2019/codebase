@@ -137,6 +137,14 @@ public class Form_GUI {
         contentpanel.revalidate();
         scrollpanel.revalidate();
 
+        JButton submitButton = new JButton("submit");
+        submitButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                mainFrame.setVisible(false);
+                //do a scheduling thing
+            }
+        });
+        mainFrame.add(submitButton, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
 
         updateEditMode();

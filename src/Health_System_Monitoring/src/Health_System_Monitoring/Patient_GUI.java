@@ -402,7 +402,7 @@ public class Patient_GUI {
     }
 
     /**
-     * Create GUI for add NICE test button
+     * Create GUI for view NICE test button
      */
     private void ViewNiceButton() {
         JButton NiceButton = new JButton("View Nice Tests");
