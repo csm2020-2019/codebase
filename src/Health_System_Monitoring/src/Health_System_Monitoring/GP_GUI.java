@@ -50,6 +50,11 @@ public class GP_GUI {
         PatientDao pDao = new PatientDao();
         patients = pDao.getAllPatientRecords();
 
+        // check to see if the GP already has a NICE Test default form; if not, create one.
+        FormDao dao = new FormJDBC();
+        editableFormLookup = (HashMap<String, Integer>) dao.getFormsForGP(Main_GUI.getCurrentUser().getUserId());
+        if(!editableFormLookup.containsKey("NICE Test")) spawnNiceTestFormForGP();
+        
         HeaderLabel();
         RegisterPatientButton();
         SearchLabel();
@@ -209,8 +214,8 @@ public class GP_GUI {
         container.setLayout(new FlowLayout());
         controlPanel.add(container);
 
-        layout.putConstraint(SpringLayout.WEST, container, 10, SpringLayout.WEST, controlPanel);
-        layout.putConstraint(SpringLayout.SOUTH, container, 0, SpringLayout.SOUTH, controlPanel);
+        layout.putConstraint(SpringLayout.EAST, container, 0, SpringLayout.EAST, controlPanel);
+        layout.putConstraint(SpringLayout.NORTH, container, 0, SpringLayout.NORTH, controlPanel);
 
         formCreateComboBox.setVisible(true);
         container.add(formCreateComboBox);
@@ -281,6 +286,41 @@ public class GP_GUI {
         layout.putConstraint(SpringLayout.WEST, RegisterPatientButton, 25, SpringLayout.WEST, controlPanel);
     }
 
+    public void spawnNiceTestFormForGP()
+    {
+        // Because NICE Tests are required functionality, if a GP doesn't have a basic NICE test in their formset
+        // we add it for them.
+
+        FormDao dao = (FormDao)new FormJDBC();
+
+        int form_id = dao.addNewForm(Main_GUI.getCurrentUser(), "NICE Test");
+
+        dao.addQuestion(form_id,FormType.FT_INT,"Height (cm)",0);
+        dao.addQuestion(form_id,FormType.FT_FLOAT,"Weight (kg)",0.0f);
+        dao.addQuestion(form_id,FormType.FT_INT,"Age (years)",0);
+        dao.addQuestion(form_id,FormType.FT_STRING,"Male/Female","");
+        dao.addQuestion(form_id,FormType.FT_INT,"Blood Pressure - Systolic (mmHg)",120);
+        dao.addQuestion(form_id,FormType.FT_INT,"Blood Pressure - Diastolic (mmHg)",80);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Kidney Damage",false);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Eye Damage",false);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Cerebrovascular Damage",false);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Smoker?",false);
+        dao.addQuestion(form_id,FormType.FT_FLOAT,"Glycosatlated Haeomoglobin (% HbA1C)",0.0f);
+        dao.addQuestion(form_id,FormType.FT_FLOAT,"Urinary Albumin (mg/mmol)",0.0f);
+        dao.addQuestion(form_id,FormType.FT_INT,"Serum Creatinine (mg/mmol)",0);
+        dao.addQuestion(form_id,FormType.FT_INT,"eGFR (ml/min/1.73 m)",0);
+        dao.addQuestion(form_id,FormType.FT_FLOAT,"Total Cholesterol(mmol/L)",0.0f);
+        dao.addQuestion(form_id,FormType.FT_FLOAT,"LDL (mmol/L)",0.0f);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Eyes (Sudden Loss of Vision)",false);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Eyes (Pre-Retinal or Vitreous Haemorrhage)",false);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Eyes (Retinal Detachment)",false);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Eyes (Rubeosis)",false);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Feet (Lack of sensation)",false);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Feet (Deformity)",false);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Feet (Palpitation of Foot Puls)",false);
+        dao.addQuestion(form_id,FormType.FT_BOOLEAN,"Feet (Inappropriate Footwear)",false);
+    }
+
     class ButtonRenderer extends JButton implements TableCellRenderer {
 
         public ButtonRenderer() {
@@ -311,6 +351,8 @@ public class GP_GUI {
             return button;
 
         }
+
+
     }
 
     /**
