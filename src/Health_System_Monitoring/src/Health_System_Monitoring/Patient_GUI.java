@@ -1,5 +1,7 @@
 package Health_System_Monitoring;
 
+import org.jfree.ui.RefineryUtilities;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -64,6 +66,7 @@ public class Patient_GUI {
             ModifyRecordButton();
             DeleteRecordButton();
             AddNiceButton();
+            CompareResultsButton();
             PrintButton();
         }
         PatientBackButton(isRD);
@@ -425,6 +428,28 @@ public class Patient_GUI {
         controlPanel.add(NiceButton);
     }
 
+    private void CompareResultsButton() {
+        JButton ResultsButton = new JButton("Compare Results");
+        ResultsButton.setActionCommand("Compare_Results");
+        ResultsButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(ResultsButton);
+    }
+
+    private void CompareResults() {
+        Results_Graph graph = new Results_Graph(
+                "Weight",
+                "Dummy Weight Chart",
+                "Date",
+                "kg");
+
+        graph.pack();
+        RefineryUtilities.centerFrameOnScreen(graph);
+        graph.setVisible(true);
+    }
+
+    /**
+     * Create a button to print displayed information
+     */
     private void PrintButton() {
         JButton PrintButton = new JButton("Print");
         PrintButton.setActionCommand("Print");
@@ -432,10 +457,10 @@ public class Patient_GUI {
         controlPanel.add(PrintButton);
     }
 
+    /**
+     *  Prints selected patients information
+     */
     private void PrinterJob() {
-
-        //printer.setString(printTxt);
-
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setPrintable(print);
         boolean ok = job.printDialog();
@@ -523,6 +548,8 @@ public class Patient_GUI {
                 ReferPatient();
             } else if (command.equals("Print")){
                 PrinterJob();
+            } else if (command.equals("Compare_Results")) {
+                CompareResults();
             }
         }
     }

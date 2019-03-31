@@ -54,10 +54,6 @@ public class Compare_Results {
 
         if (weightBtn.isSelected()) {
             System.out.println("weight");
-//            result_graph graph = new result_graph("Weight Chart", "Patients Weight Over Time", "Date", "kg");
-//            graph.pack();
-//            RefineryUtilities.centerFrameOnScreen(graph);
-//            graph.setVisible(true);
 
             Map<java.sql.Date, Collection<FormElement>> map = formDao.getSubmissionsByDate(3, patientId);
 
