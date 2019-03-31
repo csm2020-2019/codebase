@@ -58,6 +58,8 @@ public class Form_GUI {
         editingpanel.setLayout(new BoxLayout(editingpanel, BoxLayout.Y_AXIS));
         editingpanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
+
+
         for (FormType ft : FormType.values()) {
             if (ft != FormType.FT_ERROR) {
                 String var = ft.toString();
@@ -80,15 +82,21 @@ public class Form_GUI {
         contentpanel.setLayout(new FlowLayout());
         contentpanel.setVisible(true);
 
+        contentpanel.setPreferredSize(new Dimension(400,700));
+        //scrollpanel = new JScrollPane(editingpanel);
+        scrollpanel.setViewportView(contentpanel);
+        contentpanel.setAutoscrolls(true);
+        scrollpanel.setPreferredSize(new Dimension(400,500));
+
+        scrollpanel.setVisible(true);
+
+
+
         mainFrame.setLayout(new BorderLayout());
         mainFrame.add(titlepanel, BorderLayout.NORTH);
         mainFrame.add(editingpanel, BorderLayout.EAST);
-        mainFrame.add(contentpanel, BorderLayout.CENTER);
+        mainFrame.add(scrollpanel, BorderLayout.CENTER);
         mainFrame.setVisible(true);
-
-
-        //scrollpanel.add(contentpanel);
-        //scrollpanel.setVisible(true);
 
         dao = FormJDBC.getDAO();
     }
@@ -125,6 +133,9 @@ public class Form_GUI {
             formElements.add(element);
             contentpanel.add(buildPanel(element.type, element.question_id, element.label, element.value, element.default_value));
         }
+
+        contentpanel.revalidate();
+        scrollpanel.revalidate();
 
         mainFrame.setVisible(true);
 
@@ -218,6 +229,8 @@ public class Form_GUI {
 
         contentpanel.add(newPanel);
         contentpanel.updateUI();
+        contentpanel.revalidate();
+        scrollpanel.revalidate();
     }
 
     /// ---------------------------------------------------------------------------------
@@ -588,12 +601,26 @@ public class Form_GUI {
         }
 
         JButton closeButton = new JButton("\u274c");
+        closeButton.setActionCommand(String.valueOf(newIndex));
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //int question_id = Integer.getInteger(newPanel.getName());
-                contentpanel.remove(newPanel);
-                dao.removeQuestion(questionId);
+                BigInteger id_b = new BigInteger(e.getActionCommand());
+                int id = id_b.intValue();
+                contentpanel.remove(formPanels.get(id));
+
+                formPanels.remove(id);
+                formLabels.remove(id);
+                formCloseButtons.remove(id);
+                formEntries.remove(id);
+
+                dao.removeQuestion(formElements.get(id).question_id);
+
+                formElements.remove(id);
+                contentpanel.revalidate();
+                scrollpanel.revalidate();
+                contentpanel.repaint();
+                scrollpanel.repaint();
             }
         });
         formCloseButtons.add(closeButton);
