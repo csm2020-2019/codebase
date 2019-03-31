@@ -19,7 +19,7 @@ public class Patient_GUI {
     private JComboBox<String> referBox;
     private List<User> rd_list;
 
-    public void preparePatientGUI(Patient pat) {
+    public void preparePatientGUI(Patient pat, boolean b) {
         Main_GUI.SetWindowPosition(GP_GUI.mainFrame.getLocation().x, GP_GUI.mainFrame.getLocation().y);
         GP_GUI.mainFrame.setVisible(false);
 
