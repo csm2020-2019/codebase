@@ -13,7 +13,7 @@ import java.util.List;
 public class Patient_GUI {
     public static JFrame mainFrame, confirmFrame;
     private JLabel headerLabel;
-    private JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel,formsPanel;
+    private JPanel headerPanel, controlPanel, southPanel, confirmPanel, confirmButtonPanel, infoPanel, referPanel,formsPanel;
     private JButton triggerButton;
     private Patient patient;
     private JComboBox<String> referBox;
@@ -33,10 +33,10 @@ public class Patient_GUI {
 
     public void preparePatientGUI(Patient pat, boolean isRD) {
         if (isRD) {
-            Main_GUI.SetWindowPosition(RD_GUI.mainFrame.getLocation().x, RD_GUI.mainFrame.getLocation().y);
+            Main_GUI.setWindowPosition(RD_GUI.mainFrame.getLocation().x, RD_GUI.mainFrame.getLocation().y);
             RD_GUI.mainFrame.setVisible(false);
         } else {
-            Main_GUI.SetWindowPosition(GP_GUI.mainFrame.getLocation().x, GP_GUI.mainFrame.getLocation().y);
+            Main_GUI.setWindowPosition(GP_GUI.mainFrame.getLocation().x, GP_GUI.mainFrame.getLocation().y);
             GP_GUI.mainFrame.setVisible(false);
         }
 
@@ -49,7 +49,7 @@ public class Patient_GUI {
             }
         });
 
-        northPanel = new JPanel();
+        headerPanel = new JPanel();
         controlPanel = new JPanel();
         southPanel = new JPanel();
 
@@ -60,7 +60,6 @@ public class Patient_GUI {
         if (!isRD) {
             ModifyRecordButton();
             DeleteRecordButton();
-            AddNiceButton();
             PrintButton();
         }
         PatientBackButton(isRD);
@@ -72,8 +71,8 @@ public class Patient_GUI {
         }
         //ViewNiceButton();
 
-        mainFrame.setLocation(Main_GUI.GetWindowPosition());
-        mainFrame.add(northPanel, BorderLayout.NORTH);
+        mainFrame.setLocation(Main_GUI.getWindowPosition());
+        mainFrame.add(headerPanel, BorderLayout.NORTH);
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
@@ -346,18 +345,18 @@ public class Patient_GUI {
     private void HeaderLabel() {
         headerLabel = new JLabel("", JLabel.CENTER);
         headerLabel.setText("Patient Record Overview");
-        northPanel.add(headerLabel);
+        headerPanel.add(headerLabel);
     }
 
     public void GoToGPGUI() {
         mainFrame.setVisible(false);
-        GP_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
+        GP_GUI.mainFrame.setLocation(Main_GUI.getWindowPosition());
         GP_GUI.mainFrame.setVisible(true);
     }
 
     public void GoToRDGUI() {
         mainFrame.setVisible(false);
-        RD_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
+        RD_GUI.mainFrame.setLocation(Main_GUI.getWindowPosition());
         RD_GUI.mainFrame.setVisible(true);
     }
 
@@ -371,19 +370,19 @@ public class Patient_GUI {
             }
         });
 
-        successPanel = new JPanel();
-        successSouthPanel = new JPanel();
+        confirmPanel = new JPanel();
+        confirmButtonPanel = new JPanel();
 
         JLabel SuccessfulLabel = new JLabel("", JLabel.CENTER);
         SuccessfulLabel.setText("Are you sure you want to delete this record?");
-        successPanel.add(SuccessfulLabel);
+        confirmPanel.add(SuccessfulLabel);
 
         DeleteOkayButton();
         DeleteCancelButton();
 
         confirmFrame.setLocationRelativeTo(null);
-        confirmFrame.add(successPanel, BorderLayout.CENTER);
-        confirmFrame.add(successSouthPanel, BorderLayout.SOUTH);
+        confirmFrame.add(confirmPanel, BorderLayout.CENTER);
+        confirmFrame.add(confirmButtonPanel, BorderLayout.SOUTH);
         confirmFrame.setVisible(true);
     }
 
@@ -424,18 +423,10 @@ public class Patient_GUI {
         controlPanel.add(NiceButton);
     }
 
-    /**
-     * Create GUI for add NICE test button
-     */
-    private void AddNiceButton() {
-        JButton NiceButton = new JButton("Add Nice Test");
-        NiceButton.setActionCommand("Patient_Nice");
-        NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
-        controlPanel.add(NiceButton);
-    }
+
 
     /**
-     * Create GUI for add NICE test button
+     * Create GUI for view NICE test button
      */
     private void ViewNiceButton() {
         JButton NiceButton = new JButton("View Nice Tests");
@@ -486,20 +477,20 @@ public class Patient_GUI {
      * Create GUI for okay button in delete confirmation window
      */
     private void DeleteOkayButton() {
-        JButton NiceButton = new JButton("Okay");
-        NiceButton.setActionCommand("Patient_Delete_Okay");
-        NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
-        successSouthPanel.add(NiceButton);
+        JButton deleteButton = new JButton("Okay");
+        deleteButton.setActionCommand("Patient_Delete_Okay");
+        deleteButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        confirmButtonPanel.add(deleteButton);
     }
 
     /**
      * Create GUI for cancel button in delete confirmation window
      */
     private void DeleteCancelButton() {
-        JButton BackButton = new JButton("Cancel");
-        BackButton.setActionCommand("Patient_Delete_Cancel");
-        BackButton.addActionListener(new Patient_GUI.ButtonClickListener());
-        successSouthPanel.add(BackButton);
+        JButton dontDeleteButton = new JButton("Cancel");
+        dontDeleteButton.setActionCommand("Patient_Delete_Cancel");
+        dontDeleteButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        confirmButtonPanel.add(dontDeleteButton);
     }
 
     /**
@@ -516,10 +507,10 @@ public class Patient_GUI {
             if (command.equals("Default")) {
                 //Do nothing
             } else if (command.equals("Patient_Back")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                Main_GUI.setWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 GoToGPGUI();
             } else if (command.equals("Patient_RD_Back")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                Main_GUI.setWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 GoToRDGUI();
             } else if (command.equals("Patient_Delete_Cancel")) {
                 DeleteCancelButtonFunction();
@@ -532,7 +523,7 @@ public class Patient_GUI {
             } else if (command.equals("Patient_Delete_Record")) {
                 DeleteConfirmWindow();
             } else if (command.equals("Patient_Modify_Record")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                Main_GUI.setWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 ModifyRecordButtonFunction();
             } else if (command.equals("Patient_Nice")) {
                 nice_gui.prepareNiceGUI();

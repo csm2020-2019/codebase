@@ -38,7 +38,7 @@ public class Form_GUI {
     public static void prepareFormGUI() {
         mainFrame = new JFrame();
         mainFrame.setSize(500, 500);
-        mainFrame.setLocation(Main_GUI.GetWindowPosition().x -125, Main_GUI.GetWindowPosition().y -165);
+        mainFrame.setLocation(Main_GUI.getWindowPosition().x -125, Main_GUI.getWindowPosition().y -165);
         titleField = new JTextField("Form Name:");
         titleField.addActionListener(new ActionListener() {
             @Override
@@ -137,6 +137,14 @@ public class Form_GUI {
         contentpanel.revalidate();
         scrollpanel.revalidate();
 
+        JButton submitButton = new JButton("submit");
+        submitButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                mainFrame.setVisible(false);
+                //do a scheduling thing
+            }
+        });
+        mainFrame.add(submitButton, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
 
         updateEditMode();
