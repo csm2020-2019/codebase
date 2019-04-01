@@ -86,13 +86,6 @@ public class SC_GUI {
 	}
 
 
-	/**
-	 * @throws SQLException
-	 */
-	public void PatientOpenButtonFunction(int patNum) throws SQLException {
-
-	}
-
 	private void ReferalsWindow() {
 		PopulatePatients();
 		String[] columns = {"User ID", "Forename", "Surname", "Search"};
@@ -147,11 +140,16 @@ public class SC_GUI {
 			Patient temp = referrals.get(i);
 			patients.add(temp);
 
-			patientReferals[i][0] = referrals.get(i);
+			patientReferals[i][0] = patients.get(i).getPatientId();
 			patientReferals[i][1] = patients.get(i).getPatientFirstName();
 			patientReferals[i][2] = patients.get(i).getPatientLastName();
 			patientReferals[i][3] = "--->";
 		}
+	}
+
+	public void PatientOpenButtonFunction(int patNum) throws SQLException {
+		Patient_GUI patient_GUI = new Patient_GUI();
+		patient_GUI.preparePatientGUI(patients.get(patNum), mainFrame, "sc");
 	}
 
 	class ButtonRenderer extends JButton implements TableCellRenderer {

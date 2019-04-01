@@ -21,13 +21,13 @@ public class ExerciseDao implements ExerciseDaoInterface {
 
             PreparedStatement sqlStatement = null;
             try {
-                String query = "INSERT INTO exercise_regimes (patient_id, gp_id, start_date, end_date, frequency)" +
+                String query = "INSERT INTO exercise_regimes (patient_id, rd_id, start_date, end_date, frequency)" +
                         " values (?, ?, ?, ?, ?);";
 
                 //create mysql prepared statement
                 sqlStatement = databaseConnection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
                 sqlStatement.setInt(1, regime.patientId);
-                sqlStatement.setInt(2, regime.gpId);
+                sqlStatement.setInt(2, regime.rdId);
                 sqlStatement.setDate(3, regime.startDate);
                 sqlStatement.setDate(4, regime.endDate);
                 sqlStatement.setInt(5, regime.frequency);
@@ -68,12 +68,12 @@ public class ExerciseDao implements ExerciseDaoInterface {
             PreparedStatement sqlStatement = null;
 
             try {
-                String query = "UPDATE exercise_regimes SET patient_id=?, gp_id=?, start_date=?, end_date=?, frequency=? WHERE regime_id=?";
+                String query = "UPDATE exercise_regimes SET patient_id=?, rd_id=?, start_date=?, end_date=?, frequency=? WHERE regime_id=?";
 
                 sqlStatement = databaseConnection.prepareStatement(query);
 
                 sqlStatement.setInt(1,regime.patientId);
-                sqlStatement.setInt(2, regime.gpId);
+                sqlStatement.setInt(2, regime.rdId);
                 sqlStatement.setDate(3, regime.startDate);
                 sqlStatement.setDate(4, regime.endDate);
                 sqlStatement.setInt(5, regime.frequency);
@@ -151,7 +151,7 @@ public class ExerciseDao implements ExerciseDaoInterface {
                 ExerciseRegime regime = new ExerciseRegime();
                 regime.regimeId = resultSet.getInt("regime_id");
                 regime.patientId = resultSet.getInt("patient_id");
-                regime.gpId = resultSet.getInt("gp_id");
+                regime.rdId = resultSet.getInt("rd_id");
                 regime.startDate = resultSet.getDate("start_date");
                 regime.endDate = resultSet.getDate("end_date");
                 regime.frequency = resultSet.getInt("frequency");
@@ -346,12 +346,14 @@ public class ExerciseDao implements ExerciseDaoInterface {
 
     public ExerciseRegime getAssignedRegimeForPatient(Patient patient) {
         List<ExerciseRegime> regimes = (List<ExerciseRegime>)getAllRegimesForPatient(patient.getPatientId());
+
         if(regimes.size() < 1)
         {
             return null;
         }
 
         ExerciseRegime output = regimes.get(0);
+        output.trials = new ArrayList<ExerciseTrial>();
 
         List<ExerciseTrial> trials = (List<ExerciseTrial>)getAllTrialsForRegime(output.regimeId);
 

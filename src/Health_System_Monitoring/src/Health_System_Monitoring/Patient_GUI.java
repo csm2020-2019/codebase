@@ -1,9 +1,14 @@
 package Health_System_Monitoring;
 
+import com.opencsv.CSVWriter;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
@@ -60,15 +65,17 @@ public class Patient_GUI {
         HeaderLabel();
         FormReviewControls(userType);
         FormWriteControls();
+
         if (userType == "gp") {
             ModifyRecordButton();
             DeleteRecordButton();
-            AddNiceButton();
         }
-        // back button takes the previous window so it knows where to go back to
+
         PatientBackButton();
         PatientInfoPanel();
-        PatientInfoDisplay();
+        PatientInfoDisplay(userType);
+
+        PatientExerciseButton(userType);
 
         // gp can refer to RD. SC's are referred from the patient interface, nobody else refers
         if(userType == "gp")
@@ -82,6 +89,82 @@ public class Patient_GUI {
         mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
     }
+
+    private void PatientExerciseButton(String type)
+    {
+        switch(type)
+        {
+            case("rd"):
+            {
+                JButton exerciseButton = new JButton("Set Exercise Regime");
+
+                southPanel.add(exerciseButton);
+
+                exerciseButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        // launch the exercise settings
+                        Exercise_GUI.prepareExerciseGUI(patient);
+                        Exercise_GUI.mainFrame.setVisible(true);
+                    }
+                });
+            }
+            break;
+
+            case("sc"):
+            {
+                ExerciseDao dao = new ExerciseDao();
+                ExerciseRegime regime = dao.getAssignedRegimeForPatient(patient);
+                if(regime!=null) {
+                    JButton exerciseButton = new JButton("Export Exercise Data");
+                    southPanel.add(exerciseButton);
+                    exerciseButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent actionEvent) {
+                            // launch the exercise data in CSV format
+
+                            File file = new File("exercise_trial.csv");
+
+                            try {
+                                // create FileWriter object with file as parameter
+                                FileWriter outputfile = new FileWriter(file);
+
+                                // create CSVWriter object filewriter object as parameter
+                                CSVWriter writer = new CSVWriter(outputfile);
+
+                                // create a List which contains String array
+                                List<String[]> data = new ArrayList<String[]>();
+                                data.add(new String[] { "Patient Reference Id", "Intensity / Slope", "Intensity / Speed", "Duration" });
+
+                                ExerciseRegime regime = dao.getAssignedRegimeForPatient(patient);
+                                for(ExerciseTrial trial : regime.trials) {
+                                    String trial_id = String.valueOf(trial.trialId);
+                                    String intensity_slope = String.valueOf(trial.intensity_slope);
+                                    String intensity_speed = String.valueOf(trial.intensity_speed);
+                                    String duration = String.valueOf(trial.duration);
+                                    data.add(new String[]{trial_id, intensity_slope, intensity_speed, duration});
+                                }
+                                writer.writeAll(data);
+
+                                // closing writer connection
+                                writer.close();
+
+                                JOptionPane.showMessageDialog(mainFrame,"Saved successfully!");
+
+                            }
+                            catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }
+            break;
+        }
+
+
+    }
+
 
 
     private void FormReviewControls(String userType) {
@@ -97,6 +180,7 @@ public class Patient_GUI {
         formReviewPanel.setVisible(true);
 
         formReviewLookup = new HashMap<String, Integer>();
+        formSubmissionLookup = new HashMap<String, Integer>();
 
         UpdateReviewLookup(userType);
 
@@ -270,18 +354,14 @@ public class Patient_GUI {
 
         UpdateFormWriteLookup();
 
+        formWritePanel = new JPanel();
+
         if(formWriteLookup.size() == 0)
         {
             // we currently have no forms! So remove this from our patient page entirely
-
-            if(formWritePanel!= null)
-            {
-                formWritePanel.setVisible(false);
-            }
+            formWritePanel.setVisible(false);
         }
         else {
-
-            formWritePanel = new JPanel();
 
             TitledBorder referBorder = new TitledBorder("Forms");
             formWritePanel.setBorder(referBorder);
@@ -400,7 +480,7 @@ public class Patient_GUI {
         controlPanel.add(referPanel);
     }
 
-    private void PatientInfoDisplay() {
+    private void PatientInfoDisplay(String type) {
         JLabel NameLabel = new JLabel("", JLabel.CENTER);
         NameLabel.setText("Full name: " + patient.getPatientFirstName() + " " + patient.getPatientLastName());
         JLabel DoBLabel = new JLabel("", JLabel.CENTER);
@@ -408,11 +488,13 @@ public class Patient_GUI {
         JLabel AddressLabel = new JLabel("", JLabel.CENTER);
         AddressLabel.setText("Address: " + patient.getPatientAddress());
         JLabel HistoryLabel = new JLabel("", JLabel.CENTER);
-        HistoryLabel.setText("Medical History: " + patient.getPatientMedicalHistory());
         JLabel DiagnosisLabel = new JLabel("", JLabel.CENTER);
-        DiagnosisLabel.setText("Diagnosis: " + patient.getPatientDiagnosis());
         JLabel PrescriptionLabel = new JLabel("", JLabel.CENTER);
-        PrescriptionLabel.setText("Prescription: " + patient.getPatientPrescriptions());
+        if(type != "sc") {
+            HistoryLabel.setText("Medical History: " + patient.getPatientMedicalHistory());
+            DiagnosisLabel.setText("Diagnosis: " + patient.getPatientDiagnosis());
+            PrescriptionLabel.setText("Prescription: " + patient.getPatientPrescriptions());
+        }
 
         infoPanel.add(NameLabel);
         infoPanel.add(DoBLabel);
