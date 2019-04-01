@@ -82,14 +82,14 @@ public class GP_Register_GUI {
         PatientDiagnosisTextField();
         PatientPrescriptionsLabel();
         PatientPrescriptionsTextArea();
-        PrescribeCheckBox();
+        emailCheckBox();
 
         BackButton();
 
         SubmitButton();
 
 
-        mainFrame.setLocation(Main_GUI.GetWindowPosition());
+        mainFrame.setLocation(Main_GUI.getWindowPosition());
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
@@ -129,9 +129,9 @@ public class GP_Register_GUI {
         patientPanel = new JPanel();
         FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT, 10, 4);
         patientPanel.setLayout(flowLayout);
-        patientPanel.setPreferredSize(new Dimension(400, 200));
         TitledBorder patientBorder = new TitledBorder("Patient Details");
         patientPanel.setBorder(patientBorder);
+        patientPanel.setPreferredSize(new Dimension(400, 200));
         controlPanel.add(patientPanel);
     }
 
@@ -155,7 +155,7 @@ public class GP_Register_GUI {
         controlPanel.add(infoPanel);
     }
 
-    private void PrescribeCheckBox() {
+    private void emailCheckBox() {
         if (patient_email_prescription == null) {
             patient_email_prescription = true;
         }
@@ -167,13 +167,18 @@ public class GP_Register_GUI {
     public void BackButtonFunction() {
         mainFrame.setVisible(false);
         if (newRecord) {
-            GP_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
+            GP_GUI.mainFrame.setLocation(Main_GUI.getWindowPosition());
             GP_GUI.mainFrame.setVisible(true);
         } else {
-            Patient_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
+            Patient_GUI.mainFrame.setLocation(Main_GUI.getWindowPosition());
             Patient_GUI.mainFrame.setVisible(true);
         }
 
+    }
+
+    static boolean validEmail(String email) {
+
+        return email.matches("[A-Z0-9._%+-][A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{3}");
     }
 
     public void SubmitButtonFunction() throws SQLException {
@@ -184,10 +189,14 @@ public class GP_Register_GUI {
         if(anyEmptyStrings){
             JOptionPane.showMessageDialog(null, "please fill in all fields");
         }else {
-
-            if(patient_email_prescription){
-                Email.sendEmail(patient_email,"subject","message");
+            if(!validEmail(patient_email)){
+                JOptionPane.showMessageDialog(null, "please enter a valid email address");
+            }else{
+                if(patient_email_prescription){
+                    Email.sendEmail(patient_email,"subject","message");
+                }
             }
+
             System.out.println("Submitting - First name: " + patient_first_name + ", Last name: " +
                     patient_last_name + ", Address: " + patient_address + ", Date of Birth: " + patient_dob + ", Email: " + patient_email + ", Medical History: "
                     + patient_medical_history + ", Diagnosis: " + patient_diagnosis + ", Prescription: " + patient_prescriptions + ", User ID: " + userId + ", Patient ID: " + patient_ID);
@@ -495,11 +504,11 @@ public class GP_Register_GUI {
             if (command.equals("Default")) {
                 //Do nothing
             } else if (command.equals("GP_Register_Back")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                Main_GUI.setWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 BackButtonFunction();
             } else if (command.equals("GP_Register_Submit")) {
                 try {
-                    Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                    Main_GUI.setWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                     SubmitButtonFunction();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
