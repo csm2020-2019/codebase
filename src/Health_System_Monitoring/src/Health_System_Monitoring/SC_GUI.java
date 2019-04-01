@@ -90,8 +90,7 @@ public class SC_GUI {
 	 * @throws SQLException
 	 */
 	public void PatientOpenButtonFunction(int patNum) throws SQLException {
-		Patient_GUI patient_GUI = new Patient_GUI();
-		patient_GUI.preparePatientGUI(patients.get(patNum), true);
+
 	}
 
 	private void ReferalsWindow() {
