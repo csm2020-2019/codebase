@@ -325,7 +325,7 @@ public class Patient_GUI {
             case "rd":
             {
                 // rd's can review NICE Tests and exercise trial results
-                formReviewLookup = (HashMap<String,Integer>)dao.getFormByTypeAndPatient("sc",patient.getPatientId());
+                formReviewLookup = (HashMap<String,Integer>)dao.getFormByTypeAndPatient(type,patient.getPatientId());
                 formReviewLookup.putAll((HashMap<String,Integer>)dao.getFormByNameAndPatient("NICE Test",patient.getPatientId()));
             }
             break;

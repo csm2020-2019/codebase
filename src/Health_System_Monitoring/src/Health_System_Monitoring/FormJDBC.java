@@ -746,8 +746,9 @@ public class FormJDBC implements FormDao {
 		try {
 			sqlStatement = database_connection.prepareStatement(query);
 
-			sqlStatement.setString(1, user_type);
-			sqlStatement.setInt(2, patient_id);
+			sqlStatement.setInt(1, patient_id);
+			sqlStatement.setString(2, user_type);
+
 
 			ResultSet resultSet = sqlStatement.executeQuery();
 
