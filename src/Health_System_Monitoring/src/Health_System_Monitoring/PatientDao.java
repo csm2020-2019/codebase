@@ -63,11 +63,7 @@ public class PatientDao implements PatientDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        databaseConnection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
         }
@@ -120,11 +116,7 @@ public class PatientDao implements PatientDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        databaseConnection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
         }
@@ -207,11 +199,7 @@ public class PatientDao implements PatientDaoInterface {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                try {
-                    databaseConnection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
             }
         }
         return false;
@@ -275,8 +263,7 @@ public class PatientDao implements PatientDaoInterface {
             try {
 //                String query = "SELECT patient_first_name FROM patient_records WHERE patient_id = ?";
 
-                String query = "SELECT patient_id, userId, patient_dob, patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, "
-                        + "patient_prescriptions, patient_email_prescription FROM patient_records WHERE patient_id = ?";
+                String query = "SELECT * FROM patient_records WHERE patient_id = ?";
 
                 sqlStatement = databaseConnection.prepareStatement(query);
                 sqlStatement.setInt(1, patient_id);
@@ -299,11 +286,7 @@ public class PatientDao implements PatientDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        databaseConnection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
         }
@@ -337,11 +320,7 @@ public class PatientDao implements PatientDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        databaseConnection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
 
@@ -377,11 +356,7 @@ public class PatientDao implements PatientDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        databaseConnection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
         }
@@ -492,11 +467,7 @@ public class PatientDao implements PatientDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        databaseConnection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
 
@@ -570,11 +541,7 @@ public class PatientDao implements PatientDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        databaseConnection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
         }
@@ -582,6 +549,46 @@ public class PatientDao implements PatientDaoInterface {
         return false;
     }
 
+    public List<Patient> getPatientsBySC(int sc_id)
+    {
+        Connection databaseConnection = database_driver.getConnection();
 
+        PreparedStatement sqlStatement = null;
+
+        List<Patient> output = new ArrayList<Patient>();
+
+        try {
+            String query = "SELECT patient_id FROM sc_appointments WHERE sc_id=?";
+
+            sqlStatement = databaseConnection.prepareStatement(query);
+            sqlStatement.setInt(1,sc_id);
+
+            ResultSet resultSet = sqlStatement.executeQuery();
+
+            while(resultSet.next()) {
+                int patient_id = resultSet.getInt("patient_id");
+                output.addAll(searchPatientById(patient_id));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        } finally {
+            if (sqlStatement != null) {
+                try
+                {
+                    sqlStatement.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+
+                }
+            }
+        }
+
+        return output;
+    }
 
 }

@@ -172,6 +172,17 @@ public interface FormDao {
 	 */
 	public Map<Date,Integer> getSubmissionsForPatient(int formID, int patientID);
 
+
+	/**
+	 * Get list o
+	 * @param user_type
+	 * @param patient_id
+	 * @return
+	 */
+	public Map<String, Integer> getFormByTypeAndPatient(String user_type, int patient_id);
+
+	public Map<String, Integer> getFormByNameAndPatient(String name, int patient_id);
+
 	/**
 	 * Get the complete list of answers for a given form and patient, arranged by date
 	 * @param formId we're looking for

@@ -6,7 +6,7 @@ import java.util.Collection;
 public class ExerciseRegime {
     public int regimeId;
     public int patientId;
-    public int gpId;
+    public int rdId;
     public Date startDate;
     public Date endDate;
     public int frequency;

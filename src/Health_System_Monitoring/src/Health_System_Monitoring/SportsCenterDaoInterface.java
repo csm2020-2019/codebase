@@ -37,4 +37,7 @@ public interface SportsCenterDaoInterface {
      */
     boolean addSportsCenter(SportsCenter sportsCenter);
 
+    //-------------------------------------------------------------------------------------
+
+    SportsCenter getSportsCenterByUserId(int user_id);
 }

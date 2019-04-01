@@ -93,13 +93,32 @@ public class Form_GUI {
         dao = FormJDBC.getDAO();
     }
 
-    public static void getPatientForm(int form_id, int patient_id, int submission_id)
+    // Usage contexts:
+
+    // GP - edit form (GP)
+    // GP - data entry (GP)
+    // RD - read data (GP)
+    // RD - read data (SC)
+    // RD - edit form (RD)
+    // RD - data entry (RD)
+    // SC - read data (RD)
+    // SC - data entry (SC)
+    //
+    // States:
+    // Edit Own Forms (No submission Id, No patient Id, readOnly = false, edit mode on)
+    // Enter own Data (Submission Id, Patient Id, readonly = false, edit mode off)
+    // Read Data From X (linked by patient id)
+
+
+    // read data from x (if readOnly), or Enter Own data (if !readOnly)
+    public static void getPatientForm(int form_id, int patient_id, int submission_id, boolean readOnly)
     {
         patientID = patient_id;
         submissionId = submission_id;
 
         setEditMode(false);
-        openExistingForm(form_id);
+
+        openForm(form_id,readOnly);
     }
 
     private static void clearForm() {
@@ -113,12 +132,20 @@ public class Form_GUI {
         contentpanel.removeAll();
     }
 
-    public static void openExistingForm(int newFormId) {
-
+    public static void openForm(int newFormId, boolean readOnly) {
         clearForm();
 
         formId = newFormId;
-        Collection<FormElement> elements = dao.getSubmission(formId,submissionId);
+
+        Collection<FormElement> elements;
+
+        if(editMode)
+        {
+            elements = dao.getFormElements(formId);
+        }
+        else {
+            elements = dao.getSubmission(formId, submissionId);
+        }
 
         for(FormElement element : elements)
         {
@@ -151,7 +178,7 @@ public class Form_GUI {
         formId = dao.addNewForm(Main_GUI.getCurrentUser(),"");
 
         mainFrame.setVisible(true);
-
+        openForm(formId,false);
     }
 
     private static void updateEditMode() {

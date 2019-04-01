@@ -99,7 +99,7 @@ public class GP_GUI {
     public void PatientOpenButtonFunction(int patNum) throws SQLException {
 
         Patient_GUI patient_GUI = new Patient_GUI();
-        patient_GUI.preparePatientGUI(patients.get(patNum), false);
+        patient_GUI.preparePatientGUI(patients.get(patNum), mainFrame,"gp");
         //System.out.println(patients.get(patNum).getPatientFirstName());
     }
 
@@ -234,7 +234,8 @@ public class GP_GUI {
                     } else {
                         // found the form ID we want to open, so open it
                         Form_GUI.setEditMode(true);
-                        Form_GUI.openExistingForm(value);
+
+                        Form_GUI.openForm(value,false);
                     }
                 }
             }

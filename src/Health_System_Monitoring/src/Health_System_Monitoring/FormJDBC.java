@@ -699,7 +699,86 @@ public class FormJDBC implements FormDao {
 		return output;
 	}
 
-	public Map<String, Integer> getFormsForGP(int gp_id)
+	public Map<String, Integer> getFormByNameAndPatient(String name, int patient_id)
+	{
+		HashMap<String,Integer> forms = new HashMap<>();
+		PreparedStatement sqlStatement = null;
+
+		String query = "SELECT * FROM submissions JOIN forms ON submissions.form_id = forms.form_id WHERE forms.form_name = ? AND submissions.subject_id = ?";
+
+		try {
+			sqlStatement = database_connection.prepareStatement(query);
+
+			sqlStatement.setString(1, name);
+			sqlStatement.setInt(2, patient_id);
+
+			ResultSet resultSet = sqlStatement.executeQuery();
+
+			while(resultSet.next()) {
+				forms.put(resultSet.getString("forms.form_name"), resultSet.getInt("forms.form_id"));
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		finally {
+			if (sqlStatement != null) {
+				try {
+					sqlStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return forms;
+	}
+
+	public Map<String, Integer> getFormByTypeAndPatient(String user_type, int patient_id)
+	{
+		HashMap<String,Integer> forms = new HashMap<>();
+		PreparedStatement sqlStatement = null;
+
+		String query = "SELECT * FROM submissions JOIN user ON submissions.submitter_id = user.userId JOIN forms ON submissions.form_id = forms.form_id WHERE submissions.subject_id = ? AND user.userType = ?";
+
+		try {
+			sqlStatement = database_connection.prepareStatement(query);
+
+			sqlStatement.setString(1, user_type);
+			sqlStatement.setInt(2, patient_id);
+
+			ResultSet resultSet = sqlStatement.executeQuery();
+
+			while(resultSet.next()) {
+				forms.put(resultSet.getString("forms.form_name"), resultSet.getInt("forms.form_id"));
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		finally {
+			if (sqlStatement != null) {
+				try {
+					sqlStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return forms;
+	}
+
+	public Map<String, Integer> getFormsForGP(int id)
+	{
+		return getFormsForUserType("gp",id);
+	}
+
+	public Map<String, Integer> getFormsForUserType(String type,int id)
 	{
 		HashMap<String,Integer> forms = new HashMap<>();
 
@@ -710,7 +789,7 @@ public class FormJDBC implements FormDao {
 		try {
 			sqlStatement = database_connection.prepareStatement(query);
 
-			sqlStatement.setInt(1, gp_id);
+			sqlStatement.setInt(1, id);
 
 			ResultSet resultSet = sqlStatement.executeQuery();
 

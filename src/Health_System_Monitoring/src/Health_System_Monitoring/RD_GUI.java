@@ -10,8 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class RD_GUI {
@@ -27,19 +26,19 @@ public class RD_GUI {
     private List<Patient> patients  = new ArrayList<>();
 
     private int userId;
+    private JComboBox<String> formCreateComboBox;
+
+    private HashMap<String, Integer> editableFormLookup;
+
 
     public void prepareRDGUI() {
 
         Main_GUI.mainFrame.setVisible(false);
 
-        //userId = Main_GUI.getCurrentUser().getUserId();
-
-        if (userId == 0) {
-            userId = 3;
-        }
+        userId = Main_GUI.getCurrentUser().getUserId();
 
         mainFrame = new JFrame("RD application");
-        mainFrame.setSize(500, 500);
+        mainFrame.setSize(800, 500);
         mainFrame.setLayout(new BorderLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -53,8 +52,15 @@ public class RD_GUI {
 
         controlPanel.setLayout(layout);
 
+        // check to see if the GP already has a NICE Test default form; if not, create one.
+        FormDao dao = new FormJDBC();
+        editableFormLookup = (HashMap<String, Integer>) dao.getFormsForGP(Main_GUI.getCurrentUser().getUserId());
+        if(!editableFormLookup.containsKey("Diet Evaluation")) spawnEvaluationForms();
+
         HeaderLabel();
         BackButton();
+
+        FormComboBox();
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -67,6 +73,12 @@ public class RD_GUI {
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
+
+        if(Form_GUI.mainFrame == null)
+        {
+            Form_GUI.prepareFormGUI();
+        }
+        Form_GUI.mainFrame.setVisible(false);
     }
 
     /**
@@ -98,7 +110,108 @@ public class RD_GUI {
      */
     public void PatientOpenButtonFunction(int patNum) throws SQLException {
         Patient_GUI patient_GUI = new Patient_GUI();
-        patient_GUI.preparePatientGUI(patients.get(patNum), true);
+        patient_GUI.preparePatientGUI(patients.get(patNum), mainFrame, "rd");
+    }
+
+    private void UpdateFormsLookup() {
+        FormDao dao = new FormJDBC();
+        editableFormLookup = (HashMap<String, Integer>) dao.getFormsForGP(Main_GUI.getCurrentUser().getUserId());
+    }
+
+    private void FormComboBox() {
+        UpdateFormsLookup();
+        Set<String> names = editableFormLookup.keySet();
+        String[] nameArray = names.toArray(new String[names.size()+1]);
+        nameArray[names.size()] = "New Form...";
+        formCreateComboBox = new JComboBox<String>(nameArray);
+
+        JPanel container = new JPanel();
+        container.setBorder(BorderFactory.createTitledBorder("Form Creator"));
+        container.setLayout(new FlowLayout());
+        controlPanel.add(container);
+
+        layout.putConstraint(SpringLayout.EAST, container, 0, SpringLayout.EAST, controlPanel);
+        layout.putConstraint(SpringLayout.NORTH, container, 0, SpringLayout.NORTH, controlPanel);
+
+        formCreateComboBox.setVisible(true);
+        container.add(formCreateComboBox);
+
+
+        // button to launch the selected form
+        JButton gpButton = new JButton("Go");
+        gpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String key = (String)formCreateComboBox.getSelectedItem();
+                if(key == "New Form...")
+                {
+                    // generate a new empty form
+                    Form_GUI.spawnEmptyForm();
+                }
+                else {
+                    Integer value = editableFormLookup.getOrDefault(key, -1);
+                    if (value < 0) {
+                        // didn't find the form for some reason
+                    } else {
+                        // found the form ID we want to open, so open it
+                        Form_GUI.setEditMode(true);
+                        Form_GUI.openForm(value,false);
+                    }
+                }
+            }
+        });
+
+        container.add(gpButton);
+
+    }
+
+    public void spawnEvaluationForms()
+    {
+        // Because Evaluation Forms are required functionality, if an RD doesn't have the Physical Evaluation tests in their formset
+        // we add them for them.
+
+        FormDao dao = (FormDao)new FormJDBC();
+
+        int form_id = dao.addNewForm(Main_GUI.getCurrentUser(), "Diet Evaluation");
+
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "5 portions of fruit & veg a day?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "4 or more varieties of fruit a week?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "4 or more varieties of veg a week?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Eat low fat products?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Baked, steamed or grilled products?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Lean cuts of meat?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Oily fish?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Starchy main meals?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Wholemeal bread?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Wholemeal cereal?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Regular pulses in diet?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Sugar in breakfast cereal?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Drink sweet fizzy drinks?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Eat cakes, sweets, chocolate or biscuits at work?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Add salt to food when cooking?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Add salt to meals?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Eat salted snacks eg crisps, peanuts?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Eat pre-prepared meals?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Eat processed foods such as bacon or ham?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Told that you have high blood pressure?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Drink plenty of fluids at regular intervals?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Variety of drinks, including water?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you avoid sugary drinks?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you drink less than 2-3 units of alcohol if a woman, or 3-4 as a man?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you skip breakfast more than once a week?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you skip lunch more than once a week?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you skip evening meals more than once a week?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you skip meals and snack instead most days?", false);
+
+
+        form_id = dao.addNewForm(Main_GUI.getCurrentUser(), "Physical Evaluation");
+
+        dao.addQuestion(form_id, FormType.FT_INT, "Heart Rate / At Rest (beats/min)", 0);
+        dao.addQuestion(form_id, FormType.FT_INT, "Heart Rate / During Exercise (beats/min)", 0);
+        dao.addQuestion(form_id, FormType.FT_INT, "Heart Rate / After Exercise (beats/min)", 0);
+        dao.addQuestion(form_id, FormType.FT_INT, "Systolic BP / At Rest (mmHg)", 0);
+        dao.addQuestion(form_id, FormType.FT_INT, "Systolic BP / During Exercise (mmHg)", 0);
+        dao.addQuestion(form_id, FormType.FT_INT, "Systolic BP / After Exercise (mmHg)", 0);
     }
 
     private void ReferalsWindow() {
@@ -139,7 +252,6 @@ public class RD_GUI {
     private void PopulatePatients() {
 
         java.util.List<Integer> referrals = new ArrayList<>();
-        //java.util.List<Patient> patients = new ArrayList<>();
         UserDao uDao = new UserDao();
         PatientDao pDao = new PatientDao();
 
@@ -147,13 +259,11 @@ public class RD_GUI {
 
         int patientsNum = referrals.size();
 
-        //System.out.println("Patient nums: " + patientsNum);
-
         patientReferals = new Object[patientsNum][4];
 
         for (int i = 0; i < patientsNum; i++) {
-            List<Patient> temp = pDao.searchPatientById(referrals.get(i));
-            patients.add(temp.get(i));
+            Patient temp = pDao.searchPatientById(referrals.get(i)).get(0);
+            patients.add(temp);
 
             patientReferals[i][0] = referrals.get(i);
             patientReferals[i][1] = patients.get(i).getPatientFirstName();
