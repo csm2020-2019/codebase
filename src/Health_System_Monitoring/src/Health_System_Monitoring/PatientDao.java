@@ -298,11 +298,13 @@ public class PatientDao implements PatientDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                    /*
                     try {
                         databaseConnection.close();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                    */
                 }
             }
         }

@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class Main_GUI implements KeyListener, ActionListener {
     public static JFrame mainFrame;
-    private JLabel headerLabel1, headerLabel2;
+    private JLabel usernameLabel, passwordLabel;
     private JPanel controlPanel;
     private static Point windowsPosition;
 
@@ -29,11 +29,11 @@ public class Main_GUI implements KeyListener, ActionListener {
         controlPanel = new JPanel();
         controlPanel.setLayout(new FlowLayout());
 
-        headerLabel1 = new JLabel();
-        headerLabel1.setText("Username: ");
+        usernameLabel = new JLabel();
+        usernameLabel.setText("Username: ");
 
-        headerLabel2 = new JLabel();
-        headerLabel2.setText("Password: ");
+        passwordLabel = new JLabel();
+        passwordLabel.setText("Password: ");
 
         usernameTextField = new JTextField("");
         usernameTextField.setPreferredSize(new Dimension(100, 25));
@@ -43,15 +43,12 @@ public class Main_GUI implements KeyListener, ActionListener {
         passwordField.setPreferredSize(new Dimension(100, 25));
         passwordField.addKeyListener(this);
 
-        controlPanel.add(headerLabel1);
+        controlPanel.add(usernameLabel);
         controlPanel.add(usernameTextField);
-        controlPanel.add(headerLabel2);
+        controlPanel.add(passwordLabel);
         controlPanel.add(passwordField);
 
-        LoginButton();
-        BypassSCButton();
-        BypassRDButton();
-        BypassGPButton();
+        loginButton();
         GetCenterPoint();
 
         controlPanel.addKeyListener(this);
@@ -69,7 +66,7 @@ public class Main_GUI implements KeyListener, ActionListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            LoginFunction();
+            loginFunction();
         }
     }
 
@@ -85,7 +82,7 @@ public class Main_GUI implements KeyListener, ActionListener {
     private method to validate login
     It opens the GP Gui if authentication is successful
      */
-    private static void LoginFunction() {
+    private static void loginFunction() {
         String username = usernameTextField.getText();
         String userPassword = String.valueOf(passwordField.getPassword());
 
@@ -113,7 +110,7 @@ public class Main_GUI implements KeyListener, ActionListener {
     /**
      * Creates GUI for login button
      */
-    public void LoginButton() {
+    public void loginButton() {
         JButton AddButton = new JButton("Login");
         AddButton.setActionCommand("Login");
         AddButton.addActionListener(this);
@@ -121,15 +118,15 @@ public class Main_GUI implements KeyListener, ActionListener {
     }
 
     //Temporary button that will be removed later on in development
-    private void BypassSCButton() {
-        JButton SCButton = new JButton("Bypass");
+    private void bypassSCButton() {
+        JButton SCButton = new JButton("Bypass SC");
         SCButton.setActionCommand("SCBypass");
         SCButton.addActionListener(this);
         controlPanel.add(SCButton);
     }
 
     //Temporary button that will be removed later on in development
-    private void BypassRDButton() {
+    private void bypassRDButton() {
         JButton RDButton = new JButton("Bypass RD");
         RDButton.setActionCommand("RDBypass");
         RDButton.addActionListener(this);
@@ -137,19 +134,19 @@ public class Main_GUI implements KeyListener, ActionListener {
     }
 
     //Temporary button that will be removed later on in development
-    private void BypassGPButton() {
+    private void bypassGPButton() {
         JButton GPButton = new JButton("Bypass GP");
         GPButton.setActionCommand("GPBypass");
         GPButton.addActionListener(this);
         controlPanel.add(GPButton);
     }
 
-    public static void SetWindowPosition(double x, double y){
+    public static void setWindowPosition(double x, double y){
         Point pt = new Point((int)Math.round(x),(int)Math.round(y));
         windowsPosition = pt;
     }
 
-    public static Point GetWindowPosition(){
+    public static Point getWindowPosition(){
         return windowsPosition;
     }
 
@@ -179,14 +176,14 @@ public class Main_GUI implements KeyListener, ActionListener {
             if (command.equals("Default")) {
                 //Do Something?
             } else if (command.equals("Login")) {
-                LoginFunction();
+                loginFunction();
             } else if (command.equals("SCBypass")) {
                 sc_gui.prepareSCGUI();
             } else if (command.equals("GPBypass")) {
-                SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
+                setWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
                 gp_gui.prepareGPGUI();
             } else if (command.equals("RDBypass")) {
-                SetWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
+                setWindowPosition(mainFrame.getLocation().x,mainFrame.getLocation().y);
                 rd_gui.prepareRDGUI();
             } else if (command.equals("Nice_Back")) {
                 nice_gui.GoToPatientGUI();

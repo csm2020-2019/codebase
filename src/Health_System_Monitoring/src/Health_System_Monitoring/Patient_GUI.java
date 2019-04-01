@@ -6,7 +6,9 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.print.PrinterJob;
 import java.io.File;
+import java.awt.print.PrinterException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,11 +19,14 @@ public class Patient_GUI {
     public static JFrame mainFrame, confirmFrame;
     public static JFrame previousFrame;
     private JLabel headerLabel;
-    private JPanel northPanel, controlPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel, formsPanel;
-    private JButton triggerButton;
+    private JPanel northPanel, headerPanel, controlPanel, confirmPanel, confirmButtonPanel, southPanel, successPanel, successSouthPanel, infoPanel, referPanel,formsPanel;    private JButton triggerButton;
     private Patient patient;
     private JComboBox<String> referBox;
     private List<User> rd_list;
+
+    private Printer print = new Printer();
+    private ArrayList<String> printList = new ArrayList<String>();
+    private String printTxt;
 
     // Open Form For Entry
     private JPanel formWritePanel;
@@ -41,7 +46,7 @@ public class Patient_GUI {
 
         previousFrame = previousWindow;
 
-        Main_GUI.SetWindowPosition(previousWindow.getLocation().x, previousWindow.getLocation().y);
+        Main_GUI.setWindowPosition(previousWindow.getLocation().x, previousWindow.getLocation().y);
         previousWindow.setVisible(false);
 
         mainFrame = new JFrame("GP application");
@@ -53,7 +58,7 @@ public class Patient_GUI {
             }
         });
 
-        northPanel = new JPanel();
+        headerPanel = new JPanel();
         controlPanel = new JPanel();
         southPanel = new JPanel();
 
@@ -69,6 +74,7 @@ public class Patient_GUI {
         if (userType == "gp") {
             ModifyRecordButton();
             DeleteRecordButton();
+            PrintButton();
         }
 
         PatientBackButton();
@@ -83,8 +89,8 @@ public class Patient_GUI {
             PatientReferPanel();
         }
 
-        mainFrame.setLocation(Main_GUI.GetWindowPosition());
-        mainFrame.add(northPanel, BorderLayout.NORTH);
+        mainFrame.setLocation(Main_GUI.getWindowPosition());
+        mainFrame.add(headerPanel, BorderLayout.NORTH);
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
         mainFrame.setVisible(true);
@@ -496,6 +502,13 @@ public class Patient_GUI {
             PrescriptionLabel.setText("Prescription: " + patient.getPatientPrescriptions());
         }
 
+        print.setString(NameLabel.getText());
+        print.setString(DoBLabel.getText());
+        print.setString(AddressLabel.getText());
+        print.setString(HistoryLabel.getText());
+        print.setString(DiagnosisLabel.getText());
+        print.setString(PrescriptionLabel.getText());
+
         infoPanel.add(NameLabel);
         infoPanel.add(DoBLabel);
         infoPanel.add(AddressLabel);
@@ -552,18 +565,18 @@ public class Patient_GUI {
     private void HeaderLabel() {
         headerLabel = new JLabel("", JLabel.CENTER);
         headerLabel.setText("Patient Record Overview");
-        northPanel.add(headerLabel);
+        headerPanel.add(headerLabel);
     }
 
     public void GoToGPGUI() {
         mainFrame.setVisible(false);
-        previousFrame.setLocation(Main_GUI.GetWindowPosition());
+        previousFrame.setLocation(Main_GUI.getWindowPosition());
         previousFrame.setVisible(true);
     }
 
     public void GoToRDGUI() {
         mainFrame.setVisible(false);
-        RD_GUI.mainFrame.setLocation(Main_GUI.GetWindowPosition());
+        RD_GUI.mainFrame.setLocation(Main_GUI.getWindowPosition());
         RD_GUI.mainFrame.setVisible(true);
     }
 
@@ -577,19 +590,19 @@ public class Patient_GUI {
             }
         });
 
-        successPanel = new JPanel();
-        successSouthPanel = new JPanel();
+        confirmPanel = new JPanel();
+        confirmButtonPanel = new JPanel();
 
         JLabel SuccessfulLabel = new JLabel("", JLabel.CENTER);
         SuccessfulLabel.setText("Are you sure you want to delete this record?");
-        successPanel.add(SuccessfulLabel);
+        confirmPanel.add(SuccessfulLabel);
 
         DeleteOkayButton();
         DeleteCancelButton();
 
         confirmFrame.setLocationRelativeTo(null);
-        confirmFrame.add(successPanel, BorderLayout.CENTER);
-        confirmFrame.add(successSouthPanel, BorderLayout.SOUTH);
+        confirmFrame.add(confirmPanel, BorderLayout.CENTER);
+        confirmFrame.add(confirmButtonPanel, BorderLayout.SOUTH);
         confirmFrame.setVisible(true);
     }
 
@@ -630,24 +643,39 @@ public class Patient_GUI {
         controlPanel.add(NiceButton);
     }
 
-    /**
-     * Create GUI for add NICE test button
-     */
-    private void AddNiceButton() {
-        JButton NiceButton = new JButton("Add Nice Test");
-        NiceButton.setActionCommand("Patient_Nice");
-        NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
-        controlPanel.add(NiceButton);
-    }
+
 
     /**
-     * Create GUI for add NICE test button
+     * Create GUI for view NICE test button
      */
     private void ViewNiceButton() {
         JButton NiceButton = new JButton("View Nice Tests");
         NiceButton.setActionCommand("Patient_Nice_View");
         NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
         controlPanel.add(NiceButton);
+    }
+
+    private void PrintButton() {
+        JButton PrintButton = new JButton("Print");
+        PrintButton.setActionCommand("Print");
+        PrintButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(PrintButton);
+    }
+
+    private void PrinterJob() {
+
+        //printer.setString(printTxt);
+
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(print);
+        boolean ok = job.printDialog();
+        if (ok) {
+            try {
+                job.print();
+            } catch(PrinterException e){
+                System.out.println(e);
+            }
+        }
     }
 
     /**
@@ -667,20 +695,20 @@ public class Patient_GUI {
      * Create GUI for okay button in delete confirmation window
      */
     private void DeleteOkayButton() {
-        JButton NiceButton = new JButton("Okay");
-        NiceButton.setActionCommand("Patient_Delete_Okay");
-        NiceButton.addActionListener(new Patient_GUI.ButtonClickListener());
-        successSouthPanel.add(NiceButton);
+        JButton deleteButton = new JButton("Okay");
+        deleteButton.setActionCommand("Patient_Delete_Okay");
+        deleteButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        confirmButtonPanel.add(deleteButton);
     }
 
     /**
      * Create GUI for cancel button in delete confirmation window
      */
     private void DeleteCancelButton() {
-        JButton BackButton = new JButton("Cancel");
-        BackButton.setActionCommand("Patient_Delete_Cancel");
-        BackButton.addActionListener(new Patient_GUI.ButtonClickListener());
-        successSouthPanel.add(BackButton);
+        JButton dontDeleteButton = new JButton("Cancel");
+        dontDeleteButton.setActionCommand("Patient_Delete_Cancel");
+        dontDeleteButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        confirmButtonPanel.add(dontDeleteButton);
     }
 
     /**
@@ -697,10 +725,10 @@ public class Patient_GUI {
             if (command.equals("Default")) {
                 //Do nothing
             } else if (command.equals("Patient_Back")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                Main_GUI.setWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 GoToGPGUI();
             } else if (command.equals("Patient_RD_Back")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                Main_GUI.setWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 GoToRDGUI();
             } else if (command.equals("Patient_Delete_Cancel")) {
                 DeleteCancelButtonFunction();
@@ -713,7 +741,7 @@ public class Patient_GUI {
             } else if (command.equals("Patient_Delete_Record")) {
                 DeleteConfirmWindow();
             } else if (command.equals("Patient_Modify_Record")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                Main_GUI.setWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 ModifyRecordButtonFunction();
             } else if (command.equals("Patient_Nice")) {
                 nice_gui.prepareNiceGUI();
@@ -721,6 +749,8 @@ public class Patient_GUI {
 
             } else if (command.equals("Refer_Patient")) {
                 ReferPatient();
+            } else if (command.equals("Print")){
+                PrinterJob();
             }
         }
     }
