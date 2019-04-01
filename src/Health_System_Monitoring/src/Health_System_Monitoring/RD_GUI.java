@@ -197,11 +197,11 @@ public class RD_GUI {
         dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Drink plenty of fluids at regular intervals?", false);
         dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Variety of drinks, including water?", false);
         dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you avoid sugary drinks?", false);
-        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you drink less than 2-3 units of alcohol if a woman, or 3-4 as a man?", false);
-        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you skip breakfast more than once a week?", false);
-        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you skip lunch more than once a week?", false);
-        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you skip evening meals more than once a week?", false);
-        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Do you skip meals and snack instead most days?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Less than 2-3 / 3-4 units alcohol?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Skip breakfast more than once a week?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Skip lunch more than once a week?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Skip evening meals more than once a week?", false);
+        dao.addQuestion(form_id, FormType.FT_BOOLEAN, "Skip meals and snack instead most days?", false);
 
 
         form_id = dao.addNewForm(Main_GUI.getCurrentUser(), "Physical Evaluation");
