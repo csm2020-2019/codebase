@@ -333,6 +333,7 @@ public class Patient_GUI {
             case "sc":
             {
                 // sc's can only review exercise trials and issue results
+                formReviewPanel.setVisible(false);
             }
             break;
         }
