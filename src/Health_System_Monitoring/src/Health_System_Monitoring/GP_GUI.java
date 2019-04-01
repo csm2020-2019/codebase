@@ -68,7 +68,7 @@ public class GP_GUI {
         });
         BackButton();
 
-        mainFrame.setLocation(Main_GUI.GetWindowPosition().x - 125, Main_GUI.GetWindowPosition().y - 165);
+        mainFrame.setLocation(Main_GUI.getWindowPosition().x - 125, Main_GUI.getWindowPosition().y - 165);
         mainFrame.add(northPanel, BorderLayout.NORTH);
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);
@@ -277,7 +277,7 @@ public class GP_GUI {
      * Create GUI for register button
      */
     private void RegisterPatientButton() {
-        JButton RegisterPatientButton = new JButton("Register Patient");
+        JButton RegisterPatientButton = new JButton("Register new Patient");
         RegisterPatientButton.setActionCommand("GP_Register");
         RegisterPatientButton.addActionListener(new GP_GUI.ButtonClickListener());
         controlPanel.add(RegisterPatientButton);
@@ -370,13 +370,13 @@ public class GP_GUI {
                 GoBackToMainGUI();
             } else if (command.equals("GP_Patient_Search")) {
                 try {
-                    Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                    Main_GUI.setWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                     PatientSearchButtonFunction();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             } else if (command.equals("GP_Register")) {
-                Main_GUI.SetWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
+                Main_GUI.setWindowPosition(mainFrame.getLocation().x, mainFrame.getLocation().y);
                 gp_register_gui.prepareGPGUI(true);
             }
         }

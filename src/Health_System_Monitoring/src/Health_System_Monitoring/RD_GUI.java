@@ -62,7 +62,7 @@ public class RD_GUI {
             }
         });
 
-        mainFrame.setLocation(Main_GUI.GetWindowPosition().x - 125, Main_GUI.GetWindowPosition().y - 165);
+        mainFrame.setLocation(Main_GUI.getWindowPosition().x - 125, Main_GUI.getWindowPosition().y - 165);
         mainFrame.add(northPanel, BorderLayout.NORTH);
         mainFrame.add(controlPanel, BorderLayout.CENTER);
         mainFrame.add(southPanel, BorderLayout.SOUTH);

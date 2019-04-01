@@ -38,7 +38,7 @@ public class Form_GUI {
     public static void prepareFormGUI() {
         mainFrame = new JFrame();
         mainFrame.setSize(500, 500);
-        mainFrame.setLocation(Main_GUI.GetWindowPosition().x -125, Main_GUI.GetWindowPosition().y -165);
+        mainFrame.setLocation(Main_GUI.getWindowPosition().x -125, Main_GUI.getWindowPosition().y -165);
         titleField = new JTextField("Form Name:");
         titleField.addActionListener(new ActionListener() {
             @Override

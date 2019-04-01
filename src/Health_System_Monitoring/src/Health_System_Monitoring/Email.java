@@ -39,8 +39,7 @@ public class Email {
             Transport.send(message);
             System.out.println("Message sent successfully....");
         } catch (MessagingException e) {
-            System.out.println("please enter a valid email address");
-            //throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 }

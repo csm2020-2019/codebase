@@ -64,7 +64,8 @@ public class Patient {
 	public String getPatientAddress() {
 		return patient_address;
 	}
-	public String getPatient_email() { 		return patient_email; 	}
+
+	public String getPatient_email() { 	return patient_email; }
 	
 	public String getPatientMedicalHistory() {
 		return patient_medical_history;
