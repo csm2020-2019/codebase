@@ -80,15 +80,17 @@ public class Form_GUI {
         contentpanel.setLayout(new FlowLayout());
         contentpanel.setVisible(true);
 
+        contentpanel.setPreferredSize(new Dimension(400,700));
+        //scrollpanel = new JScrollPane(editingpanel);
+        scrollpanel.setViewportView(contentpanel);
+        contentpanel.setAutoscrolls(true);
+        scrollpanel.setPreferredSize(new Dimension(400,500));
+        scrollpanel.setVisible(true);
         mainFrame.setLayout(new BorderLayout());
         mainFrame.add(titlepanel, BorderLayout.NORTH);
         mainFrame.add(editingpanel, BorderLayout.EAST);
-        mainFrame.add(contentpanel, BorderLayout.CENTER);
+        mainFrame.add(scrollpanel, BorderLayout.CENTER);
         mainFrame.setVisible(true);
-
-
-        //scrollpanel.add(contentpanel);
-        //scrollpanel.setVisible(true);
 
         dao = FormJDBC.getDAO();
     }
