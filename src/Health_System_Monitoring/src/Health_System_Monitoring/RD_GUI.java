@@ -38,7 +38,7 @@ public class RD_GUI {
         userId = Main_GUI.getCurrentUser().getUserId();
 
         mainFrame = new JFrame("RD application");
-        mainFrame.setSize(500, 500);
+        mainFrame.setSize(800, 500);
         mainFrame.setLayout(new BorderLayout());
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {

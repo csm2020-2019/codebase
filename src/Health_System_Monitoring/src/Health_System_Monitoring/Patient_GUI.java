@@ -1,6 +1,8 @@
 package Health_System_Monitoring;
 
 import com.opencsv.CSVWriter;
+import org.jfree.ui.RefineryUtilities;
+
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -74,10 +76,13 @@ public class Patient_GUI {
         if (userType == "gp") {
             ModifyRecordButton();
             DeleteRecordButton();
+
+            CompareResultsButton();
             PrintButton();
         }
 
         PatientBackButton();
+
         PatientInfoPanel();
         PatientInfoDisplay(userType);
 
@@ -534,9 +539,118 @@ public class Patient_GUI {
         }
     }
 
-    */
+    private void FormComboBox() {
 
+        UpdateFormsLookup();
+        if(editableFormLookup.size() == 0)
+        {
+            // we currently have no forms! So remove this from our patient page entirely
 
+            if(formsPanel != null)
+            {
+                formsPanel.setVisible(false);
+            }
+        }
+        else {
+            FormDao dao = new FormJDBC();
+            formsPanel = new JPanel();
+
+            TitledBorder referBorder = new TitledBorder("Forms");
+            formsPanel.setBorder(referBorder);
+
+            formsPanel.setLayout(new FlowLayout());
+            Set<String> names = editableFormLookup.keySet();
+            String[] nameArray = names.toArray(new String[names.size()]);
+            formCreateComboBox = new JComboBox<String>(nameArray);
+
+            formCreateComboBox.setVisible(true);
+            formsPanel.add(formCreateComboBox);
+
+            String initial_set = formCreateComboBox.getItemAt(0);
+
+            submissionSelectComboBox = new JComboBox<String>();
+            submissionSelectComboBox.setEnabled(false);
+            submissionSelectComboBox.setVisible(true);
+            formsPanel.add(submissionSelectComboBox);
+
+            formCreateComboBox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if (e.getStateChange() == ItemEvent.DESELECTED) return; // skip the deselection events
+                    String key = (String) e.getItem();
+                    Integer value = editableFormLookup.getOrDefault(key, -1);
+                    if (value < 0) {
+                        // didn't find the form for some reason
+                        submissionSelectComboBox.setEnabled(false);
+                        gpButton.setEnabled(false);
+
+                    } else {
+                        // found the form ID we want to open, so retrieve the dated records for it
+                        UpdateSubmissionLookupForForm(value);
+                        // and fill up the combo box
+                        submissionSelectComboBox.removeAllItems();
+                        submissionSelectComboBox.addItem("Add New...");
+                        for (String date : submissionSelectLookup.keySet()) {
+                            submissionSelectComboBox.addItem(date);
+                        }
+
+                        submissionSelectComboBox.setEnabled(true);
+                        gpButton.setEnabled(true);
+                    }
+                }
+            });
+
+            submissionSelectComboBox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    String key = (String) e.getItem();
+                    if (key == "Add New...") {
+                        gpButton.setEnabled(true);
+                    } else {
+                        Integer value = submissionSelectLookup.getOrDefault(key, -1);
+                        if (value < 0) {
+                            // didn't find the submission for some reason
+                            gpButton.setEnabled(false);
+                        } else {
+                            gpButton.setEnabled(true);
+                        }
+                    }
+                }
+            });
+
+            // button to launch the selected form
+            gpButton = new JButton("Go");
+            formsPanel.add(gpButton);
+            gpButton.setEnabled(false);
+            gpButton.setVisible(true);
+
+            gpButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String formKey = (String) formCreateComboBox.getSelectedItem();
+                    String submissionKey = (String) submissionSelectComboBox.getSelectedItem();
+                    Integer formValue = editableFormLookup.getOrDefault(formKey, -1);
+                    if (submissionKey == "Add New...") {
+                        // new submission!
+                        int newSubmissionId = dao.addSubmission(formValue, Main_GUI.getCurrentUser().getUserId(), patient.getPatientId(), new java.sql.Date(System.currentTimeMillis()));
+                        Form_GUI.getPatientForm(formValue, patient.getPatientId(), newSubmissionId);
+                    } else {
+                        Integer submissionValue = submissionSelectLookup.getOrDefault(submissionKey, -1);
+                        if (submissionValue < 0) {
+                            // didn't find the form for some reason
+                        } else {
+                            // found the form ID we want to open, so open it
+                            Form_GUI.getPatientForm(formValue, patient.getPatientId(), submissionValue);
+                        }
+                    }
+                }
+            });
+
+            controlPanel.add(formsPanel);
+        }
+    }
+
+ */
     public void ReferPatient() {
         int selected = referBox.getSelectedIndex();
         // text box maps one-to-one with returned RD user list, which is stored in rd_list
@@ -655,6 +769,26 @@ public class Patient_GUI {
         controlPanel.add(NiceButton);
     }
 
+    /**
+     * Creates compare results button
+     */
+    private void CompareResultsButton() {
+        JButton ResultsButton = new JButton("Compare Results");
+        ResultsButton.setActionCommand("Compare_Results");
+        ResultsButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(ResultsButton);
+    }
+
+    /**
+     * Creates new window to select which chart to show, for selected patient
+     */
+    private void CompareResults() {
+        Compare_Results.DisplayPanel(patient.getPatientId());
+    }
+
+    /**
+     * Create a button to print displayed information
+     */
     private void PrintButton() {
         JButton PrintButton = new JButton("Print");
         PrintButton.setActionCommand("Print");
@@ -662,10 +796,10 @@ public class Patient_GUI {
         controlPanel.add(PrintButton);
     }
 
+    /**
+     *  Prints selected patients information
+     */
     private void PrinterJob() {
-
-        //printer.setString(printTxt);
-
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setPrintable(print);
         boolean ok = job.printDialog();
@@ -751,6 +885,8 @@ public class Patient_GUI {
                 ReferPatient();
             } else if (command.equals("Print")){
                 PrinterJob();
+            } else if (command.equals("Compare_Results")) {
+                CompareResults();
             }
         }
     }

@@ -47,9 +47,9 @@ public class database_driver {
      * @return mysql database connection object
      */
     public static Connection getConnection() {
-        //if(database_driver == null) {
+        if(database_driver == null) {
             database_driver = new database_driver();
-        //}
+        }
         return databaseConnection;
     }
 }

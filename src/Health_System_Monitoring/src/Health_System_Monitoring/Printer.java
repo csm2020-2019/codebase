@@ -21,7 +21,7 @@ public class Printer implements Printable {
         y = 50;
 
         for (int i = 0; i < printList.size(); i++){
-            g.drawString(printList.get(i), 100, y += 15);
+            g.drawString(printList.get(i), 50, y += 15);
         }
 
         return PAGE_EXISTS;
