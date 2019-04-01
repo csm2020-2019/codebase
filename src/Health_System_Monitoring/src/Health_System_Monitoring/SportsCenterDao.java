@@ -33,11 +33,7 @@ public class SportsCenterDao implements SportsCenterDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        databaseConnection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
 
@@ -76,11 +72,7 @@ public class SportsCenterDao implements SportsCenterDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        databaseConnection.close();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
                 }
             }
         }
@@ -120,11 +112,7 @@ public class SportsCenterDao implements SportsCenterDaoInterface {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                try {
-                    databaseConnection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
             }
         }
         return sportsCenterRecordList;
@@ -158,11 +146,7 @@ public class SportsCenterDao implements SportsCenterDaoInterface {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                try {
-                    databaseConnection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
             }
         }
 
@@ -199,11 +183,7 @@ public class SportsCenterDao implements SportsCenterDaoInterface {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                try {
-                    databaseConnection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
             }
         }
         return null;
@@ -250,11 +230,7 @@ public class SportsCenterDao implements SportsCenterDaoInterface {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                try {
-                    databaseConnection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
             }
         }
         return null;
