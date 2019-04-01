@@ -1,5 +1,7 @@
 package Health_System_Monitoring;
 
+import org.jfree.ui.RefineryUtilities;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -56,20 +58,23 @@ public class Patient_GUI {
         patient = pat;
 
         HeaderLabel();
-        FormComboBox(isRD);
+        ModifyRecordButton();
+        DeleteRecordButton();
+        //AddNiceButton();
+        FormComboBox();
         if (!isRD) {
             ModifyRecordButton();
             DeleteRecordButton();
+
+            CompareResultsButton();
             PrintButton();
         }
         PatientBackButton(isRD);
+
         PatientInfoPanel();
         PatientInfoDisplay();
-        if(!isRD)
-        {
-            PatientReferPanel();
-        }
-        //ViewNiceButton();
+        PatientReferPanel();
+        ViewNiceButton();
 
         mainFrame.setLocation(Main_GUI.getWindowPosition());
         mainFrame.add(headerPanel, BorderLayout.NORTH);
@@ -186,10 +191,10 @@ public class Patient_GUI {
         }
     }
 
-    private void FormComboBox(boolean rd) {
+    private void FormComboBox() {
 
         UpdateFormsLookup();
-        if(!rd && editableFormLookup.size() == 0)
+        if(editableFormLookup.size() == 0)
         {
             // we currently have no forms! So remove this from our patient page entirely
 
@@ -207,19 +212,11 @@ public class Patient_GUI {
 
             formsPanel.setLayout(new FlowLayout());
             Set<String> names = editableFormLookup.keySet();
-            if(rd) {
-                String[] nameArray = new String[1];
-                nameArray[0] = "Nice Test";
-                formCreateComboBox = new JComboBox<String>(nameArray);
-                formCreateComboBox.setEnabled(false);
-            }
-            else {
-                String[] nameArray = names.toArray(new String[names.size()]);
-                formCreateComboBox = new JComboBox<String>(nameArray);
-            }
+            String[] nameArray = names.toArray(new String[names.size()]);
+            formCreateComboBox = new JComboBox<String>(nameArray);
+
             formCreateComboBox.setVisible(true);
             formsPanel.add(formCreateComboBox);
-
 
             String initial_set = formCreateComboBox.getItemAt(0);
 
@@ -228,44 +225,32 @@ public class Patient_GUI {
             submissionSelectComboBox.setVisible(true);
             formsPanel.add(submissionSelectComboBox);
 
-            if(rd)
-            {
-                UpdateSubmissionLookupForForm(editableFormLookup.getOrDefault("Nice Test",-1));
-                for (String date : submissionSelectLookup.keySet()) {
-                    submissionSelectComboBox.addItem(date);
-                }
+            formCreateComboBox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent e) {
+                    if (e.getStateChange() == ItemEvent.DESELECTED) return; // skip the deselection events
+                    String key = (String) e.getItem();
+                    Integer value = editableFormLookup.getOrDefault(key, -1);
+                    if (value < 0) {
+                        // didn't find the form for some reason
+                        submissionSelectComboBox.setEnabled(false);
+                        gpButton.setEnabled(false);
 
-                submissionSelectComboBox.setEnabled(true);
-                gpButton.setEnabled(true);
-            }
-            else {
-                formCreateComboBox.addItemListener(new ItemListener() {
-                    @Override
-                    public void itemStateChanged(ItemEvent e) {
-                        if (e.getStateChange() == ItemEvent.DESELECTED) return; // skip the deselection events
-                        String key = (String) e.getItem();
-                        Integer value = editableFormLookup.getOrDefault(key, -1);
-                        if (value < 0) {
-                            // didn't find the form for some reason
-                            submissionSelectComboBox.setEnabled(false);
-                            gpButton.setEnabled(false);
-
-                        } else {
-                            // found the form ID we want to open, so retrieve the dated records for it
-                            UpdateSubmissionLookupForForm(value);
-                            // and fill up the combo box
-                            submissionSelectComboBox.removeAllItems();
-                            submissionSelectComboBox.addItem("Add New...");
-                            for (String date : submissionSelectLookup.keySet()) {
-                                submissionSelectComboBox.addItem(date);
-                            }
-
-                            submissionSelectComboBox.setEnabled(true);
-                            gpButton.setEnabled(true);
+                    } else {
+                        // found the form ID we want to open, so retrieve the dated records for it
+                        UpdateSubmissionLookupForForm(value);
+                        // and fill up the combo box
+                        submissionSelectComboBox.removeAllItems();
+                        submissionSelectComboBox.addItem("Add New...");
+                        for (String date : submissionSelectLookup.keySet()) {
+                            submissionSelectComboBox.addItem(date);
                         }
+
+                        submissionSelectComboBox.setEnabled(true);
+                        gpButton.setEnabled(true);
                     }
-                });
-            }
+                }
+            });
 
             submissionSelectComboBox.addItemListener(new ItemListener() {
                 @Override
@@ -300,14 +285,14 @@ public class Patient_GUI {
                     if (submissionKey == "Add New...") {
                         // new submission!
                         int newSubmissionId = dao.addSubmission(formValue, Main_GUI.getCurrentUser().getUserId(), patient.getPatientId(), new java.sql.Date(System.currentTimeMillis()));
-                        Form_GUI.getPatientForm(formValue, patient.getPatientId(), newSubmissionId, rd);
+                        Form_GUI.getPatientForm(formValue, patient.getPatientId(), newSubmissionId);
                     } else {
                         Integer submissionValue = submissionSelectLookup.getOrDefault(submissionKey, -1);
                         if (submissionValue < 0) {
                             // didn't find the form for some reason
                         } else {
                             // found the form ID we want to open, so open it
-                            Form_GUI.getPatientForm(formValue, patient.getPatientId(), submissionValue,rd);
+                            Form_GUI.getPatientForm(formValue, patient.getPatientId(), submissionValue);
                         }
                     }
                 }
@@ -435,6 +420,26 @@ public class Patient_GUI {
         controlPanel.add(NiceButton);
     }
 
+    /**
+     * Creates compare results button
+     */
+    private void CompareResultsButton() {
+        JButton ResultsButton = new JButton("Compare Results");
+        ResultsButton.setActionCommand("Compare_Results");
+        ResultsButton.addActionListener(new Patient_GUI.ButtonClickListener());
+        controlPanel.add(ResultsButton);
+    }
+
+    /**
+     * Creates new window to select which chart to show, for selected patient
+     */
+    private void CompareResults() {
+        Compare_Results.DisplayPanel(patient.getPatientId());
+    }
+
+    /**
+     * Create a button to print displayed information
+     */
     private void PrintButton() {
         JButton PrintButton = new JButton("Print");
         PrintButton.setActionCommand("Print");
@@ -442,10 +447,10 @@ public class Patient_GUI {
         controlPanel.add(PrintButton);
     }
 
+    /**
+     *  Prints selected patients information
+     */
     private void PrinterJob() {
-
-        //printer.setString(printTxt);
-
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setPrintable(print);
         boolean ok = job.printDialog();
@@ -533,6 +538,8 @@ public class Patient_GUI {
                 ReferPatient();
             } else if (command.equals("Print")){
                 PrinterJob();
+            } else if (command.equals("Compare_Results")) {
+                CompareResults();
             }
         }
     }

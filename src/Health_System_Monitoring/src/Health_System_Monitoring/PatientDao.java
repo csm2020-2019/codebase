@@ -275,7 +275,8 @@ public class PatientDao implements PatientDaoInterface {
             try {
 //                String query = "SELECT patient_first_name FROM patient_records WHERE patient_id = ?";
 
-                String query = "SELECT * FROM patient_records WHERE patient_id = ?";
+                String query = "SELECT patient_id, userId, patient_dob, patient_first_name, patient_last_name, patient_address, patient_medical_history, patient_diagnosis, "
+                        + "patient_prescriptions, patient_email_prescription FROM patient_records WHERE patient_id = ?";
 
                 sqlStatement = databaseConnection.prepareStatement(query);
                 sqlStatement.setInt(1, patient_id);
@@ -298,13 +299,11 @@ public class PatientDao implements PatientDaoInterface {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    /*
                     try {
                         databaseConnection.close();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    */
                 }
             }
         }

@@ -152,8 +152,8 @@ public class RD_GUI {
         patientReferals = new Object[patientsNum][4];
 
         for (int i = 0; i < patientsNum; i++) {
-            Patient temp = pDao.searchPatientById(referrals.get(i)).get(0);
-            patients.add(temp);
+            List<Patient> temp = pDao.searchPatientById(referrals.get(i));
+            patients.add(temp.get(i));
 
             patientReferals[i][0] = referrals.get(i);
             patientReferals[i][1] = patients.get(i).getPatientFirstName();
