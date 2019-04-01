@@ -146,7 +146,7 @@ public class GP_GUI {
         searchPanel.add(scrollPane);
         controlPanel.add(searchPanel);
 
-        layout.putConstraint(SpringLayout.NORTH, searchPanel, 80, SpringLayout.NORTH, controlPanel);
+        layout.putConstraint(SpringLayout.NORTH, searchPanel, 30, SpringLayout.NORTH, controlPanel);
 
 
         button.addActionListener(new ActionListener() {
@@ -179,8 +179,8 @@ public class GP_GUI {
         searchLabel.setText("Search patients: ");
         controlPanel.add(searchLabel);
 
-        layout.putConstraint(SpringLayout.NORTH, searchLabel, 55, SpringLayout.NORTH, controlPanel);
-        layout.putConstraint(SpringLayout.WEST, searchLabel, 5, SpringLayout.WEST, controlPanel);
+        layout.putConstraint(SpringLayout.NORTH, searchLabel, 10, SpringLayout.NORTH, controlPanel);
+        layout.putConstraint(SpringLayout.WEST, searchLabel, 200, SpringLayout.WEST, controlPanel);
     }
 
     private void PatientSearchField() {
@@ -188,8 +188,8 @@ public class GP_GUI {
         patientSearchField.setPreferredSize(new Dimension(100, 25));
         controlPanel.add(patientSearchField);
 
-        layout.putConstraint(SpringLayout.NORTH, patientSearchField, 50, SpringLayout.NORTH, controlPanel);
-        layout.putConstraint(SpringLayout.WEST, patientSearchField, 100, SpringLayout.WEST, controlPanel);
+        layout.putConstraint(SpringLayout.NORTH, patientSearchField, 5, SpringLayout.NORTH, controlPanel);
+        layout.putConstraint(SpringLayout.WEST, patientSearchField, 295, SpringLayout.WEST, controlPanel);
     }
 
     private void UpdateFormsLookup() {
@@ -264,8 +264,8 @@ public class GP_GUI {
         PatientSearchButton.addActionListener(new GP_GUI.ButtonClickListener());
         controlPanel.add(PatientSearchButton);
 
-        layout.putConstraint(SpringLayout.NORTH, PatientSearchButton, 50, SpringLayout.NORTH, controlPanel);
-        layout.putConstraint(SpringLayout.WEST, PatientSearchButton, 205, SpringLayout.WEST, controlPanel);
+        layout.putConstraint(SpringLayout.NORTH, PatientSearchButton, 5, SpringLayout.NORTH, controlPanel);
+        layout.putConstraint(SpringLayout.WEST, PatientSearchButton, 400, SpringLayout.WEST, controlPanel);
     }
 
 
